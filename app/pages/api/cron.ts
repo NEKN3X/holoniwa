@@ -11,6 +11,7 @@ export default async function handler(
     const { data, error } = await supabase
       .from('test')
       .insert([{ text: 'cron test' }])
+    return res.status(200).json({ data, error })
   } else {
     return res.status(401).end()
   }
