@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "Do9wE1rjN2gN6UH6JOyCIwdEzU8",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "YW237_GzXJ11uarfPtRCJjKqHfQ",
+      "id": "UCvzGlP9oQwU--Y0r9id_jnA",
+      "snippet": {
+        "title": "Subaru Ch. 大空スバル",
+        "description": "総合格闘技部とe-sports部のマネージャーっす！みんなのファイトのお手伝いするッス!!🌟\n【関連ツイート】#大空スバル 【絵文字】🚑【生放送タグ】#生スバル【アート】#プロテインザスバル 【ﾌｧﾝﾈｰﾑ】スタンド ※このタグのイラストは使わせてもらう事があるっす！ \n大好きな母ちゃん!→@ui_shig",
+        "publishedAt": "2018-08-22T07:29:15Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTvmlGMQcpO8IoSpj0iScUs0dPZHvNtj1C7ZQjHbg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTvmlGMQcpO8IoSpj0iScUs0dPZHvNtj1C7ZQjHbg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTvmlGMQcpO8IoSpj0iScUs0dPZHvNtj1C7ZQjHbg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Subaru Ch. 大空スバル",
+          "description": "総合格闘技部とe-sports部のマネージャーっす！みんなのファイトのお手伝いするッス!!🌟\n【関連ツイート】#大空スバル 【絵文字】🚑【生放送タグ】#生スバル【アート】#プロテインザスバル 【ﾌｧﾝﾈｰﾑ】スタンド ※このタグのイラストは使わせてもらう事があるっす！ \n大好きな母ちゃん!→@ui_shig"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

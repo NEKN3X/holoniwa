@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "NjquU-RLeG7dJkkAHrmWAO79TEQ",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "VxTM-2a_vfgOOAFBBYEZahaE_RA",
+      "id": "UChgTyjG-pdNvxxhdsXfHQ5Q",
+      "snippet": {
+        "title": "Pavolia Reine Ch. hololive-ID",
+        "description": "Perhatian! Sang putri merak yang tertiup angin, aku Pavolia Reine dari hololive Indonesia!!\n\n【Support Reine via Sociabuzz ! 】\nhttps://sociabuzz.com/pavoliareine/tribe\n\n[Support Reine via Streamlabs ! ]\nhttps://streamlabs.com/pavoliareinechhololive-id\n\n[Twitter]\n@pavoliareine\n[Instagram]\n@pavoliareine\n[Facebook Page]\nhttps://www.facebook.com/pavoliareine\n\n[Pochi Sensei]\nIida Pochi\nhttps://twitter.com/lizhi3\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official Youtube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter Hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook Hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n\n\n",
+        "publishedAt": "2020-09-01T06:46:14.038931Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/sG7Yb1kCxTEP9ft03E-1Tr2Rho8GhMZ0_Kq9rf5MojWY9pf8vSL24xPG8e8GaE4jOxQKYlSvaL0=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/sG7Yb1kCxTEP9ft03E-1Tr2Rho8GhMZ0_Kq9rf5MojWY9pf8vSL24xPG8e8GaE4jOxQKYlSvaL0=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/sG7Yb1kCxTEP9ft03E-1Tr2Rho8GhMZ0_Kq9rf5MojWY9pf8vSL24xPG8e8GaE4jOxQKYlSvaL0=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Pavolia Reine Ch. hololive-ID",
+          "description": "Perhatian! Sang putri merak yang tertiup angin, aku Pavolia Reine dari hololive Indonesia!!\n\n【Support Reine via Sociabuzz ! 】\nhttps://sociabuzz.com/pavoliareine/tribe\n\n[Support Reine via Streamlabs ! ]\nhttps://streamlabs.com/pavoliareinechhololive-id\n\n[Twitter]\n@pavoliareine\n[Instagram]\n@pavoliareine\n[Facebook Page]\nhttps://www.facebook.com/pavoliareine\n\n[Pochi Sensei]\nIida Pochi\nhttps://twitter.com/lizhi3\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official Youtube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter Hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook Hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n\n\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

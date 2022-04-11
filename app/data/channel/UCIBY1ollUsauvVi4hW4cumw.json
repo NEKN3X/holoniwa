@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "Yd3GlfHS7T6dUJGMb0cKyYOMGSs",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "EEQj13txvLaEkoSajsDLCFvTcx4",
+      "id": "UCIBY1ollUsauvVi4hW4cumw",
+      "snippet": {
+        "title": "Chloe ch. 沙花叉クロヱ - holoX -",
+        "description": "登録したら君も今日から飼育員さん♡\n\n\n+++++++++++++++++++++++++++++++\n\nマジラブ！沙花叉３ヶ条！\n\n・同担遠巻き！\n・迷惑行為絶対禁止！\n・浮気はお掃除対象です！\n\n-------------------------------------------------\n\n【特集】沙花叉クロヱの生態系！\n\n【秘密結社holoX】の掃除屋(インターン生)\n冷静沈着で淡々と組織からの依頼をこなす。\n音楽が好きで、よく音楽を聴いている。\n本人は否定しているが、ツンデレに見られるらしい。\n\n誕生日　５月１８日　身長　１４８センチ\n\n\nAn intern who acts as a fixer and cleaner for Secret Society holoX.\nCalm and composed at all times, she carries out her orders without so much as batting an eyelid.\nShe loves music and can be found listening to it every chance she gets.\nAnd while she denies it vehemently, she apparently tends to come across as guarded and not very upfront with her thoughts, only letting people get very occasional glimpses into how she really feels.\n\n\nBirth day 5/18 　I'm 148 cm\n",
+        "publishedAt": "2021-09-12T06:13:43.713878Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/_xNtPLKQcQxMTnOr4tAcGz0GEeESsi0bQX9mJEP3fx_50a8GUfUyOG1eyLIld2cCz6GvKABwpQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/_xNtPLKQcQxMTnOr4tAcGz0GEeESsi0bQX9mJEP3fx_50a8GUfUyOG1eyLIld2cCz6GvKABwpQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/_xNtPLKQcQxMTnOr4tAcGz0GEeESsi0bQX9mJEP3fx_50a8GUfUyOG1eyLIld2cCz6GvKABwpQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Chloe ch. 沙花叉クロヱ - holoX -",
+          "description": "登録したら君も今日から飼育員さん♡\n\n\n+++++++++++++++++++++++++++++++\n\nマジラブ！沙花叉３ヶ条！\n\n・同担遠巻き！\n・迷惑行為絶対禁止！\n・浮気はお掃除対象です！\n\n-------------------------------------------------\n\n【特集】沙花叉クロヱの生態系！\n\n【秘密結社holoX】の掃除屋(インターン生)\n冷静沈着で淡々と組織からの依頼をこなす。\n音楽が好きで、よく音楽を聴いている。\n本人は否定しているが、ツンデレに見られるらしい。\n\n誕生日　５月１８日　身長　１４８センチ\n\n\nAn intern who acts as a fixer and cleaner for Secret Society holoX.\nCalm and composed at all times, she carries out her orders without so much as batting an eyelid.\nShe loves music and can be found listening to it every chance she gets.\nAnd while she denies it vehemently, she apparently tends to come across as guarded and not very upfront with her thoughts, only letting people get very occasional glimpses into how she really feels.\n\n\nBirth day 5/18 　I'm 148 cm\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "tZz6hcFlO4YtEtdVxAfoiJQ_RzY",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "zILnJxGg5CakFWWtkCpI81fJK-0",
+      "id": "UCXTpFs_3PqI41qX2d9tL2Rw",
+      "snippet": {
+        "title": "Shion Ch. 紫咲シオン",
+        "description": "🌙ホロライブ所属🌙 紫咲シオンです！\n\nYouTubeのチャンネル登録、Twitterのフォローもよろしくね💜\nTwitter【@murasakishionch】",
+        "publishedAt": "2018-08-03T08:32:21Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/AyUL9W0ltc_aJr_MysuZBx8hRfb1SIVNREgU9kiOO-lqmdhYkEsllmhagertVIwHwa3UAAKy=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/AyUL9W0ltc_aJr_MysuZBx8hRfb1SIVNREgU9kiOO-lqmdhYkEsllmhagertVIwHwa3UAAKy=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/AyUL9W0ltc_aJr_MysuZBx8hRfb1SIVNREgU9kiOO-lqmdhYkEsllmhagertVIwHwa3UAAKy=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Shion Ch. 紫咲シオン",
+          "description": "🌙ホロライブ所属🌙 紫咲シオンです！\n\nYouTubeのチャンネル登録、Twitterのフォローもよろしくね💜\nTwitter【@murasakishionch】"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

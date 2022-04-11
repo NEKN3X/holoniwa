@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "VKXP5T3zDDR2kWL4BwVnEhu9EaM",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "0fMW6Cn4wXNxgmmRf4yuhjB7gGA",
+      "id": "UC8rcEBzJSleTkf_-agPM20g",
+      "snippet": {
+        "title": "IRyS Ch. hololive-EN",
+        "description": "IRyS, a half-demon, half-angel also known as a Nephilim, once brought hope to “The Paradise” during the ancient age. \n\nHer full name is ███████ Irys. \nThis current era, riddled with despair and desperation, has brought upon her second awakening. \nShe has arrived to deliver hope, with her feelings put into her lyrics and songs, and determination in her voice.\n\nThough she tends to retain her Nephilim form, she is still quite young within her race. With emotion and “other factors,” it is possible that her form may lean to either side. When that occurs, she bears a brief change in her appearance.\n\nShe does not speak of the events that preceded her second awakening. She faces ever forward, perhaps because she is Hope Incarnate, though no one knows for sure. Or could it be...\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En\n",
+        "publishedAt": "2021-05-21T00:54:00.586144Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/oC30wBZ04ibFN7AQVHAjdUX-3nS-h4DDjJBYVlsKt0OF6t1CZwrgzWlr3rS6Q12kXrw3-mt9gg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/oC30wBZ04ibFN7AQVHAjdUX-3nS-h4DDjJBYVlsKt0OF6t1CZwrgzWlr3rS6Q12kXrw3-mt9gg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/oC30wBZ04ibFN7AQVHAjdUX-3nS-h4DDjJBYVlsKt0OF6t1CZwrgzWlr3rS6Q12kXrw3-mt9gg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "IRyS Ch. hololive-EN",
+          "description": "IRyS, a half-demon, half-angel also known as a Nephilim, once brought hope to “The Paradise” during the ancient age. \n\nHer full name is ███████ Irys. \nThis current era, riddled with despair and desperation, has brought upon her second awakening. \nShe has arrived to deliver hope, with her feelings put into her lyrics and songs, and determination in her voice.\n\nThough she tends to retain her Nephilim form, she is still quite young within her race. With emotion and “other factors,” it is possible that her form may lean to either side. When that occurs, she bears a brief change in her appearance.\n\nShe does not speak of the events that preceded her second awakening. She faces ever forward, perhaps because she is Hope Incarnate, though no one knows for sure. Or could it be...\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

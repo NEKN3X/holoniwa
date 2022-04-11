@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "_18W_memMWvAVPEWTpjSgF-CalI",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "yfF1pWgJjI6TyAl0uCMpKvGAmrA",
+      "id": "UCvInZx9h3jC2JzsIzoOebWg",
+      "snippet": {
+        "title": "Flare Ch. 不知火フレア",
+        "description": "ホロライブ三期生の不知火フレアだよ！\n歌とゲーム大好きな人間とエルフのハーフエルフ（ダークエルフではない）だよー！よろしくね！\n\n",
+        "publishedAt": "2019-07-26T12:03:54Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/d9aIrGtZR0eI4k1Wnev5f_R4llIBsWnQOjkdsqkMycoAxA3g_zz-jyeBl8tEHfbm1iTg0SJj=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/d9aIrGtZR0eI4k1Wnev5f_R4llIBsWnQOjkdsqkMycoAxA3g_zz-jyeBl8tEHfbm1iTg0SJj=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/d9aIrGtZR0eI4k1Wnev5f_R4llIBsWnQOjkdsqkMycoAxA3g_zz-jyeBl8tEHfbm1iTg0SJj=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Flare Ch. 不知火フレア",
+          "description": "ホロライブ三期生の不知火フレアだよ！\n歌とゲーム大好きな人間とエルフのハーフエルフ（ダークエルフではない）だよー！よろしくね！\n\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

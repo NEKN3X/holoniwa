@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "-2vXHc3OPFfok_VmvF-PloUlJQU",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "DpGwwUoIpXL7cLuOZrt5A_t5aRw",
+      "id": "UCqm3BQLlJfvkTsX_hvm0UmA",
+      "snippet": {
+        "title": "Watame Ch. 角巻わため",
+        "description": "ホロライブ所属。\n吟遊詩人をしながらのんびり旅をしている羊。\n歌が大好き。もふもふ。とにかくもふもふ。\n草食系なのでポテチが好物。\n\n角巻わためのMember ship始まりました。\n『Member sheep』\n下のURLから飛べると思うので、是非応援よろしくお願い致します！\nhttps://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA/join\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/\n公式Twitter:https://twitter.com/hololivetv",
+        "publishedAt": "2019-12-04T10:02:43.244058Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTdb5fr9OZHhAvqVa2EI1yLjAGnpwDOs7l3lXhdlg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTdb5fr9OZHhAvqVa2EI1yLjAGnpwDOs7l3lXhdlg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTdb5fr9OZHhAvqVa2EI1yLjAGnpwDOs7l3lXhdlg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Watame Ch. 角巻わため",
+          "description": "ホロライブ所属。\n吟遊詩人をしながらのんびり旅をしている羊。\n歌が大好き。もふもふ。とにかくもふもふ。\n草食系なのでポテチが好物。\n\n角巻わためのMember ship始まりました。\n『Member sheep』\n下のURLから飛べると思うので、是非応援よろしくお願い致します！\nhttps://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA/join\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/\n公式Twitter:https://twitter.com/hololivetv"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

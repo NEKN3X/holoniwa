@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "Aiu3iEsQIoqfr-nN6Hy08AbzIIY",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "Z_ar_7Y4U07KcKygHxygSSDZpB0",
+      "id": "UC-hM6YJuNYVAmUWxeIr9FeA",
+      "snippet": {
+        "title": "Miko Ch. さくらみこ",
+        "description": "にゃっはろ～！\nホロライブ所属のエリート巫女アイドル さくらみこ (Sakura Miko)だにぇ🐱🌸\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\n🌸 YouTube 🌸\n　https://goo.gl/ZqJn7A  \n\n🌸 Twitter 🌸\n　https://twitter.com/sakuramiko35\n\n🌸 Twitch 🌸\n　https://www.twitch.tv/sakuramiko_hololive\n\n▶Member Ship \n　https://www.youtube.com/channel/UC-hM6YJuNYVAmUWxeIr9FeA/join\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\nNyaHello, I'm Sakura Miko. Nice to meet u!\nWelcome to Miko channel ☆\nI'm a Virtual Elite Miko.\nPlease subscribe to my channel! ♡\nThank you for Watching ✨\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\n ✉　お手紙やプレゼントの奉納先\n\n〒173-0003\n東京都板橋区加賀1丁目6番1号\nネットデポ新板橋　\nカバー株式会社　ホロライブ 　プレゼント係分 さくらみこ宛\n\n詳細・問い合わせ\nhttps://www.hololive.tv/contact",
+        "publishedAt": "2018-04-25T02:45:48Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLR4HgNRKHFFp8B_r3Tex0UA3a81s_2Rb9TkVf12BA=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLR4HgNRKHFFp8B_r3Tex0UA3a81s_2Rb9TkVf12BA=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLR4HgNRKHFFp8B_r3Tex0UA3a81s_2Rb9TkVf12BA=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Miko Ch. さくらみこ",
+          "description": "にゃっはろ～！\nホロライブ所属のエリート巫女アイドル さくらみこ (Sakura Miko)だにぇ🐱🌸\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\n🌸 YouTube 🌸\n　https://goo.gl/ZqJn7A  \n\n🌸 Twitter 🌸\n　https://twitter.com/sakuramiko35\n\n🌸 Twitch 🌸\n　https://www.twitch.tv/sakuramiko_hololive\n\n▶Member Ship \n　https://www.youtube.com/channel/UC-hM6YJuNYVAmUWxeIr9FeA/join\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\nNyaHello, I'm Sakura Miko. Nice to meet u!\nWelcome to Miko channel ☆\nI'm a Virtual Elite Miko.\nPlease subscribe to my channel! ♡\nThank you for Watching ✨\n\n❀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈❀\n\n ✉　お手紙やプレゼントの奉納先\n\n〒173-0003\n東京都板橋区加賀1丁目6番1号\nネットデポ新板橋　\nカバー株式会社　ホロライブ 　プレゼント係分 さくらみこ宛\n\n詳細・問い合わせ\nhttps://www.hololive.tv/contact"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

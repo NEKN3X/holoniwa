@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "V8sxodbbW-1W6Et9O8MhKhtGreA",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "9GWFElZwd9dujuxQK0RahiBQ_UI",
+      "id": "UCFKOVgVbGmX65RxO3EtH3iw",
+      "snippet": {
+        "title": "Lamy Ch. 雪花ラミィ",
+        "description": "ホロライブ所属。\n人里離れた白銀の大地に住む、雪の一族の令嬢。\nホロライブの笑顔や彩りあふれる配信に心を打たれ、\nお供のだいふくと共に家を飛び出した。\n真面目だが世間知らずで抜けたところがある。\n\n\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/ \n公式Twitter:https://twitter.com/hololivetv",
+        "publishedAt": "2020-04-13T03:51:15.590428Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQVpWb-K93rLNGFHHyhgg45VE7FVBwJQz67JqJvvQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQVpWb-K93rLNGFHHyhgg45VE7FVBwJQz67JqJvvQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLQVpWb-K93rLNGFHHyhgg45VE7FVBwJQz67JqJvvQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Lamy Ch. 雪花ラミィ",
+          "description": "ホロライブ所属。\n人里離れた白銀の大地に住む、雪の一族の令嬢。\nホロライブの笑顔や彩りあふれる配信に心を打たれ、\nお供のだいふくと共に家を飛び出した。\n真面目だが世間知らずで抜けたところがある。\n\n\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/ \n公式Twitter:https://twitter.com/hololivetv"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

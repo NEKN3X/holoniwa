@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "H2nPI9jSYVf76Z01oxcicw7NVTg",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "IImu5AHvA1oXIp__yjQY9m9hwVU",
+      "id": "UCp-5t9SrOQwXMU7iIjQfARg",
+      "snippet": {
+        "title": "Mio Channel 大神ミオ",
+        "description": "ホロライブ所属のVtuber✨大神ミオ（ookami mio）だよ🐺\nTwitter：https://twitter.com/ookamimio\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n🎊メンバーシップはじめました🎊\n\n🐺大神ミオオリジナルスタンプが使える！\n🐺メンバーシップ限定配信が見れる👀\n🐺メンバーバッジが付与される～✨\n🐺他にもメンバーシップ限定の壁紙や動画も・・！\n\n登録はこちら➡https://www.youtube.com/channel/UCp-5t9SrOQwXMU7iIjQfARg/join\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n\n✨制作✨\nイラストレーター🖌泉彩パパ https://twitter.com/AC______\nLive2D制作🖌rariemonnさん https://twitter.com/rariemonn765\nロゴ制作🖌有馬トモユキさん　https://twitter.com/tatsdesign\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n\nホロライブ公式YouTubeチャンネルでもオリジナルコンテンツ配信中！▷ https://www.youtube.com/channel/UCJFZ...\nホロライブ公式Twitter▷ https://twitter.com/hololivetv\nホロライブ公式サイト▷ https://www.hololive.tv/",
+        "publishedAt": "2018-12-01T08:52:15Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/Z78RNXxUqpOGYKFt-VrJV7nlehOHzl7Ta-l1cgPx5Ewucmr5kY64iGxmPSe7QqIdM1ZhvPlEOg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/Z78RNXxUqpOGYKFt-VrJV7nlehOHzl7Ta-l1cgPx5Ewucmr5kY64iGxmPSe7QqIdM1ZhvPlEOg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/Z78RNXxUqpOGYKFt-VrJV7nlehOHzl7Ta-l1cgPx5Ewucmr5kY64iGxmPSe7QqIdM1ZhvPlEOg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Mio Channel 大神ミオ",
+          "description": "ホロライブ所属のVtuber✨大神ミオ（ookami mio）だよ🐺\nTwitter：https://twitter.com/ookamimio\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n🎊メンバーシップはじめました🎊\n\n🐺大神ミオオリジナルスタンプが使える！\n🐺メンバーシップ限定配信が見れる👀\n🐺メンバーバッジが付与される～✨\n🐺他にもメンバーシップ限定の壁紙や動画も・・！\n\n登録はこちら➡https://www.youtube.com/channel/UCp-5t9SrOQwXMU7iIjQfARg/join\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n\n✨制作✨\nイラストレーター🖌泉彩パパ https://twitter.com/AC______\nLive2D制作🖌rariemonnさん https://twitter.com/rariemonn765\nロゴ制作🖌有馬トモユキさん　https://twitter.com/tatsdesign\n\n¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨\n\nホロライブ公式YouTubeチャンネルでもオリジナルコンテンツ配信中！▷ https://www.youtube.com/channel/UCJFZ...\nホロライブ公式Twitter▷ https://twitter.com/hololivetv\nホロライブ公式サイト▷ https://www.hololive.tv/"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

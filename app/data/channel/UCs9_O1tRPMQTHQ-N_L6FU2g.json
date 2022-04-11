@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "jykKthqNequ5_3cpZcsFxzBSSfE",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "66Q8tZvyKel0nBn-wUAobHOQIDw",
+      "id": "UCs9_O1tRPMQTHQ-N_L6FU2g",
+      "snippet": {
+        "title": "Lui ch. 鷹嶺ルイ - holoX -",
+        "description": "みなさ～ん、待ったかね？こんルイルイ！\nホロライブ6期生『秘密結社holoX』の女幹部\n鷹嶺ルイ（Takane Lui）のチャンネルです🥀\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\nKon LuiLui!!\nI am Lui Takane.\nLui is the executive officer of Secret Society holoX and 6th Gen member of Hololive.\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n【ハッシュタグ】\n\n配信タグ：#たかねの見物\nファンアート：#Luillust\nファンネーム：#ルイ友\nその他：#鷹嶺ルイ\n\n🎨ファンアートはサムネで使用させていただく場合があります！\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n\n💌お手紙や色紙の送付先はコチラ💌\n〒173-0003\n東京都板橋区加賀1丁目6番1号\nネットデポ新板橋\nカバー株式会社 ホロライブ プレゼント係分\n鷹嶺ルイ 宛\n\nお約束ごと\nhttps://www.hololive.tv/contact\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n▷お問い合わせ▷\n\nカバー株式会社：http://cover-corp.com/ \n公式Twitter：https://twitter.com/hololivetv\n",
+        "publishedAt": "2021-09-12T03:15:45.362285Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/R_IzGiw1xDQp0y9zVvGkF9e8Gj8wtr2_551Ez3X6gOMIj3e6jra1I1suuK_jH9FqigBj8ywg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/R_IzGiw1xDQp0y9zVvGkF9e8Gj8wtr2_551Ez3X6gOMIj3e6jra1I1suuK_jH9FqigBj8ywg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/R_IzGiw1xDQp0y9zVvGkF9e8Gj8wtr2_551Ez3X6gOMIj3e6jra1I1suuK_jH9FqigBj8ywg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Lui ch. 鷹嶺ルイ - holoX -",
+          "description": "みなさ～ん、待ったかね？こんルイルイ！\nホロライブ6期生『秘密結社holoX』の女幹部\n鷹嶺ルイ（Takane Lui）のチャンネルです🥀\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\nKon LuiLui!!\nI am Lui Takane.\nLui is the executive officer of Secret Society holoX and 6th Gen member of Hololive.\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n【ハッシュタグ】\n\n配信タグ：#たかねの見物\nファンアート：#Luillust\nファンネーム：#ルイ友\nその他：#鷹嶺ルイ\n\n🎨ファンアートはサムネで使用させていただく場合があります！\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n\n💌お手紙や色紙の送付先はコチラ💌\n〒173-0003\n東京都板橋区加賀1丁目6番1号\nネットデポ新板橋\nカバー株式会社 ホロライブ プレゼント係分\n鷹嶺ルイ 宛\n\nお約束ごと\nhttps://www.hololive.tv/contact\n\n✦••┈┈┈••┈┈┈••✦••┈┈┈••┈┈┈••✦\n\n▷お問い合わせ▷\n\nカバー株式会社：http://cover-corp.com/ \n公式Twitter：https://twitter.com/hololivetv\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "LSmn7KnoAH_jV6dLUHjOLqB_0gk",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "FBkCaBxypburWeR5wkFLS-1TnHM",
+      "id": "UC5CwaMl1eIgY8h02uZw7u8A",
+      "snippet": {
+        "title": "Suisei Channel",
+        "description": "アイドルVtuberの星街すいせいです！\n歌とお絵かきとアニメが大好きな１８歳です☄☄\n\n目指すはバーチャルライブ！！\nぜったい叶えるから応援よろしくね✯\n\n▼配信情報etcはTwitterにてチェック！▼\nhttps://twitter.com/suisei_hosimati",
+        "publishedAt": "2018-03-18T08:32:39Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLT7D-JlLZGTq6Y95nLxeXG2B-7WMGpFXZ7Qa4iY5w=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLT7D-JlLZGTq6Y95nLxeXG2B-7WMGpFXZ7Qa4iY5w=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLT7D-JlLZGTq6Y95nLxeXG2B-7WMGpFXZ7Qa4iY5w=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Suisei Channel",
+          "description": "アイドルVtuberの星街すいせいです！\n歌とお絵かきとアニメが大好きな１８歳です☄☄\n\n目指すはバーチャルライブ！！\nぜったい叶えるから応援よろしくね✯\n\n▼配信情報etcはTwitterにてチェック！▼\nhttps://twitter.com/suisei_hosimati"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}
