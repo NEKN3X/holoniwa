@@ -38,7 +38,8 @@ const updateLiveStatus = async (id: string) => {
     `https://www.googleapis.com/youtube/v3/videos?key=${process.env
       .NEXT_PUBLIC_YOUTUBE_API_KEY!}&id=${id}&part=snippet,status,liveStreamingDetails,contentDetails`
   ).then(async (res) => {
-    const data = (await res.json()).items[0]
+    const json = await res.json()
+    const data = json.items[0]
     const snippet = data.snippet
     const status = data.status
     const liveStreamingDetails = data.liveStreamingDetails
