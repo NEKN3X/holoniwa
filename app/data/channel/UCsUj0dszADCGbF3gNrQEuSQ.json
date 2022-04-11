@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "EoPpiJZotXfAmkkjDM8ZPt7Jlfg",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "_xutuc_4J-DqDBCxkFN-WXL3u7c",
+      "id": "UCsUj0dszADCGbF3gNrQEuSQ",
+      "snippet": {
+        "title": "Tsukumo Sana Ch. hololive-EN",
+        "description": "A member of the Council and the Speaker of \"Space,\" the very first concept created by the Gods.\nAfter being materialized in the mortal realm, she began researching astrology in earnest for one particular reason. However, she soon stumbled unknowingly upon the Forbidden Truth, and was turned into an apostle for the Ancient Ones.\n\n\"Space\" refers not only to this universe we live in, but all dimensions and matter to exist. It is a concept unbridled by definition, and one that continues to grow in scope limitlessly. As it is yet to be fully explored by man, her seemingly strange behavior and speech can be explained away with a simple, \"Humanity simply isn't yet ready to understand.\"\n\nAs a side note, despite how she may look, she is quite chi... young.\n\n",
+        "publishedAt": "2021-07-26T15:47:50.516809Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/zczPLp_sj4Qq3CyoGzfXifOdwE7aMHRpUdqbMD9UKvjddBG2NdMrCKElCMUOS6x85BMr2VGuAA=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/zczPLp_sj4Qq3CyoGzfXifOdwE7aMHRpUdqbMD9UKvjddBG2NdMrCKElCMUOS6x85BMr2VGuAA=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/zczPLp_sj4Qq3CyoGzfXifOdwE7aMHRpUdqbMD9UKvjddBG2NdMrCKElCMUOS6x85BMr2VGuAA=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Tsukumo Sana Ch. hololive-EN",
+          "description": "A member of the Council and the Speaker of \"Space,\" the very first concept created by the Gods.\nAfter being materialized in the mortal realm, she began researching astrology in earnest for one particular reason. However, she soon stumbled unknowingly upon the Forbidden Truth, and was turned into an apostle for the Ancient Ones.\n\n\"Space\" refers not only to this universe we live in, but all dimensions and matter to exist. It is a concept unbridled by definition, and one that continues to grow in scope limitlessly. As it is yet to be fully explored by man, her seemingly strange behavior and speech can be explained away with a simple, \"Humanity simply isn't yet ready to understand.\"\n\nAs a side note, despite how she may look, she is quite chi... young.\n\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

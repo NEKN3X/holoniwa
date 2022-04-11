@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "0KI_6OdHlPx5E9kKP4xQCy0LOZU",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "pdaQWp4ygX2K5AEJqK4qXicFqms",
+      "id": "UC6eWCld0KwmyHFbAqK3V-Rw",
+      "snippet": {
+        "title": "Koyori ch. 博衣こより - holoX -",
+        "description": "こんこよ〜！\nホロライブ所属、秘密結社holoXの頭脳🧪\n博衣こよりだよ〜(ᐡ •͈ ·̫ •͈ ᐡ)ﾉｼ💕\n初見古参関係なく、みんなで楽しめるチャンネルを作っていきたいです！\nチャンネル登録、Twitterのフォローよろしくお願いします！✨\n\nKonkoyo~!! My name is Hakui Koyori!!\nI'm Hololive member, The brains of the secret society holoX!!\nI will create a channel that everyone can enjoy!\nSubscribe to my channel and follow me on Twitter!\n\nママ：ももこ先生 @momoco_haru\nパパ：rariemonn先生 @rariemonn765\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　🐶🧪ハッシュタグ🧪🐶\n　イラスト：#こよりすけっち\n　生放送関連：#こより実験中\n　ファンネーム：こよりの助手くん\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　🧪メンバーシップはじまりました❣🧪\n　コメントでスタンプを使えたり、メンバーシップ限定配信やコミュニティ限定投稿を見れるよ！\n　▼登録はここから▼\n　https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw/join\n　（iPhoneアプリの人はブラウザからURLを開くと登録できます）\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　お手紙はこちら💌\n\n　〒173-0003\n　東京都板橋区加賀1丁目6番1号　\n　ネットデポ新板橋\n　カバー株式会社 ホロライブ プレゼント係分\n　博衣こより宛\n\n　※お約束ごと→ https://www.hololive.tv/contact ※\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\nTwitterの凍結、12/8に溶けました～！！！13日間凍ってたよ(ᐡっ·̫ ‹｡ᐡ)\n無事にこよりが元気にツイートする姿を見ることができるので、フォローよろしくね～！！(ᐡ •͈ ·̫ •͈ ᐡ)\n",
+        "publishedAt": "2021-09-12T03:04:25.578989Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/WO7ItKNmy6tW_NQ82g8c1y74CZSw6GsSdynsE5s2csuEok2fHRrAaGcBV3JJO-2BxEOXXA8lvw=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/WO7ItKNmy6tW_NQ82g8c1y74CZSw6GsSdynsE5s2csuEok2fHRrAaGcBV3JJO-2BxEOXXA8lvw=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/WO7ItKNmy6tW_NQ82g8c1y74CZSw6GsSdynsE5s2csuEok2fHRrAaGcBV3JJO-2BxEOXXA8lvw=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Koyori ch. 博衣こより - holoX -",
+          "description": "こんこよ〜！\nホロライブ所属、秘密結社holoXの頭脳🧪\n博衣こよりだよ〜(ᐡ •͈ ·̫ •͈ ᐡ)ﾉｼ💕\n初見古参関係なく、みんなで楽しめるチャンネルを作っていきたいです！\nチャンネル登録、Twitterのフォローよろしくお願いします！✨\n\nKonkoyo~!! My name is Hakui Koyori!!\nI'm Hololive member, The brains of the secret society holoX!!\nI will create a channel that everyone can enjoy!\nSubscribe to my channel and follow me on Twitter!\n\nママ：ももこ先生 @momoco_haru\nパパ：rariemonn先生 @rariemonn765\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　🐶🧪ハッシュタグ🧪🐶\n　イラスト：#こよりすけっち\n　生放送関連：#こより実験中\n　ファンネーム：こよりの助手くん\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　🧪メンバーシップはじまりました❣🧪\n　コメントでスタンプを使えたり、メンバーシップ限定配信やコミュニティ限定投稿を見れるよ！\n　▼登録はここから▼\n　https://www.youtube.com/channel/UC6eWCld0KwmyHFbAqK3V-Rw/join\n　（iPhoneアプリの人はブラウザからURLを開くと登録できます）\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\n　お手紙はこちら💌\n\n　〒173-0003\n　東京都板橋区加賀1丁目6番1号　\n　ネットデポ新板橋\n　カバー株式会社 ホロライブ プレゼント係分\n　博衣こより宛\n\n　※お約束ごと→ https://www.hololive.tv/contact ※\n\n＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊ … ⬡ …＊ … ⬡ … ＊\n\nTwitterの凍結、12/8に溶けました～！！！13日間凍ってたよ(ᐡっ·̫ ‹｡ᐡ)\n無事にこよりが元気にツイートする姿を見ることができるので、フォローよろしくね～！！(ᐡ •͈ ·̫ •͈ ᐡ)\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

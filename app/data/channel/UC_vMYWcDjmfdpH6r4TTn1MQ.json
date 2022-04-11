@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "OObszgUnY2en9_Bq0jBi2mjgQIg",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "IFt8zLucOQlYkeVN7tFRBVUdVTg",
+      "id": "UC_vMYWcDjmfdpH6r4TTn1MQ",
+      "snippet": {
+        "title": "Iroha ch. 風真いろは - holoX -",
+        "description": "ホロライブ所属６期生holox用心棒の風真いろはでござる🍃 \n作ることや歌うことや体を動かすことが大好き✨\n迷ったらまず実行！がモットーのつよつよ侍でござる 🔥 \n\nいろんなものを見て学んで、たくさんの楽しいをみんなと共有していきたい☀️\nママ殿:うみぼうず様(@bouzumi_ )\nパパ殿:けっふぃー様(@keffiy )\n",
+        "publishedAt": "2021-09-12T06:16:48.954546Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/YK_UCAbw_pFBHSOw_LGWI-WCJDdvMP3y9mmODQ1IFEnNVvcf-M3-q22Db5TLWuAbfboMNFTMIg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/YK_UCAbw_pFBHSOw_LGWI-WCJDdvMP3y9mmODQ1IFEnNVvcf-M3-q22Db5TLWuAbfboMNFTMIg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/YK_UCAbw_pFBHSOw_LGWI-WCJDdvMP3y9mmODQ1IFEnNVvcf-M3-q22Db5TLWuAbfboMNFTMIg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Iroha ch. 風真いろは - holoX -",
+          "description": "ホロライブ所属６期生holox用心棒の風真いろはでござる🍃 \n作ることや歌うことや体を動かすことが大好き✨\n迷ったらまず実行！がモットーのつよつよ侍でござる 🔥 \n\nいろんなものを見て学んで、たくさんの楽しいをみんなと共有していきたい☀️\nママ殿:うみぼうず様(@bouzumi_ )\nパパ殿:けっふぃー様(@keffiy )\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

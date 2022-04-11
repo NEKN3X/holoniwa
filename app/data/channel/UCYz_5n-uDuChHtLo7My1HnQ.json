@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "HN1-Wc_C01EuKTkY9606bMqc-9Y",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "7vcwvCWU50REAEdqCVvLesF6wyA",
+      "id": "UCYz_5n-uDuChHtLo7My1HnQ",
+      "snippet": {
+        "title": "Kureiji Ollie Ch. hololive-ID",
+        "description": "SUPER KAWAII ZOMBIE IDOL, 🧟‍♀️KUREIJI OLLIE🧟‍♀️ from holoIive Indonesia Gen 2!! \n\n[Support Ollie]\nhttps://sociabuzz.com/kureijiollie/tribe\nhttps://streamlabs.com/kureijiolliechhololive-id\n\n[Twitter]\n@kureijiollie\n[Instagram]\n@kureijiollie\n[Facebook Page]\nhttps://www.facebook.com/Kureiji-Ollie-hololive-ID-116083453646420\n\n「LAM Sensei」\n• Twitter:\nhttps://twitter.com/ramdayo1122\n• Website:\nhttps://lam-illust.com/\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official YouTube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n\n",
+        "publishedAt": "2020-09-01T06:59:09.444228Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/jWxru6sHDDSuKF-gztFg_WSoMp2da_d019iH0xz0MDWc7TIhetK8id_mVKV0PxWKp-QS23AzfQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/jWxru6sHDDSuKF-gztFg_WSoMp2da_d019iH0xz0MDWc7TIhetK8id_mVKV0PxWKp-QS23AzfQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/jWxru6sHDDSuKF-gztFg_WSoMp2da_d019iH0xz0MDWc7TIhetK8id_mVKV0PxWKp-QS23AzfQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Kureiji Ollie Ch. hololive-ID",
+          "description": "SUPER KAWAII ZOMBIE IDOL, 🧟‍♀️KUREIJI OLLIE🧟‍♀️ from holoIive Indonesia Gen 2!! \n\n[Support Ollie]\nhttps://sociabuzz.com/kureijiollie/tribe\nhttps://streamlabs.com/kureijiolliechhololive-id\n\n[Twitter]\n@kureijiollie\n[Instagram]\n@kureijiollie\n[Facebook Page]\nhttps://www.facebook.com/Kureiji-Ollie-hololive-ID-116083453646420\n\n「LAM Sensei」\n• Twitter:\nhttps://twitter.com/ramdayo1122\n• Website:\nhttps://lam-illust.com/\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official YouTube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

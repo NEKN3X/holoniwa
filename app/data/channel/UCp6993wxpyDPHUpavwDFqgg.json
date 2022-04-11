@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "FgBWIgFtrVnDQ2YPy940BAgxAok",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "B5vexK5dEbXof-7IdPgGcfZMQmY",
+      "id": "UCp6993wxpyDPHUpavwDFqgg",
+      "snippet": {
+        "title": "SoraCh. ときのそらチャンネル",
+        "description": "☆ホロライブ所属バーチャルアイドル、ときのそらです！\n横浜アリーナでの単独ライブを目標に活動しています！！絶対に！行きたいので！！応援よろしくおねがいします！！！！\n\nいいなと思ったら、ぜひチャンネル登録よろしくお願いします୧(๑•̀ㅁ•́๑)૭✧\n\n\n★ニコニコチャンネル：オフィシャルファンクラブ★\nhttps://ch.nicovideo.jp/tokinosora\n\n★19/10/07発売 新曲『フレーフレーLOVE』★\nhttps://jvcmusic.lnk.to/Hurray_Hurray_LOVE\n\n★メジャーデビューアルバム『Dreaming!』特設サイト★\nhttps://www.jvcmusic.co.jp/tokinosora/65163/\n\n★MF文庫Jライトノベル『ときのそら バーチャルアイドルだけど応援してくれますか？』★\nhttps://mfbunkoj.jp/product/tokinosora/321812000134.html\n\n★テレビ東京ドラマ『四月一日さん家の』★\nhttps://www.tv-tokyo.co.jp/watanuki/\n\n★グッズ販売『ときのそら公認☆こころ晴ればれショップ』★\nhttps://ebten.jp/newtype/1371\n\n★ボイス付きLINEスタンプ★\nhttps://store.line.me/stickershop/product/12242/ja\n\n★TOKYO FM『そらあおと！』ファンコミュニティ★\nhttps://fanicon.net/fancommunities\n\n[Sounds] ポケットサウンド,DOVA-SYNDROME,魔王魂,OtoLogic\n[System] HoloLive (COVER Inc.)",
+        "publishedAt": "2017-09-07T03:02:42Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLRo4fRoifdnGRyvGIOVxiumNdD5MXweEPHLO_SBrA=s88-c-k-c0x00ffffff-no-rj-mo",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLRo4fRoifdnGRyvGIOVxiumNdD5MXweEPHLO_SBrA=s240-c-k-c0x00ffffff-no-rj-mo",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLRo4fRoifdnGRyvGIOVxiumNdD5MXweEPHLO_SBrA=s800-c-k-c0x00ffffff-no-rj-mo",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "SoraCh. ときのそらチャンネル",
+          "description": "☆ホロライブ所属バーチャルアイドル、ときのそらです！\n横浜アリーナでの単独ライブを目標に活動しています！！絶対に！行きたいので！！応援よろしくおねがいします！！！！\n\nいいなと思ったら、ぜひチャンネル登録よろしくお願いします୧(๑•̀ㅁ•́๑)૭✧\n\n\n★ニコニコチャンネル：オフィシャルファンクラブ★\nhttps://ch.nicovideo.jp/tokinosora\n\n★19/10/07発売 新曲『フレーフレーLOVE』★\nhttps://jvcmusic.lnk.to/Hurray_Hurray_LOVE\n\n★メジャーデビューアルバム『Dreaming!』特設サイト★\nhttps://www.jvcmusic.co.jp/tokinosora/65163/\n\n★MF文庫Jライトノベル『ときのそら バーチャルアイドルだけど応援してくれますか？』★\nhttps://mfbunkoj.jp/product/tokinosora/321812000134.html\n\n★テレビ東京ドラマ『四月一日さん家の』★\nhttps://www.tv-tokyo.co.jp/watanuki/\n\n★グッズ販売『ときのそら公認☆こころ晴ればれショップ』★\nhttps://ebten.jp/newtype/1371\n\n★ボイス付きLINEスタンプ★\nhttps://store.line.me/stickershop/product/12242/ja\n\n★TOKYO FM『そらあおと！』ファンコミュニティ★\nhttps://fanicon.net/fancommunities\n\n[Sounds] ポケットサウンド,DOVA-SYNDROME,魔王魂,OtoLogic\n[System] HoloLive (COVER Inc.)"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

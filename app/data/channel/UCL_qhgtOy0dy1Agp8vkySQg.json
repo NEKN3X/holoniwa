@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "s_3i36EwpsOdhIcQuM_xzmqxkkQ",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "OpsyBL0Fk_H4hH4FTal4ZlYfSpY",
+      "id": "UCL_qhgtOy0dy1Agp8vkySQg",
+      "snippet": {
+        "title": "Mori Calliope Ch. hololive-EN",
+        "description": "The Grim Reaper's first apprentice. Because the world's medical system advanced so dramatically, she became a VTuber to collect souls. It seems that the lost souls vaporized by the wholesome relationships of VTubers flow through her as well. \n\nIn the end, she's a gentle-hearted girl whose sweet voice contradicts the morbid things she tends to say, as well as her hardcore vocals.\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En",
+        "publishedAt": "2020-07-16T06:24:04.369666Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/WJXoiG8qPqlTVGSb_hhND0DQtXqzlq05eGuR9C5a7f06a8ksVnZ8633kJOW9L4qGHnj5HU_OUw=s88-c-k-c0x00ffffff-no-nd-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/WJXoiG8qPqlTVGSb_hhND0DQtXqzlq05eGuR9C5a7f06a8ksVnZ8633kJOW9L4qGHnj5HU_OUw=s240-c-k-c0x00ffffff-no-nd-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/WJXoiG8qPqlTVGSb_hhND0DQtXqzlq05eGuR9C5a7f06a8ksVnZ8633kJOW9L4qGHnj5HU_OUw=s800-c-k-c0x00ffffff-no-nd-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Mori Calliope Ch. hololive-EN",
+          "description": "The Grim Reaper's first apprentice. Because the world's medical system advanced so dramatically, she became a VTuber to collect souls. It seems that the lost souls vaporized by the wholesome relationships of VTubers flow through her as well. \n\nIn the end, she's a gentle-hearted girl whose sweet voice contradicts the morbid things she tends to say, as well as her hardcore vocals.\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

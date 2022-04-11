@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "JXEHBVJLmGD79NxDlTzY6Urr7oU",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "LGmhLsCPjGeRnbp_CHa3iGeegUI",
+      "id": "UCZLZ8Jjx_RN2CXloOmgTHVg",
+      "snippet": {
+        "title": "Kaela Kovalskia Ch. hololive-ID",
+        "description": "Hello everyone! Nice to meet you!~ I’m Kaela Kovalskia, an awesome blacksmith from holoID! 🔨\nLeague of Legends addict. I love bitter food & drinks and I love all of you.\nThank you for stopping by! Don’t you think it’s the right time to press the subscribe button?~ ♥️\n\n【Support Kaela】\nhttps://sociabuzz.com/kaelakovalskia/tribe\n\n【Twitter】\nhttps://twitter.com/kaelakovalskia\n【Instagram】\nhttps://www.instagram.com/kaelakovalskia\n【Tiktok】\nhttps://www.tiktok.com/@kaelakovalskia\n【Facebook】\nhttps://www.facebook.com/KaelaKovalskia\n\n【Yasuda Suzuhito Sensei】\nヤスダスズヒト\nhttps://twitter.com/suzupin\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official YouTube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n",
+        "publishedAt": "2022-01-27T09:03:18.536952Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/PxkGgLvMEUgmme35T0VPLR8d5brJw4YTzJC5PE48mkYRdy-mq8FsKv_Sy-bJmxqvlgtitqMWtg=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/PxkGgLvMEUgmme35T0VPLR8d5brJw4YTzJC5PE48mkYRdy-mq8FsKv_Sy-bJmxqvlgtitqMWtg=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/PxkGgLvMEUgmme35T0VPLR8d5brJw4YTzJC5PE48mkYRdy-mq8FsKv_Sy-bJmxqvlgtitqMWtg=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Kaela Kovalskia Ch. hololive-ID",
+          "description": "Hello everyone! Nice to meet you!~ I’m Kaela Kovalskia, an awesome blacksmith from holoID! 🔨\nLeague of Legends addict. I love bitter food & drinks and I love all of you.\nThank you for stopping by! Don’t you think it’s the right time to press the subscribe button?~ ♥️\n\n【Support Kaela】\nhttps://sociabuzz.com/kaelakovalskia/tribe\n\n【Twitter】\nhttps://twitter.com/kaelakovalskia\n【Instagram】\nhttps://www.instagram.com/kaelakovalskia\n【Tiktok】\nhttps://www.tiktok.com/@kaelakovalskia\n【Facebook】\nhttps://www.facebook.com/KaelaKovalskia\n\n【Yasuda Suzuhito Sensei】\nヤスダスズヒト\nhttps://twitter.com/suzupin\n\n【Official cover website】\nhttp://cover-corp.com/\n【Official YouTube Channel hololive Indonesia】\nhttps://www.youtube.com/channel/UCfrWoRGlawPQDQxxeIDRP0Q\n【Official Twitter hololive Indonesia】\nhttps://twitter.com/hololive_Id\n【Official Facebook hololive Indonesia】\nhttps://www.facebook.com/Hololive-Indonesia-108806367277672/\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "KmrpNz8m17lHmUd1O0nFX2V0ZkA",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "5U-sG1jC2XlgjG_voJzJ1abH7vc",
+      "id": "UCmbs8T6MWqUHP1tIQvSgKrg",
+      "snippet": {
+        "title": "Ouro Kronii Ch. hololive-EN",
+        "description": "A member of the Council and the Warden of \"Time,\" the third concept birthed by the Gods and the one most intrinsically linked with mankind.\nNone may escape the sands of time and, indeed, most men do not even wish to be freed from her captivity. She picked up the blades almost as a reflex action of sorts, and seems to be enjoying it. Her quiet, aloof personality has never changed over the ages, but she has developed a little bit of haughtiness and sadistic tendencies along the way...\n\nOriginally, the concept of time was but a cog in the wheel, one which only functioned in tandem with others.\nEventually, humans went on to give time individual meanings such as dawn and dusk, making it universal. The humans became enslaved to Time in return for empowering her. In her present form, she has become a sadistic, prideful warden.\n\n",
+        "customUrl": "ourokroniich",
+        "publishedAt": "2021-07-26T15:42:15.812649Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/6670YE31bbAtAi7m_UL-KWZBdL5wvmfHlLtcS4HxsBZBQNqmAk7Y-iiIOjawO_0HYXpS4HfC=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/6670YE31bbAtAi7m_UL-KWZBdL5wvmfHlLtcS4HxsBZBQNqmAk7Y-iiIOjawO_0HYXpS4HfC=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/6670YE31bbAtAi7m_UL-KWZBdL5wvmfHlLtcS4HxsBZBQNqmAk7Y-iiIOjawO_0HYXpS4HfC=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Ouro Kronii Ch. hololive-EN",
+          "description": "A member of the Council and the Warden of \"Time,\" the third concept birthed by the Gods and the one most intrinsically linked with mankind.\nNone may escape the sands of time and, indeed, most men do not even wish to be freed from her captivity. She picked up the blades almost as a reflex action of sorts, and seems to be enjoying it. Her quiet, aloof personality has never changed over the ages, but she has developed a little bit of haughtiness and sadistic tendencies along the way...\n\nOriginally, the concept of time was but a cog in the wheel, one which only functioned in tandem with others.\nEventually, humans went on to give time individual meanings such as dawn and dusk, making it universal. The humans became enslaved to Time in return for empowering her. In her present form, she has become a sadistic, prideful warden.\n\n"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

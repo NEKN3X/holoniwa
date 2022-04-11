@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "_xSjZWMBfbtpCT3gZxW-vyCzBRo",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "UY8a9nALA0xLx96xiXV4AAAGJ3M",
+      "id": "UCyl1z3jo3XHR1riLFKG5UAg",
+      "snippet": {
+        "title": "Watson Amelia Ch. hololive-EN",
+        "description": "She heard strange rumors surrounding Hololive online: talking foxes, magical squirrels, superhuman dogs, and more. Soon after beginning her investigation on Hololive, and just out of interest, she decided to become an idol herself! She loves to pass her time training her reflexes with FPS games, and challenging herself with puzzle games.\nIt's elementary, right?\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En",
+        "publishedAt": "2020-07-16T06:24:42.28337Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/IhrkWQ9jdq0-NqX6tuMIkzia560fo_jTg9qWYy223eGIDu3ZcJPRkl1hgY2ZuxLTvRyAdjRd0w=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/IhrkWQ9jdq0-NqX6tuMIkzia560fo_jTg9qWYy223eGIDu3ZcJPRkl1hgY2ZuxLTvRyAdjRd0w=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/IhrkWQ9jdq0-NqX6tuMIkzia560fo_jTg9qWYy223eGIDu3ZcJPRkl1hgY2ZuxLTvRyAdjRd0w=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Watson Amelia Ch. hololive-EN",
+          "description": "She heard strange rumors surrounding Hololive online: talking foxes, magical squirrels, superhuman dogs, and more. Soon after beginning her investigation on Hololive, and just out of interest, she decided to become an idol herself! She loves to pass her time training her reflexes with FPS games, and challenging herself with puzzle games.\nIt's elementary, right?\n\nFor Inquiries\nCover Corp: http://cover-corp.com/\nOfficial Twitter: https://twitter.com/hololive_En"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

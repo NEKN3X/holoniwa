@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "jrbMG4dCHCSswiTxJr2rqKjpJlc",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "OACY10Cw3okv4EB6_aCzhSYnfMg",
+      "id": "UChAnqc_AY5_I3Px5dig3X1Q",
+      "snippet": {
+        "title": "Korone Ch. 戌神ころね",
+        "description": "ホロライブ所属、戌神ころね🥐です！\n\n\nころねのTwitter \nhttps://twitter.com/inugamikorone\n\n\nファンアート #できたてころね\n\n生放送タグ #生神もんざえもん\n\nファンネーム #ころねすきー\n\n\n\n🥐メンバーシップ🥐 \n\n‣名前の後ろにメンバー限定のバッジがつくよ！\n‣メンバーさんだけの絵文字が使用できるよ！\n‣不定期でメンバー限定配信をしているよ！\n\n登録方法は、チャンネル登録ボタンの横にある「メンバーになる」ボタンから♪\n\n\n🥐",
+        "publishedAt": "2019-03-25T12:44:03Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTGCZfOdpj8vnNV4hbPvxJrlbERhgBWnBrWKbS5WQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTGCZfOdpj8vnNV4hbPvxJrlbERhgBWnBrWKbS5WQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTGCZfOdpj8vnNV4hbPvxJrlbERhgBWnBrWKbS5WQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Korone Ch. 戌神ころね",
+          "description": "ホロライブ所属、戌神ころね🥐です！\n\n\nころねのTwitter \nhttps://twitter.com/inugamikorone\n\n\nファンアート #できたてころね\n\n生放送タグ #生神もんざえもん\n\nファンネーム #ころねすきー\n\n\n\n🥐メンバーシップ🥐 \n\n‣名前の後ろにメンバー限定のバッジがつくよ！\n‣メンバーさんだけの絵文字が使用できるよ！\n‣不定期でメンバー限定配信をしているよ！\n\n登録方法は、チャンネル登録ボタンの横にある「メンバーになる」ボタンから♪\n\n\n🥐"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}

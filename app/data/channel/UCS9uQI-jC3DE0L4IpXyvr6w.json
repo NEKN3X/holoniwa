@@ -1,0 +1,39 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "wypt8whlLGRM8yIyG6L3M0Mko4A",
+  "pageInfo": { "totalResults": 1, "resultsPerPage": 5 },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "_T-VKJ09MVZXdF2aVL1LhGUZinY",
+      "id": "UCS9uQI-jC3DE0L4IpXyvr6w",
+      "snippet": {
+        "title": "Coco Ch. 桐生ココ",
+        "description": "【2021年07月01日（木）卒業】\nホロライブ所属。\n人間の文化に興味を持ち、異世界から日本に語学留学中の子どものドラゴン。\n仁義と任侠を重んじる正義感あふれるドラゴンで、気合で人間の姿を保っている。\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/ \n公式Twitter:https://twitter.com/hololivetv",
+        "publishedAt": "2019-12-04T09:54:01.485572Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTaA08cj0ogAVpo0ohzsPAGxc62pVdQkjZ_xZLTVQ=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTaA08cj0ogAVpo0ohzsPAGxc62pVdQkjZ_xZLTVQ=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AKedOLTaA08cj0ogAVpo0ohzsPAGxc62pVdQkjZ_xZLTVQ=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Coco Ch. 桐生ココ",
+          "description": "【2021年07月01日（木）卒業】\nホロライブ所属。\n人間の文化に興味を持ち、異世界から日本に語学留学中の子どものドラゴン。\n仁義と任侠を重んじる正義感あふれるドラゴンで、気合で人間の姿を保っている。\n\nお問い合わせ\nカバー株式会社：http://cover-corp.com/ \n公式Twitter:https://twitter.com/hololivetv"
+        },
+        "country": "JP"
+      }
+    }
+  ]
+}
