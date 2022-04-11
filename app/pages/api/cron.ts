@@ -2,17 +2,6 @@ import { NextApiResponse, NextApiRequest } from 'next'
 import moment from 'moment'
 import { supabase } from '../../lib/supabaseClient'
 import { parser } from '../../lib/rssParser'
-import fs from 'fs'
-
-const allChannels = async () => {
-  const files = await fs.readdirSync('./data/channel')
-  const channels: string[] = []
-  files.forEach(async (file) => {
-    const data = await fs.readFileSync(`./data/channel/${file}`, 'utf8')
-    channels.push(JSON.parse(data).items[0].id)
-  })
-  return channels
-}
 
 const feed = async (channel: string) => {
   const feed = await parser.parseURL(
@@ -77,13 +66,17 @@ export default async function handler(
   const auth = req.headers.authorization
   if (auth === process.env.NEXT_PUBLIC_EASY_CRON_AUTH_KEY!) {
     console.log('Authorized')
-    const channels = await allChannels()
-    await channels.forEach(async (channel) => {
-      await feed(channel).then((data) => {
-        upsertFeeds(data)
+    await supabase
+      .from('channels')
+      .select('id')
+      .then((data) => {
+        console.log(`Upserted channel's new feeds: ${data.data?.length}`)
+        data.data?.forEach(async (item) => {
+          await feed(item.id).then((data) => {
+            upsertFeeds(data)
+          })
+        })
       })
-    })
-    console.log(`Upserted new videos`)
     await supabase
       .from('videos')
       .select('id,live_status')
