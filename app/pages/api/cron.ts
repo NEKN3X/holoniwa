@@ -39,7 +39,6 @@ const updateLiveStatus = async (id: string) => {
       .NEXT_PUBLIC_YOUTUBE_API_KEY!}&id=${id}&part=snippet,status,liveStreamingDetails,contentDetails`
   ).then(async (res) => {
     const json = await res.json()
-    console.log(json)
     const data = json.items[0]
     const snippet = data.snippet
     const status = data.status
