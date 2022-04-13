@@ -53,6 +53,7 @@ const updateLiveStatus = async (id: string) => {
         category: snippet.categoryId,
         live_status: snippet.liveBroadcastContent,
         upload_status: status.uploadStatus,
+        privacy_status: status.privacyStatus,
         scheduled_at: liveStreamingDetails?.scheduledStartTime,
         started_at: liveStreamingDetails?.actualStartTime,
         end_at: liveStreamingDetails?.actualEndTime,
