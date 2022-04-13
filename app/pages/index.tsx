@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   return (
     <Text>
       {videos.map((video) => (
-        <Text>{video.title}</Text>
+        <Text key={video.id}>{video.title}</Text>
       ))}
       {videos.length}
     </Text>

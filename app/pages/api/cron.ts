@@ -15,7 +15,7 @@ const feed = async (channel: string) => {
       title: data.title,
       channel: channel,
       link: data.link,
-      published_at: data.pubDate,
+      published_at: data.pubDate
     }
   })
   return data
@@ -39,7 +39,7 @@ const updateLiveStatus = async (id: string) => {
       .NEXT_PUBLIC_YOUTUBE_API_KEY!}&id=${id}&part=snippet,status,liveStreamingDetails,contentDetails`
   ).then(async (res) => {
     const json = await res.json()
-    if (json.items.length == 0) return
+    if (json.items.length === 0) return
     const data = json.items[0]
     const snippet = data.snippet
     const status = data.status
@@ -56,13 +56,13 @@ const updateLiveStatus = async (id: string) => {
         scheduled_at: liveStreamingDetails?.scheduledStartTime,
         started_at: liveStreamingDetails?.actualStartTime,
         end_at: liveStreamingDetails?.actualEndTime,
-        duration: moment.duration(contentDetails?.duration).asSeconds(),
+        duration: moment.duration(contentDetails?.duration).asSeconds()
       })
       .eq('id', id)
   })
 }
 
-export default async function handler(
+export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -110,7 +110,7 @@ export default async function handler(
           updateLiveStatus(item.id)
         })
       })
-    console.log(`Finished`)
+    console.log('Finished')
     return res.status(200).end()
   } else {
     return res.status(401).end()
