@@ -5,7 +5,7 @@ import { parser } from '../../lib/rssParser'
 
 const feed = async (channel: string) => {
   const feed = await parser.parseURL(
-    `https://www.youtube.com/feeds/videos.xml?channel_id=${channel}`
+    `https://www.youtube.com/feeds/videos.xml?channel_id=${channel}`,
   )
   const data = feed.items.map((data) => {
     const regexp = /yt:video:/
@@ -15,7 +15,7 @@ const feed = async (channel: string) => {
       title: data.title,
       channel: channel,
       link: data.link,
-      published_at: data.pubDate
+      published_at: data.pubDate,
     }
   })
   return data
@@ -28,7 +28,7 @@ const upsertFeeds = async (
     channel: string
     link: string | undefined
     published_at: string | undefined
-  }[]
+  }[],
 ) => {
   await supabase.from('videos').upsert(videos)
 }
@@ -36,7 +36,7 @@ const upsertFeeds = async (
 const updateLiveStatus = async (id: string) => {
   await fetch(
     `https://www.googleapis.com/youtube/v3/videos?key=${process.env
-      .NEXT_PUBLIC_YOUTUBE_API_KEY!}&id=${id}&part=snippet,status,liveStreamingDetails,contentDetails`
+      .NEXT_PUBLIC_YOUTUBE_API_KEY!}&id=${id}&part=snippet,status,liveStreamingDetails,contentDetails`,
   ).then(async (res) => {
     const json = await res.json()
     if (json.items.length === 0) return
@@ -57,15 +57,15 @@ const updateLiveStatus = async (id: string) => {
         scheduled_at: liveStreamingDetails?.scheduledStartTime,
         started_at: liveStreamingDetails?.actualStartTime,
         end_at: liveStreamingDetails?.actualEndTime,
-        duration: moment.duration(contentDetails?.duration).asSeconds()
+        duration: moment.duration(contentDetails?.duration).asSeconds(),
       })
       .eq('id', id)
   })
 }
 
-export default async function handler (
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const auth = req.headers.authorization
   if (auth === process.env.NEXT_PUBLIC_EASY_CRON_AUTH_KEY!) {

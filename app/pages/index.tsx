@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
 const Home: NextPage = () => {
-  const [videos, setVideos] = useState([] as { id: string; title: string }[])
+  const [videos, setVideos] = useState(
+    [] as { id: string; title: string; link: string }[],
+  )
   useEffect(() => {
     const getVideos = async () => {
       const { data, error } = await supabase
         .from('videos')
-        .select('id, title')
+        .select('id, title, link')
         .eq('live_status', 'live')
       if (error || !data) return
       console.log(data)
@@ -20,7 +22,10 @@ const Home: NextPage = () => {
   return (
     <Text>
       {videos.map((video) => (
-        <Text key={video.id}>{video.title}</Text>
+        <Text key={video.id}>
+          {video.title}
+          {video.link}
+        </Text>
       ))}
       {videos.length}
     </Text>
