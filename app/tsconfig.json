@@ -18,11 +18,29 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "#/*": [
-        "*"
-      ]
+      "components": [
+        "./components/*"
+      ],
+      "constants": [
+        "./constants/*"
+      ],
+      "lib": [
+        "./lib/*"
+      ],
+      "modules": [
+        "./modules/*"
+      ],
+      "pages": [
+        "./pages/*"
+      ],
+      "services": [
+        "./services/*"
+      ],
+      "utils": [
+        "./components/*"
+      ],
     },
   },
   "include": [
