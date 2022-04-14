@@ -1,6 +1,14 @@
 import { Video } from 'models/video'
 import { VFC } from 'react'
 import { VideoListItem } from 'components/VideoListItem'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+
+import { Mousewheel } from 'swiper'
+import { Container, Center } from '@mantine/core'
 
 type Props = {
   videos: Video[]
@@ -8,9 +16,23 @@ type Props = {
 
 const Presenter: VFC<Props> = (props) => (
   <>
-    {props.videos.map((video) => (
-      <VideoListItem key={video.id} video={video} />
-    ))}
+    <Swiper
+      grabCursor={true}
+      slidesPerView={3}
+      spaceBetween={0}
+      centeredSlides={true}
+      mousewheel={true}
+      loop={true}
+      modules={[Mousewheel]}
+    >
+      {props.videos.map((video) => (
+        <SwiperSlide key={video.id}>
+          <Center>
+            <VideoListItem video={video} />
+          </Center>
+        </SwiperSlide>
+      ))}
+    </Swiper>
   </>
 )
 

@@ -1,5 +1,5 @@
 import { Video } from 'models/video'
-import { Text } from '@mantine/core'
+import { Avatar, Image, Text } from '@mantine/core'
 
 type Props = {
   video: Video
@@ -7,10 +7,23 @@ type Props = {
 
 const Presenter = ({ video }: Props) => (
   <>
-    <Text key={video.id}>
-      {video.title}
-      {video.link}
-    </Text>
+    <div style={{ width: 320, height: 240, margin: 'auto' }}>
+      <Image
+        radius="md"
+        src={
+          video.thumbnails.maxres
+            ? video.thumbnails.maxres.url
+            : video.thumbnails.high.url
+        }
+        width={320}
+        height={180}
+        alt={video.title}
+      />
+      <Avatar radius="xl" />
+      <Text weight={500} size="sm">
+        {video.title}
+      </Text>
+    </div>
   </>
 )
 
