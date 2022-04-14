@@ -1,14 +1,16 @@
 import { VideoList } from 'components/VideoList'
 import type { NextPage } from 'next'
-import { Text } from '@mantine/core'
+import { Container, Divider } from '@mantine/core'
 
 const Home: NextPage = () => {
   return (
     <>
-      <Text>Live</Text>
-      <VideoList status="live" />
-      <Text>Upcoming</Text>
-      <VideoList status="upcoming" />
+      <Container>
+        <Divider my="xs" label="LIVE" labelPosition="center" />
+        <VideoList status="live" />
+        <Divider my="xs" label="UPCOMING" labelPosition="center" />
+        <VideoList status="upcoming" />
+      </Container>
     </>
   )
 }

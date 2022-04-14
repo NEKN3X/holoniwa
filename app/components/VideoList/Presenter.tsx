@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 import { Mousewheel } from 'swiper'
-import { Container, Center } from '@mantine/core'
+import { Center } from '@mantine/core'
 
 type Props = {
   videos: Video[]
@@ -18,7 +18,7 @@ const Presenter: VFC<Props> = (props) => (
   <>
     <Swiper
       grabCursor={true}
-      slidesPerView={3}
+      slidesPerView={4}
       spaceBetween={0}
       centeredSlides={true}
       mousewheel={true}

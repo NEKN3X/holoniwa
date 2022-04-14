@@ -28,7 +28,7 @@ export const getVideos = async (status: string) => {
     .from('videos')
     .select('*')
     .eq('live_status', status)
-    .order('scheduled_at', { ascending: false })
+    .order('scheduled_at', { ascending: true })
 
   if (error) throw error
 
