@@ -1,5 +1,3 @@
-import { supabase } from 'lib/supabaseClient'
-
 export interface Thumbnail {
   url: string
   width: number
@@ -21,16 +19,4 @@ export interface Video {
   scheduled_at: Date
   live_status: string
   privacy_status: string
-}
-
-export const getVideos = async (status: string) => {
-  const { data, error } = await supabase
-    .from('videos')
-    .select('*')
-    .eq('live_status', status)
-    .order('scheduled_at', { ascending: true })
-
-  if (error) throw error
-
-  return data as Video[]
 }

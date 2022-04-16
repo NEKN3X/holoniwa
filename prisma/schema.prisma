@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Channel {
+  id           String         @id
+  title        String
+  thumbnail    String
+  description  String
+  publishedAt  DateTime
+  Videos       Video[]
+  ChannelGroup ChannelGroup[]
+}
+
+model ChannelGroup {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String    @default("")
+  Channels    Channel[]
+}
+
+model Video {
+  id            String   @id
+  channelId     String
+  channel       Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  publishedAt   DateTime
+  title         String
+  description   String
+  thumbnail     String
+  liveStatus    String?
+  uploadStatus  String?
+  privacyStatus String?
+  duration      Int?
+
+  @@index([channelId])
+}

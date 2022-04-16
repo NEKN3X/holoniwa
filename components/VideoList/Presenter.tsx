@@ -6,8 +6,9 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
+import 'swiper/css/free-mode'
 
-import { Mousewheel } from 'swiper'
+import { FreeMode, Mousewheel } from 'swiper'
 import { Center } from '@mantine/core'
 
 type Props = {
@@ -17,13 +18,14 @@ type Props = {
 const Presenter: VFC<Props> = (props) => (
   <>
     <Swiper
+      centeredSlides={true}
       grabCursor={true}
       slidesPerView={4}
       spaceBetween={0}
-      centeredSlides={true}
+      freeMode={true}
       mousewheel={true}
       loop={true}
-      modules={[Mousewheel]}
+      modules={[FreeMode, Mousewheel]}
     >
       {props.videos.map((video) => (
         <SwiperSlide key={video.id}>

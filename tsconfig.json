@@ -32,6 +32,9 @@
       "utils": [
         "./utils/*"
       ],
+      "graphql": [
+        "./graphql/*"
+      ],
     },
   },
   "include": [

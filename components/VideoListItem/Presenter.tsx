@@ -7,20 +7,22 @@ type Props = {
 
 const Presenter = ({ video }: Props) => (
   <>
-    <Container style={{ width: 210, height: 180, margin: 'auto' }}>
-      <a href={video.link} target="_blank" rel="noreferrer">
-        <Image
-          radius="md"
-          src={
-            video.thumbnails.maxres
-              ? video.thumbnails.maxres.url
-              : video.thumbnails.high.url
-          }
-          width={210}
-          height={120}
-          alt={video.title}
-        />
-      </a>
+    <Container style={{ width: 210, height: 180 }}>
+      <Center>
+        <a href={video.link} target="_blank" rel="noreferrer">
+          <Image
+            radius="md"
+            src={
+              video.thumbnails.maxres
+                ? video.thumbnails.maxres.url
+                : video.thumbnails.high.url
+            }
+            width={210}
+            height={120}
+            alt={video.title}
+          />
+        </a>
+      </Center>
       <Center style={{ height: 60, display: 'flex' }}>
         <Center>
           <Avatar radius="xl" />

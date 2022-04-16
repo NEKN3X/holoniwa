@@ -3,5 +3,9 @@
     "next/core-web-vitals",
     "standard",
     "prettier"
+  ],
+  "ignorePatterns": [
+    "node_modules/",
+    "*.gen.d.ts"
   ]
 }
