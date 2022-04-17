@@ -3,8 +3,6 @@ import { prisma } from 'lib/prisma'
 import { Video } from '@prisma/client'
 import { YouTubeURL } from 'lib/youtube'
 import moment from 'moment'
-import { channel } from 'diagnostics_channel'
-import { count } from 'console'
 
 const updateVideo = async (videos: Video[]) => {
   const vids = videos
