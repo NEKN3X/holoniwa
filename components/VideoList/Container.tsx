@@ -1,23 +1,33 @@
 import Presenter from './Presenter'
-import { getVideos } from 'models/video'
-import useSWR from 'swr'
+import { gql, useQuery } from 'urql'
 import Loading from 'components/Loading'
 import { VFC } from 'react'
+
+const VideosQuery = gql`
+  query {
+    videos {
+      id
+      title
+    }
+  }
+`
 
 type Props = {
   status: string
 }
 
 const Container: VFC<Props> = (props) => {
-  const { data } = useSWR(`videos/${props.status}`, () =>
-    getVideos(props.status),
-  )
+  const [result] = useQuery({
+    query: VideosQuery,
+  })
+  const { data, fetching, error } = result
 
-  if (!data) return <Loading />
+  if (fetching) return <Loading />
+  if (error) return <p>Oh no... {error.message}</p>
 
   return (
     <>
-      <Presenter videos={data} />
+      <Presenter videos={data.videos} />
     </>
   )
 }

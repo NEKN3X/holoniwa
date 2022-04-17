@@ -1,4 +1,4 @@
-import { Video } from 'models/video'
+import { Video } from '@prisma/client'
 import { VFC } from 'react'
 import { VideoListItem } from 'components/VideoListItem'
 import { Swiper, SwiperSlide } from 'swiper/react'

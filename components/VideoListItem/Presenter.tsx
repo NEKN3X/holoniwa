@@ -1,5 +1,5 @@
-import { Video } from 'models/video'
 import { Container, Avatar, Image, Text, Center } from '@mantine/core'
+import { Video } from '@prisma/client'
 
 type Props = {
   video: Video
@@ -9,14 +9,10 @@ const Presenter = ({ video }: Props) => (
   <>
     <Container style={{ width: 210, height: 180 }}>
       <Center>
-        <a href={video.link} target="_blank" rel="noreferrer">
+        <a href={video.title} target="_blank" rel="noreferrer">
           <Image
             radius="md"
-            src={
-              video.thumbnails.maxres
-                ? video.thumbnails.maxres.url
-                : video.thumbnails.high.url
-            }
+            src={video.thumbnail!}
             width={210}
             height={120}
             alt={video.title}

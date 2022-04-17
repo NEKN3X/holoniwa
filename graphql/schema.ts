@@ -1,37 +1,27 @@
-import { queryType, makeSchema } from 'nexus'
-import { nexusPrisma } from 'nexus-plugin-prisma'
-import path from 'path'
+import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars'
+import { asNexusMethod, makeSchema } from 'nexus'
+import { join } from 'path'
 
-const Query = queryType({
-  definition(t) {
-    t.string('hello', { resolve: () => 'hello world' })
-  },
-})
+import * as allTypes from './schema/index'
 
 export const schema = makeSchema({
-  types: [Query],
-  plugins: [
-    nexusPrisma({
-      experimentalCRUD: true,
-      outputs: {
-        typegen: path.join(process.cwd(), 'graphql', 'nexus-prisma.gen.d.ts'),
-      },
-    }),
-  ],
   outputs: {
-    typegen: path.join(process.cwd(), 'graphql', 'nexus.gen.d.ts'),
-    schema: path.join(process.cwd(), 'graphql', 'schema.graphql'),
+    schema: join(process.cwd(), 'graphql/gen', 'schema.graphql'),
+    typegen: join(
+      process.cwd(),
+      'node_modules',
+      '@types',
+      'nexus-typegen',
+      'index.d.ts',
+    ),
   },
+  types: [
+    allTypes,
+    asNexusMethod(GraphQLBigInt, 'bigint', 'bigint'),
+    asNexusMethod(GraphQLDateTime, 'datetime', 'Date'),
+  ],
   contextType: {
-    module: path.join(process.cwd(), 'graphql', 'context.ts'),
+    module: join(process.cwd(), 'graphql', 'context.ts'),
     export: 'Context',
-  },
-  sourceTypes: {
-    modules: [
-      {
-        module: '@prisma/client',
-        alias: 'prisma',
-      },
-    ],
   },
 })

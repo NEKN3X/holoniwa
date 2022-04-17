@@ -6,6 +6,6 @@
   ],
   "ignorePatterns": [
     "node_modules/",
-    "*.gen.d.ts"
+    "graphql/gen"
   ]
 }

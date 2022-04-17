@@ -3,5 +3,10 @@
 
 
 type Query {
-  hello: String
+  videos: [Video!]!
+}
+
+type Video {
+  id: ID!
+  title: String!
 }
