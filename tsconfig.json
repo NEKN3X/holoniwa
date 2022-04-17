@@ -19,23 +19,6 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "paths": {
-      "lib": [
-        "./lib/*"
-      ],
-      "components": [
-        "./components/*"
-      ],
-      "models": [
-        "./models/*"
-      ],
-      "utils": [
-        "./utils/*"
-      ],
-      "graphql": [
-        "./graphql/*"
-      ],
-    },
   },
   "include": [
     "next-env.d.ts",

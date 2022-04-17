@@ -16,7 +16,7 @@ model Channel {
   id           String         @id
   title        String
   thumbnail    String
-  description  String
+  description  String         @db.Text
   publishedAt  DateTime
   Videos       Video[]
   ChannelGroup ChannelGroup[]
@@ -25,21 +25,24 @@ model Channel {
 model ChannelGroup {
   id          Int       @id @default(autoincrement())
   title       String
-  description String    @default("")
+  description String    @default("") @db.Text
   Channels    Channel[]
 }
 
 model Video {
-  id            String   @id
+  id            String    @id
   channelId     String
-  channel       Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  publishedAt   DateTime
+  Channel       Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
   title         String
-  description   String
-  thumbnail     String
+  publishedAt   DateTime
+  thumbnail     String?
+  description   String?   @db.Text
   liveStatus    String?
   uploadStatus  String?
   privacyStatus String?
+  startTime     DateTime?
+  endTime       DateTime?
+  scheduledTime DateTime?
   duration      Int?
 
   @@index([channelId])

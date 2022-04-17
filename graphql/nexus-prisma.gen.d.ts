@@ -31,14 +31,14 @@ interface NexusPrismaInputs {
       ordering: 'id' | 'title' | 'description' | 'Channels'
     }
     videos: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'description' | 'thumbnail' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
-      ordering: 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'description' | 'thumbnail' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'thumbnail' | 'description' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
+      ordering: 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'thumbnail' | 'description' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
     }
   },
   Channel: {
     Videos: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'description' | 'thumbnail' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
-      ordering: 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'description' | 'thumbnail' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'thumbnail' | 'description' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
+      ordering: 'id' | 'channelId' | 'channel' | 'publishedAt' | 'title' | 'thumbnail' | 'description' | 'liveStatus' | 'uploadStatus' | 'privacyStatus' | 'duration'
     }
     ChannelGroup: {
       filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'title' | 'description' | 'Channels'
@@ -107,8 +107,8 @@ interface NexusPrismaOutputs {
     channel: 'Channel'
     publishedAt: 'DateTime'
     title: 'String'
-    description: 'String'
     thumbnail: 'String'
+    description: 'String'
     liveStatus: 'String'
     uploadStatus: 'String'
     privacyStatus: 'String'
