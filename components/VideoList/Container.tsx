@@ -9,7 +9,10 @@ type Props = {
 }
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 const Container: VFC<Props> = (props) => {
-  const { data } = useSWR<Video[]>('api/videos?liveStatus=live', fetcher)
+  const { data } = useSWR<Video[]>(
+    `api/videos?liveStatus=${props.status}`,
+    fetcher,
+  )
 
   if (!data) return <Loading />
 
