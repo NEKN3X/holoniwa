@@ -5,7 +5,7 @@ import { prisma } from 'lib/prisma'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const liveStatus = req.query.liveStatus as string
   const videos = await prisma.video.findMany({
-    where: { liveStatus: 'live' },
+    where: { liveStatus: liveStatus },
   })
   console.log(videos)
 

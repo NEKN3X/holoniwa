@@ -71,22 +71,22 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (auth !== process.env.NEXT_PUBLIC_MY_API_KEY!) return res.status(401).end()
 
   // 全てのチャンネルに対する処理
-  // allChannels().then((channels) => {
-  //   channels.forEach(async (channel) => {
-  //     // フィードから最新情報を取得
-  //     const feeds = await fetchFeed(channel.id)
-  //     const query = feeds.map((video) =>
-  //       prisma.video.upsert({
-  //         where: { id: video.id },
-  //         update: {},
-  //         create: { ...video, channelId: channel.id },
-  //       }),
-  //     )
-  //     await prisma.$transaction([...query]).then(() => {
-  //       console.log(`${channel.title} fetch`)
-  //     })
-  //   })
-  // })
+  allChannels().then((channels) => {
+    channels.forEach(async (channel) => {
+      // フィードから最新情報を取得
+      const feeds = await fetchFeed(channel.id)
+      const query = feeds.map((video) =>
+        prisma.video.upsert({
+          where: { id: video.id },
+          update: {},
+          create: { ...video, channelId: channel.id },
+        }),
+      )
+      await prisma.$transaction([...query]).then(() => {
+        console.log(`${channel.title} fetch`)
+      })
+    })
+  })
   let toggl = true
   while (toggl) {
     toggl = false
