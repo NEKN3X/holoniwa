@@ -6,10 +6,6 @@ generator client {
   previewFeatures = ["referentialIntegrity"]
 }
 
-generator nexusPrisma {
-  provider = "nexus-prisma"
-}
-
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")

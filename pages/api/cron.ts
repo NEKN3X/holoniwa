@@ -3,6 +3,8 @@ import { prisma } from 'lib/prisma'
 import { Video } from '@prisma/client'
 import { YouTubeURL } from 'lib/youtube'
 import moment from 'moment'
+import { channel } from 'diagnostics_channel'
+import { count } from 'console'
 
 const updateVideo = async (videos: Video[]) => {
   const vids = videos
@@ -69,33 +71,41 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (auth !== process.env.NEXT_PUBLIC_MY_API_KEY!) return res.status(401).end()
 
   // 全てのチャンネルに対する処理
-  allChannels().then((channels) => {
-    const channelCount = channels.length
-    let count = 0
-    channels.forEach(async (channel) => {
-      // フィードから最新情報を取得
-      const feeds = await fetchFeed(channel.id)
-      const query = feeds.map((video) =>
-        prisma.video.upsert({
-          where: { id: video.id },
-          update: {},
-          create: { ...video, channelId: channel.id },
-        }),
-      )
-      await prisma.$transaction([...query]).then(() => {
-        console.log(`${channel.title} fetch`)
+  // allChannels().then((channels) => {
+  //   channels.forEach(async (channel) => {
+  //     // フィードから最新情報を取得
+  //     const feeds = await fetchFeed(channel.id)
+  //     const query = feeds.map((video) =>
+  //       prisma.video.upsert({
+  //         where: { id: video.id },
+  //         update: {},
+  //         create: { ...video, channelId: channel.id },
+  //       }),
+  //     )
+  //     await prisma.$transaction([...query]).then(() => {
+  //       console.log(`${channel.title} fetch`)
+  //     })
+  //   })
+  // })
+  let toggl = true
+  while (toggl) {
+    toggl = false
+    prisma.video
+      .findMany({
+        where: {
+          NOT: {
+            liveStatus: 'none',
+          },
+        },
+        take: 50,
       })
-
-      const videos = await prisma.video.findMany({
-        where: { liveStatus: { not: 'none' } },
+      .then((videos) => {
+        if (videos.length === 0) return
+        if (videos.length === 50) toggl = true
+        updateVideo(videos)
+        console.log(`${videos.length} live status update`)
       })
-      if (videos.length === 0) return
-      await updateVideo(videos)
-      count++
-      console.log(`${channel.title} update ${count}/${channelCount}`)
-    })
-  })
-
+  }
   return res.status(200).end()
 }
 

@@ -1,33 +1,21 @@
 import Presenter from './Presenter'
-import { gql, useQuery } from 'urql'
 import Loading from 'components/Loading'
 import { VFC } from 'react'
-
-const VideosQuery = gql`
-  query {
-    videos {
-      id
-      title
-    }
-  }
-`
+import useSWR from 'swr'
+import { Video } from '@prisma/client'
 
 type Props = {
   status: string
 }
-
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 const Container: VFC<Props> = (props) => {
-  const [result] = useQuery({
-    query: VideosQuery,
-  })
-  const { data, fetching, error } = result
+  const { data } = useSWR<Video[]>('api/videos?liveStatus=live', fetcher)
 
-  if (fetching) return <Loading />
-  if (error) return <p>Oh no... {error.message}</p>
+  if (!data) return <Loading />
 
   return (
     <>
-      <Presenter videos={data.videos} />
+      <Presenter videos={data} />
     </>
   )
 }
