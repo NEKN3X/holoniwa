@@ -7,19 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "db:push": "npx prisma db push",
-    "db:seed": "npx prisma db seed",
-    "studio": "npx prisma studio"
-  },
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "test": "jest"
   },
   "dependencies": {
     "@mantine/core": "^4.1.4",
     "@mantine/hooks": "^4.1.4",
     "@mantine/next": "^4.1.4",
-    "@prisma/client": "^3.12.0",
+    "@supabase/supabase-js": "^1.34.1",
     "moment": "^2.29.2",
     "moment-duration-format": "^2.3.2",
     "next": "12.1.4",
@@ -41,7 +35,6 @@
     "eslint-config-prettier": "latest",
     "jest": "^27.5.1",
     "prettier": "latest",
-    "prisma": "^3.12.0",
     "standard": "latest",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",

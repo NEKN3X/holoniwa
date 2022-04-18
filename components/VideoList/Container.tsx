@@ -2,7 +2,7 @@ import Presenter from './Presenter'
 import Loading from 'components/Loading'
 import { VFC } from 'react'
 import useSWR from 'swr'
-import { Video } from '@prisma/client'
+import { Video } from 'models/Video'
 
 type Props = {
   status: string

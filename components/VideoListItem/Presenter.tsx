@@ -1,5 +1,5 @@
 import { Container, Avatar, Image, Text, Center } from '@mantine/core'
-import { Video } from '@prisma/client'
+import { Video } from 'models/Video'
 
 type Props = {
   video: Video

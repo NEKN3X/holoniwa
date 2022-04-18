@@ -1,11 +1,11 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { Video } from '@prisma/client'
 import { YouTubeURL } from 'lib/youtube'
 import moment from 'moment'
 import { channels } from 'data/channels'
 import path from 'path'
 import fs from 'fs'
-import { prisma } from 'lib/prisma'
+import { supabase } from 'lib/supabase'
+import { Video } from 'models/Video'
 
 const getYouTubeVideos = async (vids: string) => {
   const url = YouTubeURL('videos').toString()
@@ -24,16 +24,16 @@ const getYouTubeVideos = async (vids: string) => {
       thumbnails.default
     return {
       id: item.id,
-      channelId: item.snippet.channelId,
       title: item.snippet.title,
-      publishedAt: item.snippet.publishedAt,
+      channel: item.snippet.channelId,
       thumbnail: thumbnail.url,
       liveStatus: item.snippet.liveBroadcastContent,
       uploadStatus: item.status.uploadStatus,
       privacyStatus: item.status.privacyStatus,
-      startTime: item.liveStreamingDetails?.scheduledStartTime,
-      endTime: item.liveStreamingDetails?.actualEndTime,
-      scheduledTime: item.liveStreamingDetails?.scheduledStartTime,
+      publishedAt: item.snippet.publishedAt,
+      scheduledAt: item.liveStreamingDetails?.scheduledStartTime,
+      startAt: item.liveStreamingDetails?.scheduledStartTime,
+      endAt: item.liveStreamingDetails?.actualEndTime,
       duration: moment.duration(item.contentDetails.duration).asSeconds(),
     } as Video
   })
@@ -49,7 +49,7 @@ const fetchFeed = async (channelId: string) => {
   const videos: Video[] = feedJson.items.map((item: any) => {
     return {
       id: `${item.id}`.replace(regexp, ''),
-      channelId: channelId,
+      channel: channelId,
       title: item.title,
       publishedAt: new Date(item.pubDate),
     } as Video
@@ -63,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (fs.existsSync(cachePath)) {
     const cache = fs.readFileSync(cachePath, 'utf-8')
     const cacheDate = moment(cache, 'YYYY-MM-DD HH:mm:ss')
-    if (cacheDate.isAfter(moment().subtract(1, 'minute'))) {
+    if (cacheDate.isAfter(moment().subtract(30, 'seconds'))) {
       console.log('Cache is up to date')
       return res.status(200).json({
         message: 'Cache is up to date',
@@ -109,14 +109,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(`updated: ${videos.length} videos`)
 
   // DBを更新
-  const query = videos.map((video) =>
-    prisma.video.upsert({
-      where: { id: video.id },
-      create: video,
-      update: video,
-    }),
-  )
-  await prisma.$transaction(query)
+  await supabase.from('video').upsert(videos)
 
   console.log('Done')
   res.status(200).end()

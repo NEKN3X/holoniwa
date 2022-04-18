@@ -1,4 +1,4 @@
-import { Video } from '@prisma/client'
+import { Video } from 'models/Video'
 import { VFC } from 'react'
 import { VideoListItem } from 'components/VideoListItem'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -18,7 +18,6 @@ type Props = {
 const Presenter: VFC<Props> = (props) => (
   <>
     <Swiper
-      centeredSlides={true}
       grabCursor={true}
       slidesPerView={4}
       spaceBetween={0}

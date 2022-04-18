@@ -1,4 +1,4 @@
-import { Video } from '@prisma/client'
+import { Video } from 'models/Video'
 import Presenter from './Presenter'
 
 type Props = {
