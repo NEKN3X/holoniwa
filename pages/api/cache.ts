@@ -123,7 +123,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     dbUpdate.push(...updated)
   }
   fs.writeFileSync(path.join(videosPath), JSON.stringify(willCache))
-  console.log(`updated: ${willCache.length} videos`)
+  console.log(`cached: ${willCache.length} videos`)
 
   // Cacheにはあるが、APIで取得できない動画をDBから消す
   // const noData = dbUpdate.filter((video) => !cachedVideos.includes(video.id))
@@ -136,6 +136,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { error } = await supabase.from('video').upsert(dbUpdate)
   if (error) console.log(error)
+  console.log(dbUpdate.map((video) => video.id).join(','))
+  console.log(`updated: ${dbUpdate.length} videos`)
+
   console.log('done')
 
   return res.status(200).end()
