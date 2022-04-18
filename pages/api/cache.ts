@@ -5,6 +5,7 @@ import moment from 'moment'
 import { channels } from 'data/channels'
 import path from 'path'
 import fs from 'fs'
+import { prisma } from 'lib/prisma'
 
 const getYouTubeVideos = async (vids: string) => {
   const url = YouTubeURL('videos').toString()
@@ -57,9 +58,6 @@ const fetchFeed = async (channelId: string) => {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const auth = req.headers.authorization
-  if (auth !== process.env.NEXT_PUBLIC_MY_API_KEY!) return res.status(401).end()
-
   // 前回のCache更新からの時間経過を判定
   const cachePath = path.join(process.cwd(), 'data', 'cache.txt')
   if (fs.existsSync(cachePath)) {
@@ -107,12 +105,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const updated = await getYouTubeVideos(vids)
     videos.push(...updated.filter((video) => video.liveStatus !== 'none'))
   }
-  // Cacheを更新
   fs.writeFileSync(path.join(videosPath), JSON.stringify(videos))
-
   console.log(`updated: ${videos.length} videos`)
-  console.log('Done')
 
+  // DBを更新
+  const query = videos.map((video) =>
+    prisma.video.upsert({
+      where: { id: video.id },
+      create: video,
+      update: video,
+    }),
+  )
+  await prisma.$transaction(query)
+
+  console.log('Done')
   res.status(200).end()
 }
 
