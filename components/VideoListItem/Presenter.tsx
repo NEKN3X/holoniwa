@@ -1,4 +1,4 @@
-import { Container, Avatar, Image, Text, Center } from '@mantine/core'
+import { Avatar, Image, Text, Center } from '@mantine/core'
 import { Video } from 'models/Video'
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 
 const Presenter = ({ video }: Props) => (
   <>
-    <Container style={{ width: 210, height: 180 }}>
+    <div style={{ width: 210, height: 180 }}>
       <Center>
         <a
           href={`https://www.youtube.com/watch?v=${video.id}`}
@@ -27,13 +27,13 @@ const Presenter = ({ video }: Props) => (
         <Center>
           <Avatar radius="xl" />
         </Center>
-        <Center ml="sm">
-          <Text weight={500} size="sm" lineClamp={2}>
+        <Center>
+          <Text weight={500} size="xs" lineClamp={3}>
             {video.title}
           </Text>
         </Center>
       </Center>
-    </Container>
+    </div>
   </>
 )
 

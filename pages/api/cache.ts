@@ -63,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (fs.existsSync(cachePath)) {
     const cache = fs.readFileSync(cachePath, 'utf-8')
     const cacheDate = moment(cache, 'YYYY-MM-DD HH:mm:ss')
-    if (cacheDate.isAfter(moment().subtract(30, 'seconds'))) {
+    if (cacheDate.isAfter(moment().subtract(60, 'seconds'))) {
       console.log('Cache is up to date')
       return res.status(200).json({
         message: 'Cache is up to date',
