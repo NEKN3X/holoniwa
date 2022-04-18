@@ -1,5 +1,4 @@
 import { NextApiResponse, NextApiRequest } from 'next'
-import { prisma } from 'lib/prisma'
 import { Video } from '@prisma/client'
 import { YouTubeURL } from 'lib/youtube'
 import moment from 'moment'
@@ -61,55 +60,57 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization
   if (auth !== process.env.NEXT_PUBLIC_MY_API_KEY!) return res.status(401).end()
 
-  const dbVideos = await prisma.video.findMany({
-    where: {
-      liveStatus: {
-        not: 'none',
-      },
-    },
-    select: {
-      id: true,
-      liveStatus: true,
-    },
-  })
-  if (dbVideos.length > 0) {
-    await getYouTubeVideos(
-      dbVideos.map((video) => video.id).reduce((acc, cur) => `${acc},${cur}`),
-    )
-      .then((videos) => {
-        return videos.map((video) =>
-          prisma.video.update({
-            where: { id: video.id },
-            data: {
-              title: video.title,
-            },
-          }),
-        )
+  // 前回のCache更新からの時間経過を判定
+  const cachePath = path.join(process.cwd(), 'data', 'cache.txt')
+  if (fs.existsSync(cachePath)) {
+    const cache = fs.readFileSync(cachePath, 'utf-8')
+    const cacheDate = moment(cache, 'YYYY-MM-DD HH:mm:ss')
+    if (cacheDate.isAfter(moment().subtract(1, 'minute'))) {
+      console.log('Cache is up to date')
+      return res.status(200).json({
+        message: 'Cache is up to date',
       })
-      .then(async (query) => {
-        const videos = await prisma.$transaction(query)
-        console.log(`Updated ${videos.length} videos`)
-      })
+    }
   }
+  fs.writeFileSync(cachePath, moment().format('YYYY-MM-DD HH:mm:ss'))
 
+  // Feedを取得して、Cacheを更新
+  const feedsPath = path.join(process.cwd(), 'data', 'feeds.json')
+  fs.existsSync(feedsPath) || fs.writeFileSync(feedsPath, '[]')
+  const cachedFeeds: string[] = JSON.parse(
+    fs.readFileSync(feedsPath, 'utf-8'),
+  ).map((video: { id: string }) => video.id)
   const feeds = channels.map((channel) => fetchFeed(channel.id))
   const feedVideos = (await Promise.all(feeds)).flat()
-  const jsonPath = path.join(process.cwd(), 'data', 'feeds.json')
-  const cachedFeeds: string[] = JSON.parse(
-    fs.readFileSync(jsonPath, 'utf-8'),
-  ).map((video: { id: string }) => video.id)
-  const newVideos = feedVideos.filter(
-    (video) => !cachedFeeds.includes(video.id),
-  )
-  if (newVideos.length > 0) {
-    const videos = await getYouTubeVideos(
-      newVideos.map((video) => video.id).reduce((acc, cur) => `${acc},${cur}`),
-    )
-    await prisma.video.createMany({ data: videos })
-    console.log(`Added ${videos.length} videos`)
-  }
-  fs.writeFileSync(jsonPath, JSON.stringify(feedVideos))
+  fs.writeFileSync(feedsPath, JSON.stringify(feedVideos))
 
+  // Cacheと比較して、新しい動画を取得
+  const newFeeds = feedVideos
+    .filter((video) => !cachedFeeds.includes(video.id))
+    .map((video) => video.id)
+  console.log(`new: ${newFeeds.length} feeds`)
+
+  // Cacheされた動画を取得
+  const videosPath = path.join(process.cwd(), 'data', 'videos.json')
+  fs.existsSync(videosPath) || fs.writeFileSync(videosPath, '[]')
+  const cachedVideos: string[] = JSON.parse(
+    fs.readFileSync(videosPath, 'utf-8'),
+  ).map((video: { id: string }) => video.id)
+
+  // 新しい動画を含め、YouTubeAPIを叩いて、動画情報を取得
+  cachedVideos.push(...newFeeds)
+  const needUpdates = Array.from(new Set(cachedVideos))
+  const count = 1 + needUpdates.length / 50
+  const videos = []
+  for (let i = 0; i < count; i++) {
+    const vids = needUpdates.slice(i * 50, (i + 1) * 50).join(',')
+    const updated = await getYouTubeVideos(vids)
+    videos.push(...updated.filter((video) => video.liveStatus !== 'none'))
+  }
+  // Cacheを更新
+  fs.writeFileSync(path.join(videosPath), JSON.stringify(videos))
+
+  console.log(`updated: ${videos.length} videos`)
   console.log('Done')
 
   res.status(200).end()

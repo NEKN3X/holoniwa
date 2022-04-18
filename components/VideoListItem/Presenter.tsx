@@ -9,7 +9,11 @@ const Presenter = ({ video }: Props) => (
   <>
     <Container style={{ width: 210, height: 180 }}>
       <Center>
-        <a href={video.title} target="_blank" rel="noreferrer">
+        <a
+          href={`https://www.youtube.com/watch?v=${video.id}`}
+          target="_blank"
+          rel="noreferrer"
+        >
           <Image
             radius="md"
             src={video.thumbnail!}

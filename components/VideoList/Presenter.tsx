@@ -24,7 +24,6 @@ const Presenter: VFC<Props> = (props) => (
       spaceBetween={0}
       freeMode={true}
       mousewheel={true}
-      loop={true}
       modules={[FreeMode, Mousewheel]}
     >
       {props.videos.map((video) => (
