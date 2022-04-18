@@ -25,15 +25,16 @@ const getYouTubeVideos = async (vids: string) => {
     return {
       id: item.id,
       title: item.snippet.title,
-      channel: item.snippet.channelId,
+      channelId: item.snippet.channelId,
+      channelTitle: item.snippet.channelTitle,
       thumbnail: thumbnail.url,
       liveStatus: item.snippet.liveBroadcastContent,
       uploadStatus: item.status.uploadStatus,
       privacyStatus: item.status.privacyStatus,
-      publishedAt: item.snippet.publishedAt,
-      scheduledAt: item.liveStreamingDetails?.scheduledStartTime,
-      startAt: item.liveStreamingDetails?.scheduledStartTime,
-      endAt: item.liveStreamingDetails?.actualEndTime,
+      publishedAt: new Date(item.snippet.publishedAt),
+      scheduledAt: new Date(item.liveStreamingDetails?.scheduledStartTime),
+      startAt: new Date(item.liveStreamingDetails?.scheduledStartTime),
+      endAt: new Date(item.liveStreamingDetails?.actualEndTime),
       duration: moment.duration(item.contentDetails.duration).asSeconds(),
     } as Video
   })
@@ -49,7 +50,8 @@ const fetchFeed = async (channelId: string) => {
   const videos: Video[] = feedJson.items.map((item: any) => {
     return {
       id: `${item.id}`.replace(regexp, ''),
-      channel: channelId,
+      channelId: channelId,
+      channelTitle: item.author,
       title: item.title,
       publishedAt: new Date(item.pubDate),
     } as Video
@@ -63,7 +65,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (fs.existsSync(cachePath)) {
     const cache = fs.readFileSync(cachePath, 'utf-8')
     const cacheDate = moment(cache, 'YYYY-MM-DD HH:mm:ss')
-    if (cacheDate.isAfter(moment().subtract(60, 'seconds'))) {
+    if (cacheDate.isAfter(moment().subtract(10, 'seconds'))) {
       console.log('Cache is up to date')
       return res.status(200).json({
         message: 'Cache is up to date',
@@ -90,29 +92,53 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Cacheされた動画を取得
   const videosPath = path.join(process.cwd(), 'data', 'videos.json')
-  fs.existsSync(videosPath) || fs.writeFileSync(videosPath, '[]')
-  const cachedVideos: string[] = JSON.parse(
-    fs.readFileSync(videosPath, 'utf-8'),
-  ).map((video: { id: string }) => video.id)
+  const cachedVideos = []
+  if (fs.existsSync(videosPath)) {
+    cachedVideos.push(
+      ...JSON.parse(fs.readFileSync(videosPath, 'utf-8')).map(
+        (video: { id: string }) => video.id,
+      ),
+    )
+  } else {
+    const { data } = await supabase
+      .from('video')
+      .select('id')
+      .neq('liveStatus', 'none')
+    if (data) {
+      cachedVideos.push(...data.map((video: { id: string }) => video.id))
+    }
+  }
 
   // 新しい動画を含め、YouTubeAPIを叩いて、動画情報を取得
   cachedVideos.push(...newFeeds)
   const needUpdates = Array.from(new Set(cachedVideos))
-  const count = 1 + needUpdates.length / 50
-  const videos = []
+  const count = needUpdates.length / 50
+
+  const willCache = []
+  const dbUpdate = []
   for (let i = 0; i < count; i++) {
     const vids = needUpdates.slice(i * 50, (i + 1) * 50).join(',')
     const updated = await getYouTubeVideos(vids)
-    videos.push(...updated.filter((video) => video.liveStatus !== 'none'))
+    willCache.push(...updated.filter((video) => video.liveStatus !== 'none'))
+    dbUpdate.push(...updated)
   }
-  fs.writeFileSync(path.join(videosPath), JSON.stringify(videos))
-  console.log(`updated: ${videos.length} videos`)
+  fs.writeFileSync(path.join(videosPath), JSON.stringify(willCache))
+  console.log(`updated: ${willCache.length} videos`)
 
-  // DBを更新
-  await supabase.from('video').upsert(videos)
+  // Cacheにはあるが、APIで取得できない動画をDBから消す
+  // const noData = dbUpdate.filter((video) => !cachedVideos.includes(video.id))
+  const updatedIds = dbUpdate.map((video) => video.id)
+  cachedVideos
+    .filter((video) => !updatedIds.includes(video))
+    .forEach(async (video) => {
+      await supabase.from('video').delete().eq('id', video)
+    })
 
-  console.log('Done')
-  res.status(200).end()
+  const { error } = await supabase.from('video').upsert(dbUpdate)
+  if (error) console.log(error)
+  console.log('done')
+
+  return res.status(200).end()
 }
 
 export default handler

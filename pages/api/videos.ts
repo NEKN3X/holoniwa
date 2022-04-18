@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     .select()
     .eq('liveStatus', liveStatus)
     .order('scheduledAt')
-  console.log(videos.data)
+    .order('publishedAt')
 
   res.status(200).json(videos.data)
 }
