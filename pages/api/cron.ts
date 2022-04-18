@@ -4,21 +4,15 @@ import { Video } from '@prisma/client'
 import { YouTubeURL } from 'lib/youtube'
 import moment from 'moment'
 
-const updateVideo = async (videos: Video[]) => {
-  const vids = videos
-    .map((video: Video) => video.id)
-    .reduce((acc, curr) => acc + ',' + curr)
+const updateVideos = async (vids: string) => {
   const url = YouTubeURL('videos').toString()
-  fetch(
+  await fetch(
     `${url}&part=snippet,status,liveStreamingDetails,contentDetails&id=${vids}`,
   )
-    .catch((e) => {
-      throw new Error(e)
-    })
-    .then(async (res) => {
-      const json = await res.json()
-      if (!json.items || json.items.length === 0) return
-      json.items.forEach(async (item: any) => {
+    .then((res) => res.json())
+    .then((data) => data.items)
+    .then((items) => {
+      return items.map((item: any) => {
         const thumbnails = item.snippet.thumbnails
         const thumbnail =
           thumbnails.maxres ||
@@ -26,21 +20,35 @@ const updateVideo = async (videos: Video[]) => {
           thumbnails.high ||
           thumbnails.medium ||
           thumbnails.default
-        await prisma.video.update({
-          where: { id: item.id },
-          data: {
-            thumbnail: thumbnail.url,
-            description: item.snippet.description,
-            liveStatus: item.snippet.liveBroadcastContent,
-            uploadStatus: item.status.uploadStatus,
-            privacyStatus: item.status.privacyStatus,
-            startTime: item.liveStreamingDetails?.scheduledStartTime,
-            endTime: item.liveStreamingDetails?.actualEndTime,
-            scheduledTime: item.liveStreamingDetails?.scheduledStartTime,
-            duration: moment.duration(item.contentDetails.duration).asSeconds(),
-          },
-        })
+        return {
+          id: item.id,
+          channelId: item.snippet.channelId,
+          title: item.snippet.title,
+          publishedAt: item.snippet.publishedAt,
+          thumbnail: thumbnail.url,
+          description: item.snippet.description,
+          liveStatus: item.snippet.liveBroadcastContent,
+          uploadStatus: item.status.uploadStatus,
+          privacyStatus: item.status.privacyStatus,
+          startTime: item.liveStreamingDetails?.scheduledStartTime,
+          endTime: item.liveStreamingDetails?.actualEndTime,
+          scheduledTime: item.liveStreamingDetails?.scheduledStartTime,
+          duration: moment.duration(item.contentDetails.duration).asSeconds(),
+        }
       })
+    })
+    .then((updates) => {
+      return updates.map((update: any) =>
+        prisma.video.upsert({
+          where: { id: update.id },
+          update: update,
+          create: update,
+        }),
+      )
+    })
+    .then(async (query) => await prisma.$transaction(query))
+    .finally(() => {
+      console.log('done')
     })
 }
 
@@ -64,47 +72,29 @@ const allChannels = async () => {
   return await prisma.channel.findMany()
 }
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const auth = req.headers.authorization
   if (auth !== process.env.NEXT_PUBLIC_MY_API_KEY!) return res.status(401).end()
 
-  // 全てのチャンネルに対する処理
-  allChannels().then((channels) => {
-    channels.forEach(async (channel) => {
-      // フィードから最新情報を取得
-      const feeds = await fetchFeed(channel.id)
-      const query = feeds.map((video) =>
-        prisma.video.upsert({
-          where: { id: video.id },
-          update: {},
-          create: { ...video, channelId: channel.id },
-        }),
-      )
-      await prisma.$transaction([...query]).then(() => {
-        console.log(`${channel.title} fetch`)
-      })
+  const channels = await allChannels()
+  const needUpdates = channels.map(async (channel) => {
+    const feeds = await fetchFeed(channel.id)
+    const query = feeds.map(async (feed) => {
+      const video = await prisma.video.findUnique({ where: { id: feed.id } })
+      if (video?.liveStatus === 'none') return null
+      return feed.id
     })
+    return (await Promise.all(query)).filter((vid) => vid !== null)
   })
-  let toggl = true
-  while (toggl) {
-    toggl = false
-    prisma.video
-      .findMany({
-        where: {
-          NOT: {
-            liveStatus: 'none',
-          },
-        },
-        take: 50,
-      })
-      .then((videos) => {
-        if (videos.length === 0) return
-        if (videos.length === 50) toggl = true
-        updateVideo(videos)
-        console.log(`${videos.length} live status update`)
-      })
-  }
-  return res.status(200).end()
+  await Promise.all(needUpdates)
+    .then((needUpdates) =>
+      needUpdates.flat().reduce((acc, curr) => acc + ',' + curr),
+    )
+    .then(async (vids) => {
+      if (!vids) return
+      await updateVideos(vids)
+    })
+    .then(() => res.status(200).end())
 }
 
 export default handler
