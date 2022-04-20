@@ -33,7 +33,7 @@ const scheduleDiff = (time: Date) => {
   const words = []
   if (diffMin < 0) words.push("in")
   Math.abs(diffMin) > 60
-    ? words.push(`${Math.abs(Math.floor(diffMin / 60))}h`)
+    ? words.push(`${Math.abs(Math.floor(diffMin / 60))}hours`)
     : words.push(`${Math.abs(diffMin)}min`)
   if (diffMin > 0) words.push("ago")
   return words.join(" ")
