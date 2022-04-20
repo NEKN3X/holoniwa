@@ -1,8 +1,6 @@
-import videos from "./videos"
 import { db } from "~/utils/db.server"
 import { fetchFeed } from "~/utils/fetchFeed"
 import { getYouTubeVideos } from "~/utils/youtube"
-import { Channel, prisma } from "@prisma/client"
 import { json } from "@remix-run/node"
 import fs from "fs"
 import path from "path"

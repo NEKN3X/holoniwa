@@ -9,13 +9,17 @@
     "dev": "remix dev"
   },
   "dependencies": {
-    "@chakra-ui/react": "next",
+    "@chakra-ui/react": "^2.0.0-next.1",
+    "@emotion/react": "^11.9.0",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.8.1",
     "@prisma/client": "^3.12.0",
     "@remix-run/node": "^1.4.1",
     "@remix-run/react": "^1.4.1",
     "@remix-run/vercel": "^1.4.1",
     "@supabase/supabase-js": "^1.34.1",
     "@vercel/node": "^1.14.0",
+    "framer-motion": "^6.3.0",
     "moment": "^2.29.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
