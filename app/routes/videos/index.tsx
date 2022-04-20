@@ -1,28 +1,46 @@
+import { VideoCard } from "~/components/videos"
 import { db } from "~/utils/db.server"
+import { Box, SimpleGrid } from "@chakra-ui/react"
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import type { Video } from "@prisma/client"
+import moment from "moment"
+import type { Channel, Video } from "@prisma/client"
 import type { LoaderFunction } from "@remix-run/node"
 
-type LoaderData = { videos: Array<Video> }
+type LoaderData = { videos: Array<Video & { channel: Channel }> }
 
 export const loader: LoaderFunction = async () => {
   const data: LoaderData = {
     videos: await db.video.findMany({
-      take: 5,
+      where: {
+        AND: [
+          {
+            scheduledAt: {
+              lte: moment().add(14, "day").toDate(),
+            },
+          },
+          { OR: [{ liveStatus: "live" }, { liveStatus: "upcoming" }] },
+        ],
+      },
+      orderBy: { scheduledAt: "asc" },
+      include: {
+        channel: true,
+      },
     }),
   }
-
   return json(data)
 }
 
 export default function JokesIndexRoute() {
   const data = useLoaderData<LoaderData>()
+
   return (
-    <ul>
+    <SimpleGrid minChildWidth={240} spacing={4}>
       {data.videos.map((video) => (
-        <li key={video.id}>{video.title}</li>
+        <Box key={video.id}>
+          <VideoCard video={video} />
+        </Box>
       ))}
-    </ul>
+    </SimpleGrid>
   )
 }
