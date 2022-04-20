@@ -1,0 +1,12 @@
+name: update video status
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: cron job
+        run: |
+          curl --request POST \
+          --url 'https://holoniwa.vercel.app/cron'
