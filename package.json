@@ -9,7 +9,8 @@
     "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:migrate": "prisma db migrate"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.0.0-next.2",
