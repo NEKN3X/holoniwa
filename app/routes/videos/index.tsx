@@ -1,11 +1,11 @@
 import { VideoView } from "~/components/video"
 import { db } from "~/db.server"
 import { Box, SimpleGrid } from "@chakra-ui/react"
-import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { json } from "@remix-run/server-runtime"
 import moment from "moment"
 import type { Channel, Video } from "@prisma/client"
-import type { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/server-runtime"
 
 type LoaderData = { videos: Array<Video & { channel: Channel }> }
 

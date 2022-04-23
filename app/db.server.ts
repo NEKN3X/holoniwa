@@ -10,36 +10,15 @@ declare global {
 // the server with every change, but we want to make sure we don't
 // create a new connection to the DB with every change either.
 // in production we'll have a single connection to the DB.
-if (process.env.NODE_ENV === "production") {
-  db = getClient()
-} else {
-  if (!global.__db__) {
-    global.__db__ = getClient()
-  }
-  db = global.__db__
-}
+process.env.NODE_ENV === "production"
+  ? (db = getClient())
+  : !global.__db__
+  ? (global.__db__ = getClient())
+  : (db = global.__db__)
 
 function getClient() {
   const DATABASE_URL = process.env.DATABASE_URL!
 
-  const databaseUrl = new URL(DATABASE_URL)
-
-  const isLocalHost = databaseUrl.hostname === "localhost"
-
-  const PRIMARY_REGION = isLocalHost ? null : process.env.PRIMARY_REGION
-  const FLY_REGION = isLocalHost ? null : process.env.FLY_REGION
-
-  const isReadReplicaRegion = !PRIMARY_REGION || PRIMARY_REGION === FLY_REGION
-
-  if (!isLocalHost) {
-    databaseUrl.host = `${FLY_REGION}.${databaseUrl.host}`
-    if (!isReadReplicaRegion) {
-      // 5433 is the read-replica port
-      databaseUrl.port = "5433"
-    }
-  }
-
-  console.log(`🔌 setting up prisma client to ${databaseUrl.host}`)
   // NOTE: during development if you change anything in this function, remember
   // that this only runs once per server restart and won't automatically be
   // re-run per request like everything else is. So if you need to change
@@ -47,7 +26,7 @@ function getClient() {
   const client = new PrismaClient({
     datasources: {
       db: {
-        url: databaseUrl.toString(),
+        url: DATABASE_URL,
       },
     },
   })

@@ -1,7 +1,5 @@
-import { ServerStyleContext, ClientStyleContext } from "./context"
 import { theme } from "~/lib/theme"
-import { ChakraProvider, Container } from "@chakra-ui/react"
-import { withEmotionCache } from "@emotion/react"
+import { ChakraProvider, Box, Heading } from "@chakra-ui/react"
 import {
   Links,
   LiveReload,
@@ -9,81 +7,76 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from "@remix-run/react"
-import React, { useContext, useEffect } from "react"
-import type { MetaFunction, LinksFunction } from "@remix-run/node" // Depends on the runtime you choose
+import type { MetaFunction } from "@remix-run/node"
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Holoniwa",
   viewport: "width=device-width,initial-scale=1",
 })
 
-export let links: LinksFunction = () => {
-  return [
-    { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    { rel: "preconnect", href: "https://fonts.gstaticom" },
-    {
-      rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap",
-    },
-  ]
-}
-
-interface DocumentProps {
+function Document({
+  children,
+  title = "Holoniwa",
+}: {
   children: React.ReactNode
+  title?: string
+}) {
+  return (
+    <html lang="ja">
+      <head>
+        <Meta />
+        <title>{title}</title>
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  )
 }
-
-const Document = withEmotionCache(
-  ({ children }: DocumentProps, emotionCache) => {
-    const serverStyleData = useContext(ServerStyleContext)
-    const clientStyleData = useContext(ClientStyleContext)
-
-    // Only executed on client
-    useEffect(() => {
-      // re-link sheet container
-      emotionCache.sheet.container = document.head
-      // re-inject tags
-      const tags = emotionCache.sheet.tags
-      emotionCache.sheet.flush()
-      tags.forEach((tag) => {
-        ;(emotionCache.sheet as any)._insertTag(tag)
-      })
-      // reset cache to reapply global styles
-      clientStyleData?.reset()
-    }, [])
-
-    return (
-      <html lang="ja">
-        <head>
-          <Meta />
-          <Links />
-          {serverStyleData?.map(({ key, ids, css }) => (
-            <style
-              key={key}
-              data-emotion={`${key} ${ids.join(" ")}`}
-              dangerouslySetInnerHTML={{ __html: css }}
-            />
-          ))}
-        </head>
-        <body>
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </body>
-      </html>
-    )
-  },
-)
 
 export default function App() {
   return (
     <Document>
       <ChakraProvider theme={theme}>
-        <Container maxW="container.xl">
-          <Outlet />
-        </Container>
+        <Outlet />
+      </ChakraProvider>
+    </Document>
+  )
+}
+
+// How ChakraProvider should be used on CatchBoundary
+export function CatchBoundary() {
+  const caught = useCatch()
+
+  return (
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <ChakraProvider theme={theme}>
+        <Box>
+          <Heading as="h1" bg="purple.600">
+            [CatchBoundary]: {caught.status} {caught.statusText}
+          </Heading>
+        </Box>
+      </ChakraProvider>
+    </Document>
+  )
+}
+
+// How ChakraProvider should be used on ErrorBoundary
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document title="Error!">
+      <ChakraProvider theme={theme}>
+        <Box>
+          <Heading as="h1" bg="blue.500">
+            [ErrorBoundary]: There was an error: {error.message}
+          </Heading>
+        </Box>
       </ChakraProvider>
     </Document>
   )
