@@ -41,7 +41,7 @@ const scheduleDiff = (time: Date) => {
 
 const channelRegex = /(hololive-..)|(- holoX -)/
 
-const VideoCard = ({ video }: Props) => {
+export const VideoView = ({ video }: Props) => {
   const property = {
     videoId: video.id,
     imageUrl: video.thumbnail || "",
@@ -102,4 +102,3 @@ const VideoCard = ({ video }: Props) => {
     </Box>
   )
 }
-export default VideoCard

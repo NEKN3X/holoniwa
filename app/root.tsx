@@ -1,5 +1,5 @@
 import { ServerStyleContext, ClientStyleContext } from "./context"
-import { theme } from "~/utils/theme"
+import { theme } from "~/lib/theme"
 import { ChakraProvider, Container } from "@chakra-ui/react"
 import { withEmotionCache } from "@emotion/react"
 import {

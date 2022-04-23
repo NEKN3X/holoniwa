@@ -1,5 +1,5 @@
-import { VideoCard } from "~/components/videos"
-import { db } from "~/utils/db.server"
+import { VideoView } from "~/components/video"
+import { db } from "~/db.server"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
@@ -38,7 +38,7 @@ export default function JokesIndexRoute() {
     <SimpleGrid minChildWidth={240} spacing={4}>
       {data.videos.map((video) => (
         <Box key={video.id}>
-          <VideoCard video={video} />
+          <VideoView video={video} />
         </Box>
       ))}
     </SimpleGrid>

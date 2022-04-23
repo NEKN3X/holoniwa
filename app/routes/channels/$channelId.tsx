@@ -1,4 +1,4 @@
-import { db } from "~/utils/db.server"
+import { db } from "~/db.server"
 import { json } from "@remix-run/node"
 import type { Channel } from "@prisma/client"
 import type { LoaderFunction } from "@remix-run/node"

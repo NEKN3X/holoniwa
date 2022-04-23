@@ -1,4 +1,4 @@
-import { db } from "~/utils/db.server"
+import { db } from "~/db.server"
 import { fetchFeed } from "~/utils/fetchFeed"
 import { getYouTubeVideos } from "~/utils/youtube"
 import { json } from "@remix-run/node"
