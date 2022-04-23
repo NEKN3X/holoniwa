@@ -38,9 +38,7 @@ export const loader: LoaderFunction = async () => {
   const queryCount = vids.length / 50
   const videos: Video[] = []
   for (let i = 0; i < queryCount; i++) {
-    const data = await getYouTubeVideos(
-      vids.slice(i * 50, (i + 1) * 50).reduce((acc, id) => `${acc},${id}`),
-    )
+    const data = await getYouTubeVideos(vids.slice(i * 50, (i + 1) * 50))
     videos.push(...data)
   }
   const newVids = videos.map((v) => v.id)

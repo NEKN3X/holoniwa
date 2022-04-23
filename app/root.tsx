@@ -1,5 +1,6 @@
 import { ServerStyleContext, ClientStyleContext } from "./context"
-import { Center, ChakraProvider, Container } from "@chakra-ui/react"
+import { theme } from "~/utils/theme"
+import { ChakraProvider, Container } from "@chakra-ui/react"
 import { withEmotionCache } from "@emotion/react"
 import {
   Links,
@@ -79,7 +80,7 @@ const Document = withEmotionCache(
 export default function App() {
   return (
     <Document>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Container maxW="container.xl">
           <Outlet />
         </Container>
