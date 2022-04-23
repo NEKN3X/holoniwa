@@ -1,4 +1,4 @@
-# fly.toml file generated for holoniwa on 2022-04-23T19:01:01+09:00
+# fly.toml file generated for holoniwa on 2022-04-23T21:42:21+09:00
 
 app = "holoniwa"
 
@@ -12,6 +12,8 @@ processes = []
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
+  cmd = "start.sh"
+  entrypoint = "sh"
 
 [[services]]
   http_checks = []
