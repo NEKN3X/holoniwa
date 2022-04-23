@@ -17,7 +17,7 @@ export const fetchFeed = (channelId: string) => {
           id: `${item.id}`.replace(regexp, ""),
           channelId: channelId,
           title: item.title!,
-          publishedAt: new Date(item.pubDate!),
+          publishedAt: moment(item.pubDate!).add(9, "h").toDate(),
         } as Video
       })
     })
@@ -55,13 +55,19 @@ export const fetchVideos = (videoIds: string[]) => {
           publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
           scheduledAt:
             item.liveStreamingDetails?.scheduledStartTime &&
-            new Date(item.liveStreamingDetails.scheduledStartTime),
+            moment(item.liveStreamingDetails.scheduledStartTime)
+              .add(9, "h")
+              .toDate(),
           startAt:
             item.liveStreamingDetails?.scheduledStartTime &&
-            new Date(item.liveStreamingDetails.scheduledStartTime),
+            moment(item.liveStreamingDetails.scheduledStartTime)
+              .add(9, "h")
+              .toDate(),
           endAt:
             item.liveStreamingDetails?.actualEndTime &&
-            new Date(item.liveStreamingDetails.actualEndTime),
+            moment(item.liveStreamingDetails.actualEndTime)
+              .add(9, "h")
+              .toDate(),
           duration:
             item.contentDetails?.duration &&
             moment.duration(item.contentDetails.duration).asSeconds(),
@@ -101,7 +107,15 @@ export const updateVideos = () => {
   const updating = currentFeedIds.then((ids) =>
     newFeedIds
       .then((newIds) => ids.concat(newIds))
-      .then((ids) => ids.slice(0, 50)),
+      .then((ids) => {
+        const taking = 50 - ids.length
+        return taking < 0
+          ? ids
+          : db.video
+              .findMany({ take: taking, orderBy: { updatedAt: "asc" } })
+              .then((vidoes) => ids.concat(vidoes.map((video) => video.id)))
+      })
+      .then((ids) => log(ids).slice(0, 50)),
   )
 
   const updated = updating.then((ids) => fetchVideos(ids))
@@ -116,8 +130,8 @@ export const updateVideos = () => {
     const query = videos.map((video) =>
       db.video.upsert({
         where: { id: video.id },
-        create: video,
-        update: video,
+        create: { ...video, updatedAt: moment().add(9, "h").toDate() },
+        update: { ...video, updatedAt: moment().add(9, "h").toDate() },
       }),
     )
     return Promise.all(query)
@@ -129,8 +143,7 @@ export const updateVideos = () => {
       : ([] as Video[]),
   )
 
-  Promise.resolve(upserted).then((res) =>
-    console.log(`upserted: ${res.length}`),
-  )
   Promise.resolve(deleted).then((res) => console.log(`deleted: ${res.length}`))
+
+  return Promise.resolve(upserted)
 }

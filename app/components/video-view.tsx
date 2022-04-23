@@ -1,4 +1,5 @@
-import { Text, Badge, Box, Image, Link } from "@chakra-ui/react"
+import { RatioImage } from "./ratio-image"
+import { Text, Badge, Box, Link } from "@chakra-ui/react"
 import moment from "moment"
 import type { Channel, Video } from "@prisma/client"
 
@@ -29,17 +30,17 @@ const statusColor = (status: string) => {
 }
 
 const scheduleDiff = (time: Date) => {
-  const diffMin = moment().diff(time, "minutes")
+  const diffMin = moment().add(9, "h").diff(time, "minutes")
   const words = []
   if (diffMin < 0) words.push("in")
   Math.abs(diffMin) > 60
-    ? words.push(`${Math.abs(Math.floor(diffMin / 60))}hours`)
+    ? words.push(`${Math.abs(Math.round(diffMin / 60))}hours`)
     : words.push(`${Math.abs(diffMin)}min`)
   if (diffMin > 0) words.push("ago")
   return words.join(" ")
 }
 
-const channelRegex = /(hololive-..)|(- holoX -)/
+const channelRegex = /(hololive-..)|(- holoX -)|((- |)V(t|T)uber.+)/
 
 export const VideoView = ({ video }: Props) => {
   const property = {
@@ -60,9 +61,9 @@ export const VideoView = ({ video }: Props) => {
         isExternal
         href={`https://www.youtube.com/watch?v=${property.videoId}`}
       >
-        <Image src={property.imageUrl} alt={property.imageAlt} />
+        <RatioImage url={property.imageUrl} alt={property.imageAlt} />
       </Link>
-      <Box p="4">
+      <Box p={4}>
         <Box display="flex" alignItems="baseline">
           <Badge borderRadius="full" px="2" colorScheme={property.statusColor}>
             {property.liveStatus}
@@ -80,10 +81,11 @@ export const VideoView = ({ video }: Props) => {
         </Box>
         <Text
           mt="1"
-          fontSize="sm"
+          fontSize="xs"
           fontWeight="semibold"
           isTruncated
-          noOfLines={2}
+          height={14}
+          noOfLines={3}
         >
           {property.title}
         </Text>

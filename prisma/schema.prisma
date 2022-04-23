@@ -18,6 +18,7 @@ model Video {
   liveStatus    String?
   uploadStatus  String?
   privacyStatus String?
+  updatedAt     DateTime?
   publishedAt   DateTime?
   scheduledAt   DateTime?
   startAt       DateTime?

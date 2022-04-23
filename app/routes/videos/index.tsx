@@ -1,5 +1,6 @@
-import { VideoView } from "~/components/video"
+import { VideoView } from "~/components/video-view"
 import { db } from "~/db.server"
+import { updateVideos } from "~/models/video.server"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
@@ -10,6 +11,7 @@ import type { LoaderFunction } from "@remix-run/server-runtime"
 type LoaderData = { videos: Array<Video & { channel: Channel }> }
 
 export const loader: LoaderFunction = async () => {
+  await updateVideos()
   const data: LoaderData = {
     videos: await db.video.findMany({
       where: {
