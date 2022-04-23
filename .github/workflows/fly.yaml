@@ -4,7 +4,10 @@ on:
     branches:
       - main
 env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}v
+  API_KEY: ${{ secrets.API_KEY }}
+  YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 jobs:
   deploy:
     name: Deploy app
