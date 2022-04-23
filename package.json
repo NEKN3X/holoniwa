@@ -9,7 +9,8 @@
     "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.0.0-next.2",
@@ -36,15 +37,20 @@
     "@types/react-dom": "^18.0.2",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
+    "csv-parse": "^5.0.4",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
     "prettier": "^2.6.2",
     "prisma": "^3.12.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.5.5"
   },
   "engines": {
     "node": ">=14"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

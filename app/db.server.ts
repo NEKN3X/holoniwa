@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 
 let db: PrismaClient
-
 declare global {
   var __db__: PrismaClient
 }
@@ -11,29 +10,9 @@ declare global {
 // create a new connection to the DB with every change either.
 // in production we'll have a single connection to the DB.
 process.env.NODE_ENV === "production"
-  ? (db = getClient())
+  ? (db = new PrismaClient())
   : !global.__db__
-  ? (global.__db__ = getClient())
+  ? (global.__db__ = new PrismaClient())
   : (db = global.__db__)
-
-function getClient() {
-  const DATABASE_URL = process.env.DATABASE_URL!
-
-  // NOTE: during development if you change anything in this function, remember
-  // that this only runs once per server restart and won't automatically be
-  // re-run per request like everything else is. So if you need to change
-  // something in this file, you'll need to manually restart the server.
-  const client = new PrismaClient({
-    datasources: {
-      db: {
-        url: DATABASE_URL,
-      },
-    },
-  })
-  // connect eagerly
-  client.$connect()
-
-  return client
-}
 
 export { db }
