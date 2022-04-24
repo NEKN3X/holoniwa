@@ -4,6 +4,7 @@ import { youtube } from "~/lib/youtube"
 import { fetchYouTubeFeed } from "~/utils/fetchFeed"
 import { log } from "~/utils/log"
 import { nonNullable } from "~/utils/nonNullable"
+import { ids } from "googleapis/build/src/apis/ids"
 import moment from "moment"
 import type { Video } from "@prisma/client"
 
@@ -98,11 +99,9 @@ export const updateVideos = () => {
     .then((existing) =>
       feedIds.then((ids) => ids.filter((id) => !existing.includes(id))),
     )
-  const currentFeedIds = existing.then((existing) =>
-    existing
-      .filter((video) => video.liveStatus !== "none")
-      .map((video) => video.id),
-  )
+  const currentFeedIds = db.video
+    .findMany({ where: { NOT: { liveStatus: "none" } } })
+    .then((current) => current.map((video) => video.id))
 
   const updating = currentFeedIds.then((ids) =>
     newFeedIds
@@ -115,7 +114,7 @@ export const updateVideos = () => {
               .findMany({ take: taking, orderBy: { updatedAt: "asc" } })
               .then((vidoes) => ids.concat(vidoes.map((video) => video.id)))
       })
-      .then((ids) => log(ids).slice(0, 50)),
+      .then((ids) => ids.slice(0, 50)),
   )
 
   const updated = updating.then((ids) => fetchVideos(ids))
@@ -138,7 +137,7 @@ export const updateVideos = () => {
   })
 
   const deleted = deleting.then((ids) =>
-    ids.length == 0
+    ids.length > 0
       ? Promise.all(ids.map((id) => db.video.delete({ where: { id } })))
       : ([] as Video[]),
   )
