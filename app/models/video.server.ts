@@ -1,10 +1,9 @@
 import { allChannels } from "./channel.server"
 import { db } from "~/db.server"
+import { fetchYouTubeFeed } from "~/lib/rssParser"
 import { youtube } from "~/lib/youtube"
-import { fetchYouTubeFeed } from "~/utils/fetchFeed"
 import { log } from "~/utils/log"
 import { nonNullable } from "~/utils/nonNullable"
-import { ids } from "googleapis/build/src/apis/ids"
 import moment from "moment"
 import type { Video } from "@prisma/client"
 
