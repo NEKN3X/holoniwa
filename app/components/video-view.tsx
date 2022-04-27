@@ -30,7 +30,7 @@ const statusColor = (status: string) => {
 }
 
 const scheduleDiff = (date: Date) => {
-  const diffMin = moment(date).diff(moment())
+  const diffMin = moment().diff(date, "minutes")
   const words = []
   if (diffMin < 0) words.push("in")
   Math.abs(diffMin) > 60

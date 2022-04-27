@@ -1,4 +1,4 @@
-import { andThen, curry, map, pipe } from "ramda"
+import { andThen, curry, flatten, map, pipe } from "ramda"
 import Parser from "rss-parser"
 import type { Video } from "@prisma/client"
 
@@ -19,7 +19,7 @@ type Feed = {
 
 const parser: Parser<Feed, FeedItem> = new Parser()
 
-const parseFeed = (channelId: string) =>
+export const parseFeed = (channelId: string) =>
   parser
     .parseURL(
       `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
@@ -36,5 +36,8 @@ const itemToVideo = (channelId: string, item: FeedItem) =>
 
 const curriedItemToVideo = (channelId: string) => curry(itemToVideo)(channelId)
 
-export const fetchChannelFeed = (channelId: string) =>
+const fetchChannelFeed = (channelId: string) =>
   pipe(parseFeed, andThen(map(curriedItemToVideo(channelId))))(channelId)
+
+export const fetchChannelFeeds = (channelIds: string[]) =>
+  Promise.all(map(fetchChannelFeed)(channelIds)).then(r => flatten(r))

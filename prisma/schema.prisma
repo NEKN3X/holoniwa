@@ -25,8 +25,8 @@ model Video {
   startAt       DateTime? @db.Timestamptz
   endAt         DateTime? @db.Timestamptz
   duration      Int?
-
-  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  colabIds      String[]
+  channel       Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
 }
 
 model Channel {
@@ -35,6 +35,5 @@ model Channel {
   thumbnail   String?
   description String?
   publishedAt DateTime? @db.Timestamptz
-
-  videos Video[]
+  videos      Video[]
 }
