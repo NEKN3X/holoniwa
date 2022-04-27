@@ -9,8 +9,9 @@
     "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "db:push": "prisma db push",
-    "db:seed": "prisma db seed"
+    "prisma:push": "prisma db push",
+    "prisma:seed": "prisma db seed",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.0.0-next.2",
@@ -22,6 +23,7 @@
     "@remix-run/react": "^1.4.1",
     "@remix-run/serve": "^1.4.1",
     "@remix-run/server-runtime": "^1.4.1",
+    "csv-parse": "^5.0.4",
     "framer-motion": "^6.3.1",
     "googleapis": "^100.0.0",
     "moment": "^2.29.3",
@@ -29,13 +31,13 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "recoil": "^0.7.2",
-    "rss-parser": "^3.12.0",
-    "csv-parse": "^5.0.4"
+    "rss-parser": "^3.12.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.4.1",
     "@remix-run/eslint-config": "^1.4.1",
     "@types/eslint": "^8.4.1",
+    "@types/ramda": "^0.28.11",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
@@ -44,6 +46,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-ramda": "^2.5.1",
+    "jest": "^27.5.1",
     "prettier": "^2.6.2",
     "prisma": "^3.12.0",
     "ts-node": "^10.7.0",

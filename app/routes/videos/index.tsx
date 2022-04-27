@@ -1,6 +1,6 @@
 import { VideoView } from "~/components/video-view"
 import { db } from "~/db.server"
-import { updateVideos } from "~/models/video.server"
+import { updateVideos } from "~/modules/video"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async () => {
         AND: [
           {
             scheduledAt: {
-              lte: moment().add(14, "day").toDate(),
+              lte: moment().add(2, "weeks").toDate(),
             },
           },
           { OR: [{ liveStatus: "live" }, { liveStatus: "upcoming" }] },
@@ -38,7 +38,7 @@ export default function JokesIndexRoute() {
 
   return (
     <SimpleGrid minChildWidth={240} spacing={4}>
-      {data.videos.map((video) => (
+      {data.videos.map(video => (
         <Box key={video.id}>
           <VideoView video={video} />
         </Box>
