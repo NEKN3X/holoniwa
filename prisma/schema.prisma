@@ -15,16 +15,18 @@ model Video {
   title         String
   channelId     String
   thumbnail     String?
+  description   String?   @db.Text
   liveStatus    String?
   uploadStatus  String?
   privacyStatus String?
-  updatedAt     DateTime?
-  publishedAt   DateTime?
-  scheduledAt   DateTime?
-  startAt       DateTime?
-  endAt         DateTime?
+  updatedAt     DateTime? @db.Timestamptz
+  publishedAt   DateTime? @db.Timestamptz
+  scheduledAt   DateTime? @db.Timestamptz
+  startAt       DateTime? @db.Timestamptz
+  endAt         DateTime? @db.Timestamptz
   duration      Int?
-  channel       Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 }
 
 model Channel {
@@ -32,6 +34,7 @@ model Channel {
   title       String
   thumbnail   String?
   description String?
-  publishedAt DateTime?
-  videos      Video[]
+  publishedAt DateTime? @db.Timestamptz
+
+  videos Video[]
 }
