@@ -1,4 +1,4 @@
-import { updateVideos } from "~/modules/video"
+import { updateVideos } from "~/models/video"
 import { json } from "@remix-run/server-runtime"
 import type { LoaderFunction } from "@remix-run/server-runtime"
 

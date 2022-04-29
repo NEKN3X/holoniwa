@@ -1,6 +1,6 @@
 import { VideoView } from "~/components/video-view"
 import { db } from "~/db.server"
-import { updateVideos } from "~/modules/video"
+import { updateVideos } from "~/models/video"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
