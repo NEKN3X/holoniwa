@@ -10,7 +10,7 @@ export const youtube = google.youtube({
   auth: API_KEY,
 })
 
-const youtubeVideos = (videoIds: string[]) =>
+const youtubeVideos = async (videoIds: string[]) =>
   youtube.videos
     .list({
       id: videoIds,

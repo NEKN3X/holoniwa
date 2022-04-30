@@ -1,46 +1,60 @@
 import { RatioImage } from "./ratio-image"
-import { Text, Badge, Box, Link } from "@chakra-ui/react"
+import { Text, Badge, Box, Link, Avatar } from "@chakra-ui/react"
 import moment from "moment"
-import type { VideoWithChannel } from "~/models/video.server"
+import { always, cond, divide, equals, gte, lte, pipe, __ } from "ramda"
+import type { VideoWithRelations } from "~/models/video.server"
 
 type Props = {
-  video: VideoWithChannel
+  video: VideoWithRelations
 }
 
-const liveStatus = (status: string) => {
-  switch (status) {
-    case "live":
-      return "live"
-    case "upcoming":
-      return "coming"
-    case "none":
-      return "archive"
-  }
-}
+const statusText = cond([
+  [equals("live"), always("Live")],
+  [equals("upcoming"), always("Coming")],
+  [equals("none"), always("Archive")],
+])
 
-const statusColor = (status: string) => {
-  switch (status) {
-    case "live":
-      return "red"
-    case "upcoming":
-      return "teal"
-    case "none":
-      return "gray"
-  }
-}
+const statusColor = cond([
+  [equals("live"), always("red")],
+  [equals("upcoming"), always("teal")],
+  [equals("none"), always("gray")],
+])
+
+const timeUnit = cond([
+  [gte(60), n => `${n} minute${n > 1 ? "s" : ""}`],
+  [
+    lte(60 * 24),
+    n =>
+      pipe(
+        divide(__, 60 * 24),
+        Math.floor,
+        n => `${n} day${n > 1 ? "s" : ""}`,
+      )(n),
+  ],
+  [
+    lte(60),
+    n =>
+      pipe(divide(__, 60), Math.floor, r => `${r} hour${r > 1 ? "s" : ""}`)(n),
+  ],
+  [
+    lte(60 * 24),
+    n =>
+      pipe(
+        divide(__, 60 * 24),
+        Math.floor,
+        n => `${n} day${n > 1 ? "s" : ""}`,
+      )(n),
+  ],
+])
 
 const scheduleDiff = (date: Date) => {
   const diffMin = moment().diff(date, "minutes")
   const words = []
   if (diffMin < 0) words.push("in")
-  Math.abs(diffMin) > 60
-    ? words.push(`${Math.abs(Math.round(diffMin / 60))}hours`)
-    : words.push(`${Math.abs(diffMin)}min`)
+  words.push(timeUnit(Math.abs(diffMin)))
   if (diffMin > 0) words.push("ago")
   return words.join(" ")
 }
-
-const channelRegex = /(hololive-..)|(- holoX -)|((- |)V(t|T)uber.+)/
 
 export const VideoView = ({ video }: Props) => {
   const property = {
@@ -48,12 +62,14 @@ export const VideoView = ({ video }: Props) => {
     imageUrl: video.thumbnail || "",
     imageAlt: video.title,
     title: video.title,
-    liveStatus: liveStatus(video.liveStatus || "none"),
+    liveStatus: statusText(video.liveStatus || "none"),
     statusColor: statusColor(video.liveStatus || "none"),
     channelId: video.channelId,
-    channelTitle: video.channel?.title.replace(channelRegex, ""),
+    channelTitle: video.Channel?.title,
+    channelAvatar: video.Channel?.thumbnail,
     scheduledAt: video.scheduledAt,
     scheduleDiff: scheduleDiff(video.scheduledAt || new Date()),
+    colabs: video.Colabs,
   }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
@@ -89,16 +105,15 @@ export const VideoView = ({ video }: Props) => {
         >
           {property.title}
         </Text>
-        <Box
-          color="gray.500"
-          fontWeight="semibold"
-          letterSpacing="wide"
-          fontSize="xs"
-          noOfLines={1}
-        >
-          <Link href={`channels/${property.channelId}`} color="teal.500">
-            {property.channelTitle}
-          </Link>
+        <Box color="gray.500" fontWeight="semibold" letterSpacing="wide">
+          <Avatar size="sm" src={property.channelAvatar || ""} />
+          {property.colabs.map(colab => (
+            <Avatar
+              size="sm"
+              key={`${property.videoId}_${property.channelId}`}
+              src={colab.Channel.thumbnail || ""}
+            />
+          ))}
         </Box>
       </Box>
     </Box>

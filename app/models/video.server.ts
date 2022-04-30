@@ -1,12 +1,15 @@
+import { channelsInText, getAllChannels } from "./channel.server"
 import { db } from "~/db.server"
 import moment from "moment"
 import { map } from "ramda"
-import type { Channel, Video } from "@prisma/client"
+import type { Channel, Colab, Video } from "@prisma/client"
 
 export type { Video } from "@prisma/client"
-
-export type VideoWithChannel = Video & {
-  channel: Channel | null
+export type VideoWithRelations = Video & {
+  Channel: Channel
+  Colabs: {
+    Channel: Channel
+  }[]
 }
 
 export const getVideo = ({ id }: Video) => db.video.findFirst({ where: { id } })
@@ -18,9 +21,14 @@ export const getLiveVideoListItems = () =>
     where: {
       liveStatus: "live",
     },
-    orderBy: { startAt: "asc" },
+    orderBy: { startAt: "desc" },
     include: {
-      channel: true,
+      Channel: true,
+      Colabs: {
+        select: {
+          Channel: true,
+        },
+      },
     },
   })
 
@@ -38,7 +46,31 @@ export const getUpcomingVideoListItems = () =>
     },
     orderBy: { scheduledAt: "asc" },
     include: {
-      channel: true,
+      Channel: true,
+      Colabs: {
+        select: {
+          Channel: true,
+        },
+      },
+    },
+  })
+
+export const getRecentVideoListItems = () =>
+  db.video.findMany({
+    where: {
+      liveStatus: "none",
+      startAt: {
+        gte: moment().subtract(1, "day").toDate(),
+      },
+    },
+    orderBy: { startAt: "desc" },
+    include: {
+      Channel: true,
+      Colabs: {
+        select: {
+          Channel: true,
+        },
+      },
     },
   })
 
@@ -50,18 +82,46 @@ export const getCurrentVideoListItems = () =>
     select: { id: true },
   })
 
-export const upsertVideo = (video: Omit<Video, "updatedAt">) => {
+export const upsertVideo = async (
+  video: Omit<Video, "updatedAt">,
+  colabs?: Channel[],
+) => {
   if (video.channelId === "UC3G2QylAJ8NN3_ZzrPV6vzg")
     video.channelId = "UCp6993wxpyDPHUpavwDFqgg" // ときのそら
   return db.video.upsert({
     where: { id: video.id },
-    create: video,
-    update: video,
+    create: {
+      ...video,
+      Colabs: {
+        create: colabs?.map(c => ({ channelId: c.id })),
+      },
+    },
+    update: {
+      ...video,
+      Colabs: {
+        connectOrCreate: colabs?.map(c => ({
+          where: {
+            videoId_channelId: { videoId: video.id, channelId: c.id },
+          },
+          create: { channelId: c.id },
+        })),
+      },
+    },
   })
 }
 
-export const upsertVideos = (videos: Omit<Video, "updatedAt">[]) =>
-  Promise.all(map(upsertVideo, videos))
+const withColabs = (channels: Channel[]) => (video: Video) => ({
+  video,
+  colabs: channelsInText(video.description || "", channels),
+})
+export const upsertVideos = async (videos: Video[]) => {
+  const channels = await getAllChannels()
+  return Promise.all(
+    map(withColabs(channels))(videos).map(({ video, colabs }) =>
+      upsertVideo(video, colabs),
+    ),
+  )
+}
 
 export const deleteVideos = (ids: string[]) =>
   db.video.deleteMany({ where: { id: { in: ids } } })
