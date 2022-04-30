@@ -1,10 +1,10 @@
 import { RatioImage } from "./ratio-image"
 import { Text, Badge, Box, Link } from "@chakra-ui/react"
 import moment from "moment"
-import type { Channel, Video } from "@prisma/client"
+import type { VideoWithChannel } from "~/models/video.server"
 
 type Props = {
-  video: Video & { channel: Channel }
+  video: VideoWithChannel
 }
 
 const liveStatus = (status: string) => {
@@ -50,8 +50,8 @@ export const VideoView = ({ video }: Props) => {
     title: video.title,
     liveStatus: liveStatus(video.liveStatus || "none"),
     statusColor: statusColor(video.liveStatus || "none"),
-    channelId: video.channel.id,
-    channelTitle: video.channel.title.replace(channelRegex, ""),
+    channelId: video.channelId,
+    channelTitle: video.channel?.title.replace(channelRegex, ""),
     scheduledAt: video.scheduledAt,
     scheduleDiff: scheduleDiff(video.scheduledAt || new Date()),
   }

@@ -34,10 +34,11 @@ const itemToVideo = (channelId: string, item: FeedItem) =>
     publishedAt: new Date(item.pubDate),
   } as Video)
 
-const curriedItemToVideo = (channelId: string) => curry(itemToVideo)(channelId)
+const curriedItemToVideo = (channelId: string) => (item: FeedItem) =>
+  itemToVideo(channelId, item)
 
-const fetchChannelFeed = (channelId: string) =>
+const getChannelFeed = (channelId: string) =>
   pipe(parseFeed, andThen(map(curriedItemToVideo(channelId))))(channelId)
 
-export const fetchChannelFeeds = (channelIds: string[]) =>
-  Promise.all(map(fetchChannelFeed)(channelIds)).then(r => flatten(r))
+export const getChannelsFeed = (channelIds: string[]) =>
+  Promise.all(map(getChannelFeed)(channelIds))

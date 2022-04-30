@@ -1,0 +1,14 @@
+on:
+  schedule:
+    - cron: "* * * * *"
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: cron
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.API_KEY }}" \
+          https://holoniwa.fly.dev/videos/cron
