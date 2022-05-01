@@ -11,4 +11,4 @@ jobs:
         run: |
           curl -X POST \
           -H "Authorization: Bearer ${{ secrets.API_KEY }}" \
-          https://holoniwa.fly.dev/videos/cron
+          https://holoniwa.fly.dev/api/cron

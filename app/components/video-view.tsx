@@ -107,11 +107,11 @@ export const VideoView = ({ video }: Props) => {
         </Text>
         <Box color="gray.500" fontWeight="semibold" letterSpacing="wide">
           <Avatar size="sm" src={property.channelAvatar || ""} />
-          {property.colabs.map(colab => (
+          {property.colabs?.map(colab => (
             <Avatar
               size="sm"
               key={`${property.videoId}_${property.channelId}`}
-              src={colab.Channel.thumbnail || ""}
+              src={colab.Channel?.thumbnail || ""}
             />
           ))}
         </Box>

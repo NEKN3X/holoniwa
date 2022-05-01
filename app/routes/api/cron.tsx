@@ -1,4 +1,4 @@
-import { getChannelsFeed } from "~/lib/rss"
+import { getVideosFeeds } from "~/lib/feed"
 import { getYouTubeVideos } from "~/lib/youtube"
 import { getChannels } from "~/models/channel.server"
 import { deleteVideos, getVideos, upsertVideo } from "~/models/video.server"
@@ -13,13 +13,13 @@ import type { ActionFunction } from "@remix-run/server-runtime"
 export const action: ActionFunction = async ({ request }) => {
   const auth = request.headers.get("Authorization")
   if (auth !== `Bearer ${process.env.API_KEY}`)
-    return json({ error: "Unauthorized" })
+    return json({ error: "Unauthorized" }, 401)
 
   const channels = getChannels({})
   const feedIds = pipe(
     channels,
     TE.map(RA.map(c => c.id)),
-    TE.map(getChannelsFeed),
+    TE.map(getVideosFeeds),
     TE.flatten,
     TE.map(RA.map(v => v.id)),
   )
@@ -64,7 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
       RA.difference(Eq)(updating, updatedIds),
     ),
   )
-  const upsertedVideos = pipe(
+  const upsertedVideos = await pipe(
     updatedVideos,
     TE.map(
       RA.map(u =>
@@ -77,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
     ),
     TE.map(TE.sequenceArray),
     TE.flatten,
-  )
+  )()
   const deletedVideos = await pipe(
     deletingIds,
     TE.map(d =>
@@ -86,13 +86,11 @@ export const action: ActionFunction = async ({ request }) => {
       }),
     ),
     TE.flatten,
-  )
+  )()
 
-  const data = await upsertedVideos()
-  if (E.isLeft(data)) return json({ error: data.left })
+  if (E.isLeft(upsertedVideos)) return json({ error: upsertedVideos.left })
 
-  const deleted = await deletedVideos()
-  if (E.isLeft(deleted)) return json({ error: deleted.left })
+  if (E.isLeft(deletedVideos)) return json({ error: deletedVideos.left })
 
-  return json(data.right)
+  return json(upsertedVideos.right)
 }

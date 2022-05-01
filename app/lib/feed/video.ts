@@ -1,10 +1,11 @@
-import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
 import Parser from "rss-parser"
 import type { Video } from "@prisma/client"
 
-type VideosFeedItem = {
+const videosFeedParser: Parser<VideosFeed, VideosFeedItem> = new Parser()
+
+export type VideosFeedItem = {
   title: string
   link: string
   author: string
@@ -12,16 +13,14 @@ type VideosFeedItem = {
   id: string
 }
 
-type VideosFeed = {
+export type VideosFeed = {
   url: string
   title: string
   link: string
   author: string
 }
 
-const videosFeedParser: Parser<VideosFeed, VideosFeedItem> = new Parser()
-
-const parseVideosFeed = (
+export const parseVideosFeed = (
   channelId: string,
 ): TE.TaskEither<Error, readonly VideosFeedItem[]> =>
   pipe(
@@ -36,22 +35,15 @@ const parseVideosFeed = (
     ),
   )
 
-const itemToVideo = (channelId: string, item: VideosFeedItem) =>
-  ({
+const _convertVideosFeedItem = (channelId: string, item: VideosFeedItem) => {
+  return {
     id: item.id.replace(/yt:video:/, ""),
     title: item.title,
     channelId,
     publishedAt: new Date(item.pubDate),
-  } as Video)
+  } as Video
+}
 
-const curriedItemToVideo = (channelId: string) => (item: VideosFeedItem) =>
-  itemToVideo(channelId, item)
-
-const getChannelFeed = (channelId: string) =>
-  pipe(
-    parseVideosFeed(channelId),
-    TE.map(RA.map(curriedItemToVideo(channelId))),
-  )
-
-export const getChannelsFeed = (channelIds: readonly string[]) =>
-  pipe(channelIds, RA.map(getChannelFeed), TE.sequenceArray, TE.map(RA.flatten))
+export const convertVideosFeedItem =
+  (channelId: string) => (item: VideosFeedItem) =>
+    _convertVideosFeedItem(channelId, item)

@@ -1,20 +1,13 @@
+import { youtube } from "./client"
 import * as E from "fp-ts/lib/Either"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
-import { google } from "googleapis"
 import moment from "moment"
 import type { Video } from "@prisma/client"
 import type { youtube_v3 } from "googleapis"
 
-const API_KEY = process.env.YOUTUBE_API_KEY ?? ""
-
-const youtube = google.youtube({
-  version: "v3",
-  auth: API_KEY,
-})
-
-const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
+export const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
   const snippet = item.snippet!
   const status = item.status!
   const liveStreamingDetails = item.liveStreamingDetails
@@ -48,7 +41,7 @@ const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
   )
 }
 
-const youtubeVideosList = (videoIds: readonly string[]) =>
+export const youtubeVideoList = (videoIds: readonly string[]) =>
   pipe(
     TE.tryCatch(
       () =>
@@ -66,15 +59,4 @@ const youtubeVideosList = (videoIds: readonly string[]) =>
           .then(r => r.data.items!),
       e => new Error(`${e}`),
     ),
-    TE.map(RA.map(convertYouTubeVideo)),
-    TE.map(E.sequenceArray),
-    TE.map(TE.fromEither),
-    TE.flatten,
-  )
-
-export const getYouTubeVideos = (videoIds: readonly string[]) =>
-  pipe(
-    RA.map(youtubeVideosList)(RA.chunksOf(50)(videoIds)),
-    TE.sequenceArray,
-    TE.map(RA.flatten),
   )
