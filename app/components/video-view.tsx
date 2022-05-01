@@ -106,9 +106,12 @@ export const VideoView = ({ video }: Props) => {
           <HStack>
             <Box w="100%" h="8">
               <AvatarGroup size="sm" max={5}>
-                <Link href="http://localhost:3000/channels">
-                  <Avatar size="sm" src={property.channelAvatar || ""} />
-                </Link>
+                <Avatar
+                  size="sm"
+                  src={property.channelAvatar || ""}
+                  as="a"
+                  href={`http://localhost:3000/channels/${property.channelId}`}
+                />
                 {property.colabs?.map(colab => (
                   <Avatar
                     size="sm"

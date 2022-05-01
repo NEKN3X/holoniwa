@@ -7,18 +7,29 @@ import * as E from "fp-ts/lib/Either"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
-import { Eq } from "fp-ts/lib/string"
+import { Eq, includes } from "fp-ts/lib/string"
 import type { ActionFunction } from "@remix-run/server-runtime"
+import type { Channel } from "~/models/channel.server"
+
+const channelsInText = (channels: readonly Channel[]) => (text: string) =>
+  pipe(
+    channels,
+    RA.filter(c => includes(`@${c.title}`)(text) || includes(c.id)(text)),
+  )
 
 export const action: ActionFunction = async ({ request }) => {
   const auth = request.headers.get("Authorization")
   if (auth !== `Bearer ${process.env.API_KEY}`)
     return json({ error: "Unauthorized" }, 401)
 
-  const channels = getChannels({})
+  const maybeChannels = await getChannels({})()
+  if (E.isLeft(maybeChannels)) return json({ error: "No channels" }, 500)
+  const channels = maybeChannels.right
+
   const feedIds = pipe(
     channels,
-    TE.map(RA.map(c => c.id)),
+    RA.map(c => c.id),
+    TE.right,
     TE.map(getVideosFeeds),
     TE.flatten,
     TE.map(RA.map(v => v.id)),
@@ -70,8 +81,42 @@ export const action: ActionFunction = async ({ request }) => {
       RA.map(u =>
         upsertVideo({
           where: { id: u.id },
-          create: u,
-          update: u,
+          create: {
+            ...u,
+            Colabs: {
+              create: pipe(
+                pipe(channels, channelsInText)(u.description || ""),
+                RA.map(c => c.id),
+                RA.difference(Eq)([u.channelId, "UCJFZiqLMntJufDCHc6bQixg"]),
+                RA.map(c => ({
+                  channelId: c,
+                })),
+                RA.toArray,
+              ),
+            },
+          },
+          update: {
+            ...u,
+            Colabs: {
+              connectOrCreate: pipe(
+                pipe(channels, channelsInText)(u.description || ""),
+                RA.map(c => c.id),
+                RA.difference(Eq)([u.channelId, "UCJFZiqLMntJufDCHc6bQixg"]),
+                RA.map(c => ({
+                  where: {
+                    videoId_channelId: {
+                      videoId: u.id,
+                      channelId: c,
+                    },
+                  },
+                  create: {
+                    channelId: c,
+                  },
+                })),
+                RA.toArray,
+              ),
+            },
+          },
         }),
       ),
     ),
