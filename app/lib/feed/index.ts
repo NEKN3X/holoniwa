@@ -5,7 +5,8 @@ import { pipe } from "fp-ts/lib/function"
 
 export const getVideosFeed = (channelId: string) =>
   pipe(
-    parseVideosFeed(channelId),
+    channelId,
+    parseVideosFeed,
     TE.map(RA.map(convertVideosFeedItem(channelId))),
   )
 

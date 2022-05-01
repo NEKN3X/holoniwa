@@ -1,6 +1,8 @@
 import { db } from "~/db.server"
+import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
+import * as S from "fp-ts/lib/string"
 import type { Channel, Prisma, Video } from "@prisma/client"
 
 export type { Channel } from "@prisma/client"
@@ -49,3 +51,11 @@ export const upsertChannel = (
     ),
     TE.flatten,
   )
+
+export const channelsInText =
+  (channels: readonly Channel[]) => (text: string) =>
+    pipe(
+      channels,
+      RA.filter(c => S.includes(`@${c.title}`)(text) || S.includes(c.id)(text)),
+      RA.map(c => c.id),
+    )
