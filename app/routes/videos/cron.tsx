@@ -3,13 +3,11 @@ import { getYouTubeVideos } from "~/lib/youtube"
 import { getChannels } from "~/models/channel.server"
 import { deleteVideos, getVideos, upsertVideo } from "~/models/video.server"
 import { json } from "@remix-run/server-runtime"
-import { difference, union } from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
 import { Eq } from "fp-ts/lib/string"
-import { pluck } from "ramda"
 import type { ActionFunction } from "@remix-run/server-runtime"
 
 export const action: ActionFunction = async ({ request }) => {
@@ -17,30 +15,30 @@ export const action: ActionFunction = async ({ request }) => {
   if (auth !== `Bearer ${process.env.API_KEY}`)
     return json({ error: "Unauthorized" })
 
-  const channels = await getChannels({})()
-  const feeds = await pipe(
+  const channels = getChannels({})
+  const feedIds = pipe(
     channels,
-    E.map(pluck("id")),
-    E.map(getChannelsFeed),
-    TE.fromEither,
+    TE.map(RA.map(c => c.id)),
+    TE.map(getChannelsFeed),
     TE.flatten,
-    TE.map(RA.toArray),
-    TE.map(pluck("id")),
-  )()
-  const existing = await pipe(
-    feeds,
-    TE.fromEither,
-    TE.map(f => getVideos({ where: { id: { in: f } }, select: { id: true } })),
+    TE.map(RA.map(v => v.id)),
+  )
+  const existingIds = pipe(
+    feedIds,
+    TE.map(f =>
+      getVideos({ where: { id: { in: RA.toArray(f) } }, select: { id: true } }),
+    ),
     TE.flatten,
-    TE.map(pluck("id")),
-  )()
+    TE.map(RA.map(v => v.id)),
+  )
   const newIds = pipe(
-    existing,
-    E.map(e => pipe(feeds, E.map(difference(Eq)(e)))),
-    E.flatten,
+    TE.Do,
+    TE.bind("existing", () => existingIds),
+    TE.bind("feeds", () => feedIds),
+    TE.map(({ existing, feeds }) => RA.difference(Eq)(feeds, existing)),
   )
 
-  const current = await pipe(
+  const currentIds = pipe(
     getVideos({
       where: {
         liveStatus: {
@@ -48,39 +46,27 @@ export const action: ActionFunction = async ({ request }) => {
         },
       },
     }),
-    TE.map(pluck("id")),
-  )()
-  const updating = pipe(
-    newIds,
-    E.map(n =>
-      pipe(
-        current,
-        E.map(c => union(Eq)(c, n)),
-      ),
-    ),
-    E.flatten,
+    TE.map(RA.map(v => v.id)),
   )
-  const updated = await pipe(
-    updating,
-    E.map(getYouTubeVideos),
-    TE.fromEither,
-    TE.flatten,
-  )()
-  const deleting = pipe(
-    updating,
-    E.map(u =>
-      pipe(
-        updated,
-        E.map(RA.toArray),
-        E.map(pluck("id")),
-        E.map(c => difference(Eq)(u, c)),
-      ),
-    ),
-    E.flatten,
+  const updatingIds = pipe(
+    TE.Do,
+    TE.bind("newIds", () => newIds),
+    TE.bind("current", () => currentIds),
+    TE.map(({ newIds, current }) => RA.union(Eq)(newIds, current)),
   )
-  const data = await pipe(
-    updated,
-    E.map(
+  const updatedVideos = pipe(updatingIds, TE.map(getYouTubeVideos), TE.flatten)
+  const updatedIds = pipe(updatedVideos, TE.map(RA.map(v => v.id)))
+  const deletingIds = pipe(
+    TE.Do,
+    TE.bind("updating", () => updatingIds),
+    TE.bind("updatedIds", () => updatedIds),
+    TE.map(({ updating, updatedIds }) =>
+      RA.difference(Eq)(updating, updatedIds),
+    ),
+  )
+  const upsertedVideos = pipe(
+    updatedVideos,
+    TE.map(
       RA.map(u =>
         upsertVideo({
           where: { id: u.id },
@@ -89,30 +75,24 @@ export const action: ActionFunction = async ({ request }) => {
         }),
       ),
     ),
-    E.map(TE.sequenceArray),
-    TE.fromEither,
+    TE.map(TE.sequenceArray),
     TE.flatten,
-  )()
-  const deleted = await pipe(
-    deleting,
-    E.map(d =>
+  )
+  const deletedVideos = await pipe(
+    deletingIds,
+    TE.map(d =>
       deleteVideos({
-        where: { id: { in: d } },
+        where: { id: { in: RA.toArray(d) } },
       }),
     ),
-    TE.fromEither,
     TE.flatten,
-  )()
+  )
 
-  if (E.isLeft(newIds)) return json({ error: newIds.left })
-  if (E.isLeft(updated)) return json({ error: updated.left })
-  if (E.isLeft(deleted)) return json({ error: deleted.left })
-
-  console.log(`newfeed: ${newIds.right.length}`)
-  console.log(`updated: ${updated.right.length}`)
-  console.log(`deleted: ${deleted.right.count}`)
-
+  const data = await upsertedVideos()
   if (E.isLeft(data)) return json({ error: data.left })
+
+  const deleted = await deletedVideos()
+  if (E.isLeft(deleted)) return json({ error: deleted.left })
 
   return json(data.right)
 }

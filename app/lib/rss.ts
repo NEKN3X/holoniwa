@@ -1,4 +1,3 @@
-import { map } from "fp-ts/lib/Array"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
@@ -24,7 +23,7 @@ const videosFeedParser: Parser<VideosFeed, VideosFeedItem> = new Parser()
 
 const parseVideosFeed = (
   channelId: string,
-): TE.TaskEither<Error, VideosFeedItem[]> =>
+): TE.TaskEither<Error, readonly VideosFeedItem[]> =>
   pipe(
     TE.tryCatch(
       () =>
@@ -49,7 +48,10 @@ const curriedItemToVideo = (channelId: string) => (item: VideosFeedItem) =>
   itemToVideo(channelId, item)
 
 const getChannelFeed = (channelId: string) =>
-  pipe(parseVideosFeed(channelId), TE.map(map(curriedItemToVideo(channelId))))
+  pipe(
+    parseVideosFeed(channelId),
+    TE.map(RA.map(curriedItemToVideo(channelId))),
+  )
 
-export const getChannelsFeed = (channelIds: string[]) =>
-  pipe(channelIds, map(getChannelFeed), TE.sequenceArray, TE.map(RA.flatten))
+export const getChannelsFeed = (channelIds: readonly string[]) =>
+  pipe(channelIds, RA.map(getChannelFeed), TE.sequenceArray, TE.map(RA.flatten))

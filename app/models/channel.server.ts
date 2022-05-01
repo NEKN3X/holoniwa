@@ -24,7 +24,7 @@ export const getChannel = (
 
 export const getChannels = (
   args: Prisma.ChannelFindManyArgs,
-): TE.TaskEither<Error, ChannelWithRelations[]> =>
+): TE.TaskEither<Error, readonly ChannelWithRelations[]> =>
   pipe(
     TE.tryCatch(
       () =>

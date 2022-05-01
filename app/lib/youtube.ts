@@ -1,4 +1,3 @@
-import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
@@ -49,13 +48,13 @@ const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
   )
 }
 
-const youtubeVideosList = (videoIds: string[]) =>
+const youtubeVideosList = (videoIds: readonly string[]) =>
   pipe(
     TE.tryCatch(
       () =>
         youtube.videos
           .list({
-            id: videoIds,
+            id: RA.toArray(videoIds),
             part: [
               "snippet",
               "status",
@@ -67,15 +66,15 @@ const youtubeVideosList = (videoIds: string[]) =>
           .then(r => r.data.items!),
       e => new Error(`${e}`),
     ),
-    TE.map(A.map(convertYouTubeVideo)),
+    TE.map(RA.map(convertYouTubeVideo)),
     TE.map(E.sequenceArray),
     TE.map(TE.fromEither),
     TE.flatten,
   )
 
-export const getYouTubeVideos = (videoIds: string[]) =>
+export const getYouTubeVideos = (videoIds: readonly string[]) =>
   pipe(
-    A.map(youtubeVideosList)(A.chunksOf(50)(videoIds)),
+    RA.map(youtubeVideosList)(RA.chunksOf(50)(videoIds)),
     TE.sequenceArray,
     TE.map(RA.flatten),
   )

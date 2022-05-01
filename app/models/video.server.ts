@@ -27,7 +27,7 @@ export const getVideo = (
 
 export const getVideos = (
   args: Prisma.VideoFindManyArgs,
-): TE.TaskEither<Error, VideoWithRelations[]> =>
+): TE.TaskEither<Error, readonly VideoWithRelations[]> =>
   pipe(
     TE.tryCatch(
       () => db.video.findMany(args),
