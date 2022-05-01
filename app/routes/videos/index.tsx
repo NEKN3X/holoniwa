@@ -1,12 +1,9 @@
 import { VideoView } from "~/components/video-view"
-import {
-  getLiveVideoListItems,
-  getRecentVideoListItems,
-  getUpcomingVideoListItems,
-} from "~/models/video.server"
+import { getVideos } from "~/models/video.server"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
+import * as E from "fp-ts/lib/Either"
 import type { LoaderFunction } from "@remix-run/server-runtime"
 import type { VideoWithRelations } from "~/models/video.server"
 
@@ -15,11 +12,14 @@ type LoaderData = {
 }
 
 export const loader: LoaderFunction = async () => {
-  const live = await getLiveVideoListItems()
-  const coming = await getUpcomingVideoListItems()
-  const recent = await getRecentVideoListItems()
+  const live = await getVideos({
+    where: {
+      liveStatus: "live",
+    },
+  })()
 
-  const data = [...live, ...coming, ...recent]
+  if (E.isLeft(live)) return json({ error: "error" })
+  const data = [...live.right]
 
   return json<LoaderData>({ data })
 }

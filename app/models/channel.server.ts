@@ -1,32 +1,51 @@
 import { db } from "~/db.server"
-import { filter, test } from "ramda"
-import type { Channel } from "@prisma/client"
+import * as TE from "fp-ts/lib/TaskEither"
+import { pipe } from "fp-ts/lib/function"
+import type { Channel, Prisma, Video } from "@prisma/client"
 
 export type { Channel } from "@prisma/client"
-
-export const getChannel = ({ id }: Channel) =>
-  db.channel.findFirst({ where: { id } })
-
-export const getAllChannels = () => db.channel.findMany()
-
-export const getChannels = (ids: string[]) =>
-  db.channel.findMany({
-    where: { id: { in: ids } },
-  })
-
-export const getAllChannelIds = () =>
-  db.channel.findMany({ select: { id: true } })
-
-export const upsertChannel = (channel: Channel) =>
-  db.channel.upsert({
-    where: { id: channel.id },
-    create: channel,
-    update: channel,
-  })
-
-const testTitle = (text: string) => (target: { id: string; title: string }) =>
-  test(RegExp(`@${target.title}`), text)
-
-export const channelsInText = (text: string, channels: Channel[]) => {
-  return filter(testTitle(text))(channels)
+export type ChannelWithRelations = Channel & {
+  Videos?: Video[]
 }
+
+export const getChannel = (
+  args: Prisma.ChannelFindUniqueArgs,
+): TE.TaskEither<Error, ChannelWithRelations> =>
+  pipe(
+    TE.tryCatch(
+      () =>
+        db.channel
+          .findUnique(args)
+          .then(TE.fromNullable(new Error("Channel not found"))),
+      e => new Error(`${e}`),
+    ),
+    TE.flatten,
+  )
+
+export const getChannels = (
+  args: Prisma.ChannelFindManyArgs,
+): TE.TaskEither<Error, ChannelWithRelations[]> =>
+  pipe(
+    TE.tryCatch(
+      () =>
+        db.channel
+          .findMany(args)
+          .then(TE.fromNullable(new Error("Channel not found"))),
+      e => new Error(`${e}`),
+    ),
+    TE.flatten,
+  )
+
+export const upsertChannel = (
+  args: Prisma.ChannelUpsertArgs,
+): TE.TaskEither<Error, ChannelWithRelations> =>
+  pipe(
+    TE.tryCatch(
+      () =>
+        db.channel
+          .upsert(args)
+          .then(TE.fromNullable(new Error("Channel not found"))),
+      e => new Error(`${e}`),
+    ),
+    TE.flatten,
+  )

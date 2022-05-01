@@ -1,59 +1,81 @@
+import * as A from "fp-ts/lib/Array"
+import * as E from "fp-ts/lib/Either"
+import * as RA from "fp-ts/lib/ReadonlyArray"
+import * as TE from "fp-ts/lib/TaskEither"
+import { pipe } from "fp-ts/lib/function"
 import { google } from "googleapis"
 import moment from "moment"
-import { drop, map, take } from "ramda"
 import type { Video } from "@prisma/client"
+import type { youtube_v3 } from "googleapis"
 
 const API_KEY = process.env.YOUTUBE_API_KEY ?? ""
 
-export const youtube = google.youtube({
+const youtube = google.youtube({
   version: "v3",
   auth: API_KEY,
 })
 
-const youtubeVideos = async (videoIds: string[]) =>
-  youtube.videos
-    .list({
-      id: videoIds,
-      part: ["snippet", "status", "liveStreamingDetails", "contentDetails"],
-      regionCode: "JP",
-    })
-    .then(r => r.data.items!)
-    .then(
-      map(
-        i =>
-          ({
-            id: i.id!,
-            title: i.snippet!.title,
-            channelId: i.snippet!.channelId,
-            thumbnail: i.snippet!.thumbnails!.high?.url,
-            description: i.snippet!.description,
-            liveStatus: i.snippet!.liveBroadcastContent,
-            uploadStatus: i.status!.uploadStatus,
-            privacyStatus: i.status!.privacyStatus,
-            publishedAt:
-              i.snippet!.publishedAt && new Date(i.snippet!.publishedAt),
-            scheduledAt:
-              i.liveStreamingDetails?.scheduledStartTime &&
-              new Date(i.liveStreamingDetails.scheduledStartTime),
-            startAt:
-              i.liveStreamingDetails?.actualStartTime &&
-              new Date(i.liveStreamingDetails.actualStartTime),
-            endAt:
-              i.liveStreamingDetails?.actualEndTime &&
-              new Date(i.liveStreamingDetails.actualEndTime),
-            duration:
-              i.contentDetails?.duration &&
-              moment.duration(i.contentDetails.duration).asSeconds(),
-          } as Video),
-      ),
-    )
-
-export const getYouTubeVideos = (videoIds: string[]) => {
-  const data: Promise<Video[]>[] = []
-  data.push(youtubeVideos(take(50, videoIds)))
-  const next = drop(50, videoIds)
-  if (next.length > 0) {
-    data.push(...getYouTubeVideos(next))
-  }
-  return data
+const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
+  const snippet = item.snippet!
+  const status = item.status!
+  const liveStreamingDetails = item.liveStreamingDetails
+  const contentDetails = item.contentDetails!
+  return E.tryCatch(
+    () =>
+      ({
+        id: item.id,
+        title: snippet.title,
+        channelId: snippet.channelId,
+        thumbnail: snippet.thumbnails!.high?.url,
+        description: snippet.description,
+        liveStatus: snippet.liveBroadcastContent,
+        uploadStatus: status.uploadStatus,
+        privacyStatus: status.privacyStatus,
+        publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
+        scheduledAt:
+          liveStreamingDetails?.scheduledStartTime &&
+          new Date(liveStreamingDetails.scheduledStartTime),
+        startAt:
+          liveStreamingDetails?.actualStartTime &&
+          new Date(liveStreamingDetails.actualStartTime),
+        endAt:
+          liveStreamingDetails?.actualEndTime &&
+          new Date(liveStreamingDetails.actualEndTime),
+        duration:
+          contentDetails?.duration &&
+          moment.duration(contentDetails.duration).asSeconds(),
+      } as Video),
+    e => new Error(`${e}`),
+  )
 }
+
+const youtubeVideosList = (videoIds: string[]) =>
+  pipe(
+    TE.tryCatch(
+      () =>
+        youtube.videos
+          .list({
+            id: videoIds,
+            part: [
+              "snippet",
+              "status",
+              "liveStreamingDetails",
+              "contentDetails",
+            ],
+            regionCode: "JP",
+          })
+          .then(r => r.data.items!),
+      e => new Error(`${e}`),
+    ),
+    TE.map(A.map(convertYouTubeVideo)),
+    TE.map(E.sequenceArray),
+    TE.map(TE.fromEither),
+    TE.flatten,
+  )
+
+export const getYouTubeVideos = (videoIds: string[]) =>
+  pipe(
+    A.map(youtubeVideosList)(A.chunksOf(50)(videoIds)),
+    TE.sequenceArray,
+    TE.map(RA.flatten),
+  )

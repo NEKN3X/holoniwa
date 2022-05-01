@@ -1,8 +1,11 @@
-import { andThen, curry, flatten, map, pipe } from "ramda"
+import { map } from "fp-ts/lib/Array"
+import * as RA from "fp-ts/lib/ReadonlyArray"
+import * as TE from "fp-ts/lib/TaskEither"
+import { pipe } from "fp-ts/lib/function"
 import Parser from "rss-parser"
 import type { Video } from "@prisma/client"
 
-type FeedItem = {
+type VideosFeedItem = {
   title: string
   link: string
   author: string
@@ -10,23 +13,31 @@ type FeedItem = {
   id: string
 }
 
-type Feed = {
+type VideosFeed = {
   url: string
   title: string
   link: string
   author: string
 }
 
-const parser: Parser<Feed, FeedItem> = new Parser()
+const videosFeedParser: Parser<VideosFeed, VideosFeedItem> = new Parser()
 
-export const parseFeed = (channelId: string) =>
-  parser
-    .parseURL(
-      `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
-    )
-    .then(f => f.items.slice(0, 4) as FeedItem[])
+const parseVideosFeed = (
+  channelId: string,
+): TE.TaskEither<Error, VideosFeedItem[]> =>
+  pipe(
+    TE.tryCatch(
+      () =>
+        videosFeedParser
+          .parseURL(
+            `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
+          )
+          .then(f => f.items.slice(0, 4) as VideosFeedItem[]),
+      e => new Error(`${e}`),
+    ),
+  )
 
-const itemToVideo = (channelId: string, item: FeedItem) =>
+const itemToVideo = (channelId: string, item: VideosFeedItem) =>
   ({
     id: item.id.replace(/yt:video:/, ""),
     title: item.title,
@@ -34,11 +45,11 @@ const itemToVideo = (channelId: string, item: FeedItem) =>
     publishedAt: new Date(item.pubDate),
   } as Video)
 
-const curriedItemToVideo = (channelId: string) => (item: FeedItem) =>
+const curriedItemToVideo = (channelId: string) => (item: VideosFeedItem) =>
   itemToVideo(channelId, item)
 
 const getChannelFeed = (channelId: string) =>
-  pipe(parseFeed, andThen(map(curriedItemToVideo(channelId))))(channelId)
+  pipe(parseVideosFeed(channelId), TE.map(map(curriedItemToVideo(channelId))))
 
 export const getChannelsFeed = (channelIds: string[]) =>
-  Promise.all(map(getChannelFeed)(channelIds))
+  pipe(channelIds, map(getChannelFeed), TE.sequenceArray, TE.map(RA.flatten))
