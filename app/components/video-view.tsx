@@ -1,5 +1,14 @@
-import { RatioImage } from "./ratio-image"
-import { Text, Badge, Box, Link, Avatar } from "@chakra-ui/react"
+import {
+  Text,
+  Badge,
+  Box,
+  Link,
+  Avatar,
+  HStack,
+  AvatarGroup,
+  Image,
+  AspectRatio,
+} from "@chakra-ui/react"
 import moment from "moment"
 import { always, cond, divide, equals, gte, lte, pipe, __ } from "ramda"
 import type { VideoWithRelations } from "~/models/video.server"
@@ -70,17 +79,52 @@ export const VideoView = ({ video }: Props) => {
     scheduledAt: video.scheduledAt,
     scheduleDiff: scheduleDiff(video.scheduledAt || new Date()),
     colabs: video.Colabs,
+    badge: video.privacyStatus === "unlisted" ? "member" : "",
   }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Link
-        isExternal
-        href={`https://www.youtube.com/watch?v=${property.videoId}`}
-      >
-        <RatioImage url={property.imageUrl} alt={property.imageAlt} />
-      </Link>
+      <Box position={"relative"}>
+        <Link
+          isExternal
+          href={`https://www.youtube.com/watch?v=${property.videoId}`}
+        >
+          <AspectRatio ratio={16 / 9}>
+            <Image src={property.imageUrl} alt={property.imageAlt} />
+          </AspectRatio>
+        </Link>
+        <Box
+          position={"absolute"}
+          bottom={-4}
+          left="50%"
+          transform={"translate(-50%, -50%);"}
+          h={8}
+          w="100%"
+          bgColor="rgba(0, 0, 0, 0.6)"
+          pl={4}
+          pr={4}
+        >
+          <HStack>
+            <Box w="100%" h="8">
+              <AvatarGroup size="sm" max={5}>
+                <Link href="http://localhost:3000/channels">
+                  <Avatar size="sm" src={property.channelAvatar || ""} />
+                </Link>
+                {property.colabs?.map(colab => (
+                  <Avatar
+                    size="sm"
+                    key={`${property.videoId}_${property.channelId}`}
+                    src={colab.Channel?.thumbnail || ""}
+                  />
+                ))}
+              </AvatarGroup>
+            </Box>
+            {property.badge && <Text>{property.badge}</Text>}
+          </HStack>
+        </Box>
+      </Box>
+
       <Box p={4}>
-        <Box display="flex" alignItems="baseline">
+        <HStack>
           <Badge borderRadius="full" px="2" colorScheme={property.statusColor}>
             {property.liveStatus}
           </Badge>
@@ -94,9 +138,9 @@ export const VideoView = ({ video }: Props) => {
           >
             {property.scheduleDiff}
           </Box>
-        </Box>
+        </HStack>
         <Text
-          mt="1"
+          mt={2}
           fontSize="xs"
           fontWeight="semibold"
           isTruncated
@@ -105,16 +149,6 @@ export const VideoView = ({ video }: Props) => {
         >
           {property.title}
         </Text>
-        <Box color="gray.500" fontWeight="semibold" letterSpacing="wide">
-          <Avatar size="sm" src={property.channelAvatar || ""} />
-          {property.colabs?.map(colab => (
-            <Avatar
-              size="sm"
-              key={`${property.videoId}_${property.channelId}`}
-              src={colab.Channel?.thumbnail || ""}
-            />
-          ))}
-        </Box>
       </Box>
     </Box>
   )
