@@ -1,12 +1,13 @@
 import { youtube } from "./client"
-import * as E from "fp-ts/lib/Either"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { E, RA, TE } from "~/utils/fp-ts"
 import { pipe } from "fp-ts/lib/function"
 import type { Channel } from "@prisma/client"
 import type { youtube_v3 } from "googleapis"
+import type { Immutable } from "immer"
 
-export const convertYouTubeChannel = (item: youtube_v3.Schema$Channel) => {
+export const convertYouTubeChannel = (
+  item: Immutable<youtube_v3.Schema$Channel>,
+) => {
   const snippet = item.snippet!
 
   return E.tryCatch(
@@ -18,7 +19,7 @@ export const convertYouTubeChannel = (item: youtube_v3.Schema$Channel) => {
         thumbnail: snippet.thumbnails!.high?.url,
         publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
       } as Channel),
-    e => new Error(`${e}`),
+    e => new Error(`Failed to convert YouTube channel`),
   )
 }
 
@@ -32,6 +33,6 @@ export const youtubeChannelList = (channelIds: readonly string[]) =>
             part: ["snippet"],
           })
           .then(r => r.data.items!),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get YouTube channel list`),
     ),
   )

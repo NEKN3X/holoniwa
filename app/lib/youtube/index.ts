@@ -1,8 +1,6 @@
 import { convertYouTubeChannel, youtubeChannelList } from "./channel"
 import { convertYouTubeVideo, youtubeVideoList } from "./video"
-import * as E from "fp-ts/lib/Either"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { E, RA, TE } from "~/utils/fp-ts"
 import { flow, pipe } from "fp-ts/lib/function"
 
 export const getYouTubeChannels = (channelIds: readonly string[]) =>

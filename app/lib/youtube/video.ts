@@ -1,13 +1,14 @@
 import { youtube } from "./client"
-import * as E from "fp-ts/lib/Either"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { E, RA, TE } from "~/utils/fp-ts"
 import { pipe } from "fp-ts/lib/function"
 import moment from "moment"
 import type { Video } from "@prisma/client"
 import type { youtube_v3 } from "googleapis"
+import type { Immutable } from "immer"
 
-export const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
+export const convertYouTubeVideo = (
+  item: Immutable<youtube_v3.Schema$Video>,
+) => {
   const snippet = item.snippet!
   const status = item.status!
   const liveStreamingDetails = item.liveStreamingDetails
@@ -37,7 +38,7 @@ export const convertYouTubeVideo = (item: youtube_v3.Schema$Video) => {
           contentDetails?.duration &&
           moment.duration(contentDetails.duration).asSeconds(),
       } as Video),
-    e => new Error(`${e}`),
+    e => new Error(`Failed to convert YouTube video`),
   )
 }
 
@@ -57,6 +58,6 @@ export const youtubeVideoList = (videoIds: readonly string[]) =>
             regionCode: "JP",
           })
           .then(r => r.data.items!),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get YouTube video list`),
     ),
   )

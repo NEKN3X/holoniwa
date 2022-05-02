@@ -1,53 +1,49 @@
 import { db } from "~/db.server"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { RA, S, TE } from "~/utils/fp-ts"
 import { pipe } from "fp-ts/lib/function"
-import * as S from "fp-ts/lib/string"
-import type { Channel, Prisma, Video } from "@prisma/client"
+import type { Channel as _Channel, Prisma } from "@prisma/client"
+import type { Immutable } from "immer"
 
-export type { Channel } from "@prisma/client"
-export type ChannelWithRelations = Channel & {
-  Videos?: Video[]
-}
+export type Channel = Immutable<_Channel>
 
 export const getChannel = (
   args: Prisma.ChannelFindUniqueArgs,
-): TE.TaskEither<Error, ChannelWithRelations> =>
+): TE.TaskEither<Error, Channel> =>
   pipe(
     TE.tryCatch(
       () =>
         db.channel
           .findUnique(args)
           .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get channel`),
     ),
     TE.flatten,
   )
 
 export const getChannels = (
   args: Prisma.ChannelFindManyArgs,
-): TE.TaskEither<Error, readonly ChannelWithRelations[]> =>
+): TE.TaskEither<Error, readonly Channel[]> =>
   pipe(
     TE.tryCatch(
       () =>
         db.channel
           .findMany(args)
           .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get channels`),
     ),
     TE.flatten,
   )
 
 export const upsertChannel = (
   args: Prisma.ChannelUpsertArgs,
-): TE.TaskEither<Error, ChannelWithRelations> =>
+): TE.TaskEither<Error, Channel> =>
   pipe(
     TE.tryCatch(
       () =>
         db.channel
           .upsert(args)
           .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to upsert channel`),
     ),
     TE.flatten,
   )

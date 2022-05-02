@@ -1,15 +1,15 @@
 import { VideoView } from "~/components/video-view"
 import { getVideos } from "~/models/video.server"
+import { E } from "~/utils/fp-ts"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
-import * as E from "fp-ts/lib/Either"
 import moment from "moment"
 import type { LoaderFunction } from "@remix-run/server-runtime"
-import type { VideoWithRelations } from "~/models/video.server"
+import type { Video } from "~/models/video.server"
 
 type LoaderData = {
-  data: VideoWithRelations[]
+  videos: Video[]
 }
 
 const option = {
@@ -72,16 +72,16 @@ export const loader: LoaderFunction = async () => {
   if (E.isLeft(coming)) return json({ error: coming.left })
   if (E.isLeft(archive)) return json({ error: archive.left })
 
-  const data = [...live.right, ...coming.right, ...archive.right]
+  const videos = [...live.right, ...coming.right, ...archive.right]
 
-  return json<LoaderData>({ data })
+  return json<LoaderData>({ videos })
 }
 
 export default function JokesIndexRoute() {
   const data = useLoaderData<LoaderData>()
   return (
     <SimpleGrid minChildWidth={240} spacing={4}>
-      {data.data.map(video => (
+      {data.videos.map(video => (
         <Box key={video.id}>
           <VideoView video={video} />
         </Box>

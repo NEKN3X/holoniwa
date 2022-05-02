@@ -11,10 +11,10 @@ import {
 } from "@chakra-ui/react"
 import moment from "moment"
 import { always, cond, divide, equals, gte, lte, pipe, __ } from "ramda"
-import type { VideoWithRelations } from "~/models/video.server"
+import type { Video } from "~/models/video.server"
 
 type Props = {
-  video: VideoWithRelations
+  video: Video
 }
 
 const statusText = cond([

@@ -1,38 +1,33 @@
 import { db } from "~/db.server"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { RA, TE } from "~/utils/fp-ts"
 import { pipe } from "fp-ts/lib/function"
-import type { Channel, Prisma, Video } from "@prisma/client"
+import type { Channel } from "./channel.server"
+import type { Prisma, Video as _Video } from "@prisma/client"
+import type { Immutable } from "immer"
 
-export type { Video } from "@prisma/client"
-export type VideoWithRelations = Video & {
-  Channel?: Channel
-  Colabs?: {
-    Channel: Channel
-  }[]
-}
+export type Video = Immutable<_Video>
 
 export const getVideo = (
   args: Prisma.VideoFindUniqueArgs,
-): TE.TaskEither<Error, VideoWithRelations> =>
+): TE.TaskEither<Error, Video> =>
   pipe(
     TE.tryCatch(
       () =>
         db.video
           .findUnique(args)
           .then(TE.fromNullable(new Error("Video not found"))),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get video`),
     ),
     TE.flatten,
   )
 
 export const getVideos = (
   args: Prisma.VideoFindManyArgs,
-): TE.TaskEither<Error, readonly VideoWithRelations[]> =>
+): TE.TaskEither<Error, readonly Video[]> =>
   pipe(
     TE.tryCatch(
       () => db.video.findMany(args),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to get videos`),
     ),
   )
 
@@ -76,7 +71,7 @@ export const upsertVideo = (
             ...withUpdateColabs,
           },
         }),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to upsert video`),
     ),
   )
 }
@@ -88,6 +83,6 @@ export const deleteVideos = (videoIds: readonly Video["id"][]) =>
         db.video.deleteMany({
           where: { id: { in: RA.toArray(videoIds) } },
         }),
-      e => new Error(`${e}`),
+      e => new Error(`Failed to delete videos`),
     ),
   )

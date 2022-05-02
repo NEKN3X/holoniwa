@@ -1,13 +1,16 @@
 import { getYouTubeChannels } from "~/lib/youtube"
 import { upsertChannel } from "~/models/channel.server"
+import { E, RA, TE } from "~/utils/fp-ts"
 import { json } from "@remix-run/server-runtime"
-import * as E from "fp-ts/lib/Either"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
 import type { ActionFunction } from "@remix-run/server-runtime"
+import type { Channel } from "~/models/channel.server"
 
-export const action: ActionFunction = async ({ request, params }) => {
+type ActionData = {
+  channels: readonly Channel[]
+}
+
+export const action: ActionFunction = async ({ request }) => {
   const auth = request.headers.get("Authorization")
   if (auth !== `Bearer ${process.env.API_KEY}`)
     return json({ error: "Unauthorized" }, 401)
@@ -37,5 +40,5 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (E.isLeft(upsertedChannel))
     return json({ error: upsertedChannel.left }, 400)
 
-  return json(upsertedChannel.right)
+  return json<ActionData>({ channels: upsertedChannel.right })
 }

@@ -1,6 +1,5 @@
 import { convertVideosFeedItem, parseVideosFeed } from "./video"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
+import { RA, TE } from "~/utils/fp-ts"
 import { pipe } from "fp-ts/lib/function"
 
 export const getVideosFeed = (channelId: string) =>

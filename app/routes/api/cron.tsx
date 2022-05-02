@@ -2,13 +2,15 @@ import { getVideosFeeds } from "~/lib/feed"
 import { getYouTubeVideos } from "~/lib/youtube"
 import { channelsInText, getChannels } from "~/models/channel.server"
 import { deleteVideos, getVideos, upsertVideo } from "~/models/video.server"
+import { E, RA, S, TE } from "~/utils/fp-ts"
 import { json } from "@remix-run/server-runtime"
-import * as E from "fp-ts/lib/Either"
-import * as RA from "fp-ts/lib/ReadonlyArray"
-import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
-import * as S from "fp-ts/lib/string"
 import type { ActionFunction } from "@remix-run/server-runtime"
+import type { Video } from "~/models/video.server"
+
+type ActionData = {
+  videos: readonly Video[]
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const auth = request.headers.get("Authorization")
@@ -132,5 +134,5 @@ export const action: ActionFunction = async ({ request }) => {
   console.log(`${upsertedVideos.right.length} videos updated`)
   console.log(`${deletedVideos.right.count} videos deleted`)
 
-  return json(upsertedVideos.right)
+  return json<ActionData>({ videos: upsertedVideos.right })
 }
