@@ -43,8 +43,8 @@ model Channel {
 model Colab {
   videoId   String
   channelId String
-  Video     Video   @relation(fields: [videoId], references: [id])
-  Channel   Channel @relation(fields: [channelId], references: [id])
+  Video     Video   @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  Channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
   @@id([videoId, channelId])
 }
