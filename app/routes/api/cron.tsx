@@ -72,10 +72,8 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: maybeCurrentIds.left }, 500)
   const currentIds = maybeCurrentIds.right
 
-  // 新規の動画とstatusがnoneでない動画を更新
-  const updatingIds = RA.union(S.Eq)(newIds, currentIds)
-
   // YouTubeAPIから最新の動画情報を取得
+  const updatingIds = RA.union(S.Eq)(newIds, currentIds)
   const maybeUpdatedVideos = await pipe(
     updatingIds,
     TE.right,
@@ -90,60 +88,20 @@ export const action: ActionFunction = async ({ request }) => {
     RA.map(v => v.id),
   )
 
-  // YouTubeAPIから取得できなかった動画を削除
-  const deletingIds = RA.difference(S.Eq)(updatingIds, updatedIds)
-
   // DBを更新
   const upsertedVideos = await pipe(
     updatedVideos,
-    RA.map(u =>
-      upsertVideo({
-        where: { id: u.id },
-        create: {
-          ...u,
-          Colabs: {
-            create: pipe(
-              pipe(channels, channelsInText)(u.description || ""),
-              RA.difference(S.Eq)([u.channelId, "UCJFZiqLMntJufDCHc6bQixg"]),
-              RA.map(c => ({
-                channelId: c,
-              })),
-              RA.toArray,
-            ),
-          },
-        },
-        update: {
-          ...u,
-          Colabs: {
-            connectOrCreate: pipe(
-              pipe(channels, channelsInText)(u.description || ""),
-              RA.difference(S.Eq)([u.channelId, "UCJFZiqLMntJufDCHc6bQixg"]),
-              RA.map(c => ({
-                where: {
-                  videoId_channelId: {
-                    videoId: u.id,
-                    channelId: c,
-                  },
-                },
-                create: {
-                  channelId: c,
-                },
-              })),
-              RA.toArray,
-            ),
-          },
-        },
-      }),
-    ),
+    RA.map(u => ({
+      video: u,
+      colabs: channelsInText(channels)(u.description || ""),
+    })),
+    RA.map(({ video, colabs }) => upsertVideo(video, colabs)),
     TE.sequenceArray,
   )()
 
-  // DBから削除
-  const deletedVideos = await pipe(deletingIds, RA.toArray, d =>
-    deleteVideos({
-      where: { id: { in: d } },
-    }),
-  )()
+  // YouTubeAPIから取得できなかった動画を削除
+  const deletingIds = RA.difference(S.Eq)(updatingIds, updatedIds)
+  const deletedVideos = await pipe(deletingIds, deleteVideos)()
 
   if (E.isLeft(upsertedVideos)) return json({ error: upsertedVideos.left })
 

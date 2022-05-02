@@ -53,7 +53,7 @@ export const upsertChannel = (
   )
 
 export const channelsInText =
-  (channels: readonly Channel[]) => (text: string) =>
+  (channels: readonly Pick<Channel, "id" | "title">[]) => (text: string) =>
     pipe(
       channels,
       RA.filter(c => S.includes(`@${c.title}`)(text) || S.includes(c.id)(text)),

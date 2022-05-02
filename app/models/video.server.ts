@@ -1,4 +1,5 @@
 import { db } from "~/db.server"
+import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as TE from "fp-ts/lib/TaskEither"
 import { pipe } from "fp-ts/lib/function"
 import type { Channel, Prisma, Video } from "@prisma/client"
@@ -35,20 +36,58 @@ export const getVideos = (
     ),
   )
 
-// if (video.channelId === "UC3G2QylAJ8NN3_ZzrPV6vzg")
-//   video.channelId = "UCp6993wxpyDPHUpavwDFqgg"
-export const upsertVideo = (args: Prisma.VideoUpsertArgs) =>
-  pipe(
+export const upsertVideo = (
+  video: Video,
+  colabs?: readonly Channel["id"][],
+) => {
+  const withCreateColabs = colabs && {
+    Colabs: {
+      createMany: {
+        data: colabs.map(c => ({ channelId: c })),
+      },
+    },
+  }
+  const withUpdateColabs = colabs && {
+    Colabs: {
+      connectOrCreate: colabs.map(c => ({
+        where: {
+          videoId_channelId: {
+            videoId: video.id,
+            channelId: c,
+          },
+        },
+        create: {
+          channelId: c,
+        },
+      })),
+    },
+  }
+  return pipe(
     TE.tryCatch(
-      () => db.video.upsert(args),
+      () =>
+        db.video.upsert({
+          where: { id: video.id },
+          create: {
+            ...video,
+            ...withCreateColabs,
+          },
+          update: {
+            ...video,
+            ...withUpdateColabs,
+          },
+        }),
       e => new Error(`${e}`),
     ),
   )
+}
 
-export const deleteVideos = (args: Prisma.VideoDeleteManyArgs) =>
+export const deleteVideos = (videoIds: readonly Video["id"][]) =>
   pipe(
     TE.tryCatch(
-      () => db.video.deleteMany(args),
+      () =>
+        db.video.deleteMany({
+          where: { id: { in: RA.toArray(videoIds) } },
+        }),
       e => new Error(`${e}`),
     ),
   )
