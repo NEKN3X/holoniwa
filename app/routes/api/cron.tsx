@@ -19,6 +19,9 @@ export const action: ActionFunction = async ({ request }) => {
 
   // チャンネルを取得
   const maybeChannels = await getChannels({
+    where: {
+      archived: false,
+    },
     select: {
       id: true,
       title: true,

@@ -23,7 +23,7 @@ export type VideosFeed = Immutable<{
 
 export const parseVideosFeed = (
   channelId: string,
-): TE.TaskEither<Error, readonly VideosFeedItem[]> =>
+): TE.TaskEither<unknown, readonly VideosFeedItem[]> =>
   pipe(
     TE.tryCatch(
       () =>
@@ -32,7 +32,7 @@ export const parseVideosFeed = (
             `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
           )
           .then(f => f.items.slice(0, 4) as VideosFeedItem[]),
-      e => new Error(`Failed to parse videos feed`),
+      e => e,
     ),
   )
 

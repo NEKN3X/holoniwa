@@ -19,7 +19,7 @@ export const convertYouTubeChannel = (
         thumbnail: snippet.thumbnails!.high?.url,
         publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
       } as Channel),
-    e => new Error(`Failed to convert YouTube channel`),
+    e => e,
   )
 }
 
@@ -33,6 +33,6 @@ export const youtubeChannelList = (channelIds: readonly string[]) =>
             part: ["snippet"],
           })
           .then(r => r.data.items!),
-      e => new Error(`Failed to get YouTube channel list`),
+      e => e,
     ),
   )

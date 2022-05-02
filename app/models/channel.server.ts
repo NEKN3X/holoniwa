@@ -8,44 +8,34 @@ export type Channel = Immutable<_Channel>
 
 export const getChannel = (
   args: Prisma.ChannelFindUniqueArgs,
-): TE.TaskEither<Error, Channel> =>
+): TE.TaskEither<unknown, Channel> =>
   pipe(
     TE.tryCatch(
       () =>
-        db.channel
-          .findUnique(args)
-          .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`Failed to get channel`),
+        db.channel.findUnique(args).then(TE.fromNullable("Channel not found")),
+      e => e,
     ),
     TE.flatten,
   )
 
 export const getChannels = (
   args: Prisma.ChannelFindManyArgs,
-): TE.TaskEither<Error, readonly Channel[]> =>
+): TE.TaskEither<unknown, readonly Channel[]> =>
   pipe(
     TE.tryCatch(
-      () =>
-        db.channel
-          .findMany(args)
-          .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`Failed to get channels`),
+      () => db.channel.findMany(args),
+      e => e,
     ),
-    TE.flatten,
   )
 
 export const upsertChannel = (
   args: Prisma.ChannelUpsertArgs,
-): TE.TaskEither<Error, Channel> =>
+): TE.TaskEither<unknown, Channel> =>
   pipe(
     TE.tryCatch(
-      () =>
-        db.channel
-          .upsert(args)
-          .then(TE.fromNullable(new Error("Channel not found"))),
-      e => new Error(`Failed to upsert channel`),
+      () => db.channel.upsert(args),
+      e => e,
     ),
-    TE.flatten,
   )
 
 export const channelsInText =

@@ -9,32 +9,29 @@ export type Video = Immutable<_Video>
 
 export const getVideo = (
   args: Prisma.VideoFindUniqueArgs,
-): TE.TaskEither<Error, Video> =>
+): TE.TaskEither<unknown, Video> =>
   pipe(
     TE.tryCatch(
-      () =>
-        db.video
-          .findUnique(args)
-          .then(TE.fromNullable(new Error("Video not found"))),
-      e => new Error(`Failed to get video`),
+      () => db.video.findUnique(args).then(TE.fromNullable("Video not found")),
+      e => e,
     ),
     TE.flatten,
   )
 
 export const getVideos = (
   args: Prisma.VideoFindManyArgs,
-): TE.TaskEither<Error, readonly Video[]> =>
+): TE.TaskEither<unknown, readonly Video[]> =>
   pipe(
     TE.tryCatch(
       () => db.video.findMany(args),
-      e => new Error(`Failed to get videos`),
+      e => e,
     ),
   )
 
 export const upsertVideo = (
   video: Video,
   colabs?: readonly Channel["id"][],
-) => {
+): TE.TaskEither<unknown, Video> => {
   const withCreateColabs = colabs && {
     Colabs: {
       createMany: {
@@ -71,7 +68,7 @@ export const upsertVideo = (
             ...withUpdateColabs,
           },
         }),
-      e => new Error(`Failed to upsert video`),
+      e => e,
     ),
   )
 }
@@ -83,6 +80,6 @@ export const deleteVideos = (videoIds: readonly Video["id"][]) =>
         db.video.deleteMany({
           where: { id: { in: RA.toArray(videoIds) } },
         }),
-      e => new Error(`Failed to delete videos`),
+      e => e,
     ),
   )
