@@ -56,6 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   // フィードにある動画のうち、DBに存在しない動画を取得
   const newIds = RA.difference(S.Eq)(feedIds, existingIds)
+  console.log(`${newIds.length} new videos`)
 
   // statusがnoneでない動画を取得
   const maybeCurrentIds = await pipe(
@@ -74,8 +75,27 @@ export const action: ActionFunction = async ({ request }) => {
 
   // YouTubeAPIから最新の動画情報を取得
   const updatingIds = RA.union(S.Eq)(newIds, currentIds)
+  console.log(`${updatingIds.length} current videos to update`)
+
+  const moreCount =
+    (Math.floor(updatingIds.length / 50) + 1) * 50 - updatingIds.length
+  const maybeMoreIds = await pipe(
+    getVideos({
+      where: {
+        liveStatus: "none",
+      },
+      orderBy: {
+        updatedAt: "asc",
+      },
+      take: moreCount,
+    }),
+    TE.map(RA.map(v => v.id)),
+  )()
+  const moreIds = E.isRight(maybeMoreIds) ? maybeMoreIds.right : []
+  console.log(`${moreIds.length} archived videos to update`)
+
   const maybeUpdatedVideos = await pipe(
-    updatingIds,
+    RA.union(S.Eq)(updatingIds, moreIds),
     TE.right,
     TE.map(getYouTubeVideos),
     TE.flatten,
@@ -107,8 +127,10 @@ export const action: ActionFunction = async ({ request }) => {
   const deletedVideos = await pipe(deletingIds, deleteVideos)()
 
   if (E.isLeft(upsertedVideos)) return json({ error: upsertedVideos.left })
-
   if (E.isLeft(deletedVideos)) return json({ error: deletedVideos.left })
+
+  console.log(`${upsertedVideos.right.length} videos updated`)
+  console.log(`${deletedVideos.right.count} videos deleted`)
 
   return json(upsertedVideos.right)
 }
