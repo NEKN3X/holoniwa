@@ -93,7 +93,10 @@ export const action: ActionFunction = async ({ request }) => {
     updatedVideos,
     RA.map(u => ({
       video: u,
-      colabs: channelsInText(channels)(u.description || ""),
+      colabs: RA.difference(S.Eq)(
+        channelsInText(channels)(u.description || ""),
+        [u.channelId, "UCJFZiqLMntJufDCHc6bQixg"],
+      ),
     })),
     RA.map(({ video, colabs }) => upsertVideo(video, colabs)),
     TE.sequenceArray,
