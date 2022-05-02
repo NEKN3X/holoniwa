@@ -105,7 +105,7 @@ export const VideoView = ({ video }: Props) => {
         >
           <HStack>
             <Box w="100%" h="8">
-              <AvatarGroup size="sm" max={5}>
+              <AvatarGroup size="sm" max={6}>
                 <Avatar
                   size="sm"
                   src={property.channelAvatar || ""}
@@ -121,7 +121,7 @@ export const VideoView = ({ video }: Props) => {
                 ))}
               </AvatarGroup>
             </Box>
-            {property.badge && <Text>{property.badge}</Text>}
+            {property.badge && <Text fontSize="sm">{property.badge}</Text>}
           </HStack>
         </Box>
       </Box>
