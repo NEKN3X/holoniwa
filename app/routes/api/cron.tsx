@@ -25,33 +25,28 @@ export const action: ActionFunction = async ({ request }) => {
   })()
   if (E.isLeft(channels)) return json({ error: channels.left }, 500)
 
-  // フィードを取得
-  const feedIds = pipe(
+  // フィードから新規の動画を取得
+  const getNewIdsTask = pipe(
     channels.right,
     RA.map(c => c.id),
     getVideosFeeds,
     TE.map(RA.map(v => v.id)),
-  )
-  // フィードにある動画のうち、DBに存在する動画を取得
-  const existingIds = pipe(
-    feedIds,
-    TE.chain(ids =>
-      getVideos({
-        where: { id: { in: RA.toArray(ids) } },
-        select: { id: true },
-      }),
+    TE.bindTo("feedIds"),
+    TE.bind("existingIds", ({ feedIds }) =>
+      pipe(
+        getVideos({
+          where: { id: { in: RA.toArray(feedIds) } },
+          select: { id: true },
+        }),
+        TE.map(RA.map(v => v.id)),
+      ),
     ),
-    TE.map(RA.map(v => v.id)),
-  )
-  // フィードにある動画のうち、DBに存在しない動画を取得
-  const newIds = pipe(
-    sequenceT(TE.ApplyPar)(feedIds, existingIds),
-    TE.map(([feedIds, existingIds]) =>
+    TE.map(({ feedIds, existingIds }) =>
       RA.difference(S.Eq)(feedIds, existingIds),
     ),
   )
-  // statusがnoneでない動画を取得
-  const currentIds = pipe(
+  // DBからstatusがnoneでない動画を取得
+  const getCurrentIdsTask = pipe(
     getVideos({
       where: {
         liveStatus: {
@@ -65,8 +60,8 @@ export const action: ActionFunction = async ({ request }) => {
     TE.map(RA.map(v => v.id)),
   )
   // YouTubeAPIから動画情報を取得
-  const updatingIds = await pipe(
-    sequenceT(TE.ApplyPar)(newIds, currentIds),
+  const updated = await pipe(
+    sequenceT(TE.ApplyPar)(getNewIdsTask, getCurrentIdsTask),
     TE.map(([newIds, currentIds]) => RA.union(S.Eq)(newIds)(currentIds)),
     TE.bindTo("updatingIds"),
     TE.bind("moreIds", ({ updatingIds }) =>
@@ -88,16 +83,23 @@ export const action: ActionFunction = async ({ request }) => {
         TE.map(RA.map(v => v.id)),
       ),
     ),
-    TE.map(({ updatingIds, moreIds }) => RA.union(S.Eq)(updatingIds, moreIds)),
+    TE.map(({ moreIds, updatingIds }) => RA.union(S.Eq)(updatingIds, moreIds)),
+    TE.bindTo("updatingIds"),
+    TE.bind("updatedVideos", ({ updatingIds }) =>
+      getYouTubeVideos(updatingIds),
+    ),
+    TE.map(({ updatingIds, updatedVideos }) => ({
+      upsertingVideos: updatedVideos,
+      deletingIds: RA.difference(S.Eq)(updatingIds)(
+        updatedVideos.map(v => v.id),
+      ),
+    })),
   )()
-  if (E.isLeft(updatingIds)) return json({ error: updatingIds.left }, 500)
-
-  const updatedVideos = await pipe(updatingIds.right, getYouTubeVideos)()
-  if (E.isLeft(updatedVideos)) return json({ error: updatedVideos.left }, 500)
+  if (E.isLeft(updated)) return json({ error: updated.left }, 500)
 
   // DBを更新
-  const upsertedVideos = pipe(
-    updatedVideos.right,
+  const upsertTask = pipe(
+    updated.right.upsertingVideos,
     RA.map(v => ({
       video: v,
       colabs: RA.difference(S.Eq)(
@@ -107,17 +109,8 @@ export const action: ActionFunction = async ({ request }) => {
     })),
     TE.traverseArray(({ video, colabs }) => upsertVideo(video, colabs)),
   )
-
-  // YouTubeAPIから取得できなかった動画を削除
-  const deletedVideos = pipe(
-    updatedVideos.right,
-    RA.map(u => u.id),
-    updatedIds => RA.difference(S.Eq)(updatingIds.right, updatedIds),
-    deleteVideos,
-  )
-
-  const result = await sequenceT(TE.ApplyPar)(upsertedVideos, deletedVideos)()
-
+  const deleteTask = deleteVideos(updated.right.deletingIds)
+  const result = await sequenceT(TE.ApplyPar)(upsertTask, deleteTask)()
   if (E.isLeft(result)) return json({ error: result.left }, 500)
 
   return json({
