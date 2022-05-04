@@ -7,31 +7,27 @@ import type { Immutable } from "immer"
 
 export type Video = Immutable<_Video>
 
-export const getVideo = (
-  args: Prisma.VideoFindUniqueArgs,
-): TE.TaskEither<unknown, Video> =>
+export const getVideo = (args: Prisma.VideoFindUniqueArgs) =>
   pipe(
     TE.tryCatch(
       () => db.video.findUnique(args).then(TE.fromNullable("Video not found")),
-      e => e,
+      () => "Error getting video",
     ),
     TE.flatten,
   )
 
-export const getVideos = (
-  args: Prisma.VideoFindManyArgs,
-): TE.TaskEither<unknown, readonly Video[]> =>
+export const getVideos = (args: Prisma.VideoFindManyArgs) =>
   pipe(
     TE.tryCatch(
       () => db.video.findMany(args),
-      e => e,
+      () => "Error getting videos",
     ),
   )
 
 export const upsertVideo = (
   video: Video,
   colabs?: readonly Channel["id"][],
-): TE.TaskEither<unknown, Video> => {
+) => {
   const withCreateColabs = colabs && {
     Colabs: {
       createMany: {
@@ -68,7 +64,7 @@ export const upsertVideo = (
             ...withUpdateColabs,
           },
         }),
-      e => e,
+      () => "Error upserting video",
     ),
   )
 }
@@ -80,6 +76,6 @@ export const deleteVideos = (videoIds: readonly Video["id"][]) =>
         db.video.deleteMany({
           where: { id: { in: RA.toArray(videoIds) } },
         }),
-      e => e,
+      () => "Error deleting videos",
     ),
   )

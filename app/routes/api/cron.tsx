@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Unauthorized" }, 401)
 
   // チャンネルを取得
-  const maybeChannels = await getChannels({
+  const channels = await getChannels({
     where: {
       archived: false,
     },
@@ -27,41 +27,30 @@ export const action: ActionFunction = async ({ request }) => {
       title: true,
     },
   })()
-  if (E.isLeft(maybeChannels)) return json({ error: maybeChannels.left }, 500)
-  const channels = maybeChannels.right
-  const channelIds = pipe(
-    channels,
-    RA.map(c => c.id),
-  )
+  if (E.isLeft(channels)) return json({ error: channels.left })
 
   // フィードを取得
-  const maybeFeedIds = await pipe(
-    channelIds,
-    TE.right,
-    TE.map(getVideosFeeds),
-    TE.flatten,
+  const feedIds = await pipe(
+    channels.right,
+    RA.map(c => c.id),
+    getVideosFeeds,
     TE.map(RA.map(v => v.id)),
   )()
-  if (E.isLeft(maybeFeedIds)) return json({ error: maybeFeedIds.left }, 500)
-  const feedIds = maybeFeedIds.right
+  if (E.isLeft(feedIds)) return json({ error: feedIds.left }, 500)
 
   // フィードにある動画のうち、DBに存在する動画を取得
-  const maybeExistingIds = await pipe(
+  const existingIds = await pipe(
     feedIds,
-    TE.right,
-    TE.map(f =>
+    TE.fromEither,
+    TE.chain(f =>
       getVideos({ where: { id: { in: RA.toArray(f) } }, select: { id: true } }),
     ),
-    TE.flatten,
     TE.map(RA.map(v => v.id)),
   )()
-  if (E.isLeft(maybeExistingIds))
-    return json({ error: maybeExistingIds.left }, 500)
-  const existingIds = maybeExistingIds.right
+  if (E.isLeft(existingIds)) return json({ error: existingIds.left }, 500)
 
   // フィードにある動画のうち、DBに存在しない動画を取得
-  const newIds = RA.difference(S.Eq)(feedIds, existingIds)
-  console.log(`${newIds.length} new videos`)
+  const newIds = RA.difference(S.Eq)(feedIds.right)(existingIds.right)
 
   // statusがnoneでない動画を取得
   const maybeCurrentIds = await pipe(
@@ -119,7 +108,7 @@ export const action: ActionFunction = async ({ request }) => {
     RA.map(u => ({
       video: u,
       colabs: RA.difference(S.Eq)(
-        channelsInText(channels)(u.description || ""),
+        channelsInText(channels.right)(u.description || ""),
         [u.channelId, "UCJFZiqLMntJufDCHc6bQixg"],
       ),
     })),

@@ -9,7 +9,7 @@ import type { LoaderFunction } from "@remix-run/server-runtime"
 import type { Video } from "~/models/video.server"
 
 type LoaderData = {
-  videos: Video[]
+  videos: readonly Video[]
 }
 
 const option = {

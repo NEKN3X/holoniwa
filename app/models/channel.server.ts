@@ -6,35 +6,29 @@ import type { Immutable } from "immer"
 
 export type Channel = Immutable<_Channel>
 
-export const getChannel = (
-  args: Prisma.ChannelFindUniqueArgs,
-): TE.TaskEither<unknown, Channel> =>
+export const getChannel = (args: Prisma.ChannelFindUniqueArgs) =>
   pipe(
     TE.tryCatch(
       () =>
         db.channel.findUnique(args).then(TE.fromNullable("Channel not found")),
-      e => e,
+      () => "Error getting channel",
     ),
     TE.flatten,
   )
 
-export const getChannels = (
-  args: Prisma.ChannelFindManyArgs,
-): TE.TaskEither<unknown, readonly Channel[]> =>
+export const getChannels = (args: Prisma.ChannelFindManyArgs) =>
   pipe(
     TE.tryCatch(
       () => db.channel.findMany(args),
-      e => e,
+      () => "Error getting channels",
     ),
   )
 
-export const upsertChannel = (
-  args: Prisma.ChannelUpsertArgs,
-): TE.TaskEither<unknown, Channel> =>
+export const upsertChannel = (args: Prisma.ChannelUpsertArgs) =>
   pipe(
     TE.tryCatch(
       () => db.channel.upsert(args),
-      e => e,
+      () => "Error upserting channel",
     ),
   )
 

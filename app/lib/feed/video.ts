@@ -1,4 +1,5 @@
 import { TE } from "~/utils/fp-ts"
+import { fetch } from "@remix-run/node"
 import { pipe } from "fp-ts/lib/function"
 import Parser from "rss-parser"
 import type { Video } from "@prisma/client"
@@ -21,18 +22,17 @@ export type VideosFeed = Immutable<{
   author: string
 }>
 
-export const parseVideosFeed = (
-  channelId: string,
-): TE.TaskEither<unknown, readonly VideosFeedItem[]> =>
+export const parseVideosFeed = (channelId: string) =>
   pipe(
     TE.tryCatch(
       () =>
-        videosFeedParser
-          .parseURL(
-            `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
-          )
+        fetch(
+          `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`,
+        )
+          .then(res => res.text())
+          .then(text => videosFeedParser.parseString(text))
           .then(f => f.items.slice(0, 4) as VideosFeedItem[]),
-      e => e,
+      () => `Error parsing videos feed for id:${channelId}`,
     ),
   )
 
