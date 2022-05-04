@@ -5,7 +5,14 @@ import type { Channel } from "./channel.server"
 import type { Prisma, Video as _Video } from "@prisma/client"
 import type { Immutable } from "immer"
 
-export type Video = Immutable<_Video>
+export type Video = Immutable<
+  _Video & {
+    Channel?: Channel
+    Colabs?: {
+      Channel: Channel
+    }[]
+  }
+>
 
 export const getVideo = (args: Prisma.VideoFindUniqueArgs) =>
   pipe(
@@ -26,7 +33,7 @@ export const getVideos = (args: Prisma.VideoFindManyArgs) =>
   )
 
 export const upsertVideo = (
-  video: Video,
+  video: _Video,
   colabs?: readonly Channel["id"][],
 ) => {
   const withCreateColabs = colabs && {
