@@ -10,8 +10,9 @@ export type Video = Immutable<_Video>
 export const getVideo = (args: Prisma.VideoFindUniqueArgs) =>
   pipe(
     TE.tryCatch(
-      () => db.video.findUnique(args).then(TE.fromNullable("Video not found")),
-      () => "Error getting video",
+      () =>
+        db.video.findUnique(args).then(TE.fromNullable(["Video not found"])),
+      e => e as string[],
     ),
     TE.flatten,
   )
@@ -20,7 +21,7 @@ export const getVideos = (args: Prisma.VideoFindManyArgs) =>
   pipe(
     TE.tryCatch(
       () => db.video.findMany(args),
-      () => "Error getting videos",
+      e => e as string[],
     ),
   )
 
@@ -64,7 +65,7 @@ export const upsertVideo = (
             ...withUpdateColabs,
           },
         }),
-      () => "Error upserting video",
+      e => e as string[],
     ),
   )
 }
@@ -76,6 +77,6 @@ export const deleteVideos = (videoIds: readonly Video["id"][]) =>
         db.video.deleteMany({
           where: { id: { in: RA.toArray(videoIds) } },
         }),
-      () => "Error deleting videos",
+      e => e as string[],
     ),
   )

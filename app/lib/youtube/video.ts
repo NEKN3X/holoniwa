@@ -38,7 +38,7 @@ export const convertYouTubeVideo = (
           contentDetails?.duration &&
           moment.duration(contentDetails.duration).asSeconds(),
       } as Video),
-    () => "Error converting YouTube video",
+    e => e as string[],
   )
 }
 
@@ -58,6 +58,6 @@ export const youtubeVideoList = (videoIds: readonly string[]) =>
             regionCode: "JP",
           })
           .then(r => r.data.items!),
-      () => "Error getting YouTube video list",
+      e => e as string[],
     ),
   )

@@ -10,8 +10,10 @@ export const getChannel = (args: Prisma.ChannelFindUniqueArgs) =>
   pipe(
     TE.tryCatch(
       () =>
-        db.channel.findUnique(args).then(TE.fromNullable("Channel not found")),
-      () => "Error getting channel",
+        db.channel
+          .findUnique(args)
+          .then(TE.fromNullable(["Channel not found"])),
+      e => e as string[],
     ),
     TE.flatten,
   )
@@ -20,7 +22,7 @@ export const getChannels = (args: Prisma.ChannelFindManyArgs) =>
   pipe(
     TE.tryCatch(
       () => db.channel.findMany(args),
-      () => "Error getting channels",
+      e => e as string[],
     ),
   )
 
@@ -28,7 +30,7 @@ export const upsertChannel = (args: Prisma.ChannelUpsertArgs) =>
   pipe(
     TE.tryCatch(
       () => db.channel.upsert(args),
-      () => "Error upserting channel",
+      e => e as string[],
     ),
   )
 

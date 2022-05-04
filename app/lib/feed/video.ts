@@ -32,7 +32,7 @@ export const parseVideosFeed = (channelId: string) =>
           .then(res => res.text())
           .then(text => videosFeedParser.parseString(text))
           .then(f => f.items.slice(0, 4) as VideosFeedItem[]),
-      () => `Error parsing videos feed for id:${channelId}`,
+      e => e as string[],
     ),
   )
 
