@@ -8,7 +8,7 @@ import type { Immutable } from "immer"
 export type Video = Immutable<
   _Video & {
     Channel?: Channel
-    Colabs?: {
+    Collaborations?: {
       Channel: Channel
     }[]
   }
@@ -34,18 +34,18 @@ export const getVideos = (args: Prisma.VideoFindManyArgs) =>
 
 export const upsertVideo = (
   video: _Video,
-  colabs?: readonly Channel["id"][],
+  collaborators?: readonly Channel["id"][],
 ) => {
-  const withCreateColabs = colabs && {
-    Colabs: {
+  const withCreateCollaborations = collaborators && {
+    Collaborations: {
       createMany: {
-        data: colabs.map(c => ({ channelId: c })),
+        data: collaborators.map(c => ({ channelId: c })),
       },
     },
   }
-  const withUpdateColabs = colabs && {
-    Colabs: {
-      connectOrCreate: colabs.map(c => ({
+  const withUpdateCollaborations = collaborators && {
+    Collaborations: {
+      connectOrCreate: collaborators.map(c => ({
         where: {
           videoId_channelId: {
             videoId: video.id,
@@ -65,11 +65,11 @@ export const upsertVideo = (
           where: { id: video.id },
           create: {
             ...video,
-            ...withCreateColabs,
+            ...withCreateCollaborations,
           },
           update: {
             ...video,
-            ...withUpdateColabs,
+            ...withUpdateCollaborations,
           },
         }),
       e => e as string[],

@@ -20,7 +20,7 @@ const option = {
         thumbnail: true,
       },
     },
-    Colabs: {
+    Collaborations: {
       select: {
         Channel: {
           select: {

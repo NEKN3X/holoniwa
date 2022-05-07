@@ -78,7 +78,7 @@ export const VideoView = ({ video }: Props) => {
     channelAvatar: video.Channel?.thumbnail,
     scheduledAt: video.scheduledAt,
     scheduleDiff: scheduleDiff(video.scheduledAt || new Date()),
-    colabs: video.Colabs,
+    collaborations: video.Collaborations,
     badge: video.privacyStatus === "unlisted" ? "member" : "",
   }
   return (
@@ -112,11 +112,11 @@ export const VideoView = ({ video }: Props) => {
                   as="a"
                   href={`http://localhost:3000/channels/${property.channelId}`}
                 />
-                {property.colabs?.map(colab => (
+                {property.collaborations?.map(collaboration => (
                   <Avatar
                     size="sm"
                     key={`${property.videoId}_${property.channelId}`}
-                    src={colab.Channel?.thumbnail || ""}
+                    src={collaboration.Channel?.thumbnail || ""}
                   />
                 ))}
               </AvatarGroup>
@@ -133,7 +133,7 @@ export const VideoView = ({ video }: Props) => {
           </Badge>
           <Box
             color="gray.500"
-            fontWeight="semibold"
+            fontWeight="semi-bold"
             letterSpacing="wide"
             fontSize="xs"
             ml="1"
@@ -145,8 +145,7 @@ export const VideoView = ({ video }: Props) => {
         <Text
           mt={2}
           fontSize="xs"
-          fontWeight="semibold"
-          isTruncated
+          fontWeight="semi-bold"
           height={14}
           noOfLines={3}
         >

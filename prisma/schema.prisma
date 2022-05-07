@@ -11,36 +11,36 @@ datasource db {
 }
 
 model Video {
-  id            String    @id
-  title         String
-  channelId     String
-  thumbnail     String?
-  description   String?   @db.Text
-  liveStatus    String?
-  uploadStatus  String?
-  privacyStatus String?
-  updatedAt     DateTime? @db.Timestamptz
-  publishedAt   DateTime? @db.Timestamptz
-  scheduledAt   DateTime? @db.Timestamptz
-  startAt       DateTime? @db.Timestamptz
-  endAt         DateTime? @db.Timestamptz
-  duration      Int?
-  Channel       Channel   @relation("Channel", fields: [channelId], references: [id])
-  Colabs        Colab[]
+  id             String          @id
+  title          String
+  channelId      String
+  thumbnail      String?
+  description    String?         @db.Text
+  liveStatus     String?
+  uploadStatus   String?
+  privacyStatus  String?
+  updatedAt      DateTime?       @db.Timestamptz
+  publishedAt    DateTime?       @db.Timestamptz
+  scheduledAt    DateTime?       @db.Timestamptz
+  startAt        DateTime?       @db.Timestamptz
+  endAt          DateTime?       @db.Timestamptz
+  duration       Int?
+  Channel        Channel         @relation(fields: [channelId], references: [id])
+  Collaborations Collaboration[]
 }
 
 model Channel {
-  id          String    @id
-  title       String
-  archived    Boolean   @default(false)
-  thumbnail   String?
-  description String?
-  publishedAt DateTime? @db.Timestamptz
-  Video       Video[]   @relation("Channel")
-  Colabs      Colab[]
+  id             String          @id
+  title          String
+  archived       Boolean         @default(false)
+  thumbnail      String?
+  description    String?
+  publishedAt    DateTime?       @db.Timestamptz
+  Videos         Video[]
+  Collaborations Collaboration[]
 }
 
-model Colab {
+model Collaboration {
   videoId   String
   channelId String
   Video     Video   @relation(fields: [videoId], references: [id], onDelete: Cascade)

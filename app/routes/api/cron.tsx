@@ -102,12 +102,14 @@ export const action: ActionFunction = async ({ request }) => {
     updated.right.upsertingVideos,
     RA.map(v => ({
       video: v,
-      colabs: RA.difference(S.Eq)(
+      collaborators: RA.difference(S.Eq)(
         channelsInText(channels.right)(v.description || ""),
         [v.channelId, "UCJFZiqLMntJufDCHc6bQixg"],
       ),
     })),
-    TE.traverseArray(({ video, colabs }) => upsertVideo(video, colabs)),
+    TE.traverseArray(({ video, collaborators }) =>
+      upsertVideo(video, collaborators),
+    ),
   )
   const deleteTask = deleteVideos(updated.right.deletingIds)
   const result = await sequenceT(TE.ApplyPar)(upsertTask, deleteTask)()
