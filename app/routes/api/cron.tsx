@@ -90,13 +90,12 @@ export const action: ActionFunction = async ({ request }) => {
     ),
     TE.map(({ updatingIds, updatedVideos }) => ({
       upsertingVideos: updatedVideos,
-      deletingIds: RA.difference(S.Eq)(updatingIds)(
-        updatedVideos.map(v => v.id),
+      deletingIds: RA.difference(S.Eq)(updatedVideos.map(v => v.id))(
+        updatingIds,
       ),
     })),
   )()
   if (E.isLeft(updated)) return json({ error: updated.left }, 500)
-
   // DBを更新
   const upsertTask = pipe(
     updated.right.upsertingVideos,
