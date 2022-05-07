@@ -10,59 +10,11 @@ import {
   AspectRatio,
 } from "@chakra-ui/react"
 import moment from "moment"
-import { always, cond, divide, equals, gte, lte, pipe, __ } from "ramda"
+import { match } from "ts-pattern"
 import type { Video } from "~/models/video.server"
 
 type Props = {
   video: Video
-}
-
-const statusText = cond([
-  [equals("live"), always("Live")],
-  [equals("upcoming"), always("Coming")],
-  [equals("none"), always("Archive")],
-])
-
-const statusColor = cond([
-  [equals("live"), always("red")],
-  [equals("upcoming"), always("teal")],
-  [equals("none"), always("gray")],
-])
-
-const timeUnit = cond([
-  [gte(60), n => `${n} minute${n > 1 ? "s" : ""}`],
-  [
-    lte(60 * 24),
-    n =>
-      pipe(
-        divide(__, 60 * 24),
-        Math.floor,
-        n => `${n} day${n > 1 ? "s" : ""}`,
-      )(n),
-  ],
-  [
-    lte(60),
-    n =>
-      pipe(divide(__, 60), Math.floor, r => `${r} hour${r > 1 ? "s" : ""}`)(n),
-  ],
-  [
-    lte(60 * 24),
-    n =>
-      pipe(
-        divide(__, 60 * 24),
-        Math.floor,
-        n => `${n} day${n > 1 ? "s" : ""}`,
-      )(n),
-  ],
-])
-
-const scheduleDiff = (date: Date) => {
-  const diffMin = moment().diff(date, "minutes")
-  const words = []
-  if (diffMin < 0) words.push("in")
-  words.push(timeUnit(Math.abs(diffMin)))
-  if (diffMin > 0) words.push("ago")
-  return words.join(" ")
 }
 
 export const VideoView = ({ video }: Props) => {
@@ -71,13 +23,19 @@ export const VideoView = ({ video }: Props) => {
     imageUrl: video.thumbnail || "",
     imageAlt: video.title,
     title: video.title,
-    liveStatus: statusText(video.liveStatus || "none"),
-    statusColor: statusColor(video.liveStatus || "none"),
+    liveStatus: match(video.liveStatus)
+      .with("live", () => "live")
+      .with("upcoming", () => "coming")
+      .otherwise(() => "archive"),
+    statusColor: match(video.liveStatus)
+      .with("live", () => "red")
+      .with("upcoming", () => "teal")
+      .otherwise(() => "gray"),
     channelId: video.channelId,
     channelTitle: video.Channel?.title,
     channelAvatar: video.Channel?.thumbnail,
     scheduledAt: video.scheduledAt,
-    scheduleDiff: scheduleDiff(video.scheduledAt || new Date()),
+    scheduleDiff: moment().to(video.scheduledAt),
     collaborations: video.Collaborations,
     badge: video.privacyStatus === "unlisted" ? "member" : "",
   }
@@ -133,7 +91,7 @@ export const VideoView = ({ video }: Props) => {
           </Badge>
           <Box
             color="gray.500"
-            fontWeight="semi-bold"
+            fontWeight="semibold"
             letterSpacing="wide"
             fontSize="xs"
             ml="1"
@@ -145,7 +103,7 @@ export const VideoView = ({ video }: Props) => {
         <Text
           mt={2}
           fontSize="xs"
-          fontWeight="semi-bold"
+          fontWeight="semibold"
           height={14}
           noOfLines={3}
         >

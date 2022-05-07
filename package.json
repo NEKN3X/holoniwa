@@ -29,17 +29,16 @@
     "googleapis": "^100.0.0",
     "immer": "^9.0.12",
     "moment": "^2.29.3",
-    "ramda": "^0.28.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "recoil": "^0.7.2",
-    "rss-parser": "^3.12.0"
+    "rss-parser": "^3.12.0",
+    "ts-pattern": "^4.0.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.4.1",
     "@remix-run/eslint-config": "^1.4.1",
     "@types/eslint": "^8.4.1",
-    "@types/ramda": "^0.28.11",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
@@ -48,7 +47,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-ramda": "^2.5.1",
     "prettier": "^2.6.2",
     "prettier-plugin-prisma": "^3.13.0",
     "prisma": "^3.12.0",
