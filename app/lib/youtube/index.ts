@@ -1,22 +1,9 @@
-import { convertYouTubeChannel, youtubeChannelList } from "./channel"
-import { convertYouTubeVideo, youtubeVideoList } from "./video"
-import { E, RA, TE } from "~/utils/fp-ts"
-import { flow, pipe } from "fp-ts/lib/function"
+import { youtubeChannelList } from "./channel"
+import { youtubeVideoList } from "./video"
+import { map, pipe, splitEvery } from "ramda"
 
 export const getYouTubeChannels = (channelIds: readonly string[]) =>
-  pipe(
-    RA.chunksOf(50)(channelIds),
-    TE.traverseArray(youtubeChannelList),
-    TE.chain(
-      flow(RA.flatten, E.traverseArray(convertYouTubeChannel), TE.fromEither),
-    ),
-  )
+  pipe(splitEvery(50), map(youtubeChannelList))(channelIds)
 
-export const getYouTubeVideos = (videoIds: readonly string[]) =>
-  pipe(
-    RA.chunksOf(50)(videoIds),
-    TE.traverseArray(youtubeVideoList),
-    TE.chain(
-      flow(RA.flatten, E.traverseArray(convertYouTubeVideo), TE.fromEither),
-    ),
-  )
+export const getYouTubeVideos = (channelIds: readonly string[]) =>
+  pipe(splitEvery(50), map(youtubeVideoList))(channelIds)

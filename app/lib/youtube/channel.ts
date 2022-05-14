@@ -1,38 +1,26 @@
 import { youtube } from "./client"
-import { E, RA, TE } from "~/utils/fp-ts"
-import { pipe } from "fp-ts/lib/function"
+import { map } from "ramda"
 import type { Channel } from "@prisma/client"
 import type { youtube_v3 } from "googleapis"
-import type { Immutable } from "immer"
 
-export const convertYouTubeChannel = (
-  item: Immutable<youtube_v3.Schema$Channel>,
-) => {
+const convertYouTubeChannel = (item: youtube_v3.Schema$Channel) => {
   const snippet = item.snippet!
 
-  return E.tryCatch(
-    () =>
-      ({
-        id: item.id,
-        title: snippet.title,
-        description: snippet.description,
-        thumbnail: snippet.thumbnails!.high?.url,
-        publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
-      } as Channel),
-    e => e as string[],
-  )
+  return {
+    id: item.id,
+    title: snippet.title,
+    archived: false,
+    thumbnail: snippet.thumbnails!.high?.url,
+    description: snippet.description,
+    publishedAt: snippet.publishedAt && new Date(snippet.publishedAt),
+  } as Channel
 }
 
-export const youtubeChannelList = (channelIds: readonly string[]) =>
-  pipe(
-    TE.tryCatch(
-      () =>
-        youtube.channels
-          .list({
-            id: RA.toArray(channelIds),
-            part: ["snippet"],
-          })
-          .then(r => r.data.items!),
-      e => e as string[],
-    ),
-  )
+export const youtubeChannelList = (channelIds: string[]) =>
+  youtube.channels
+    .list({
+      id: channelIds,
+      part: ["snippet"],
+    })
+    .then(r => r.data.items!)
+    .then(map(convertYouTubeChannel))

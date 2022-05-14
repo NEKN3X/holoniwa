@@ -1,11 +1,9 @@
+import { db } from "~/db.server"
 import { getVideosFeeds } from "~/lib/feed"
 import { getYouTubeVideos } from "~/lib/youtube"
-import { channelsInText, getChannels } from "~/models/channel.server"
-import { deleteVideos, getVideos, upsertVideo } from "~/models/video.server"
-import { E, RA, S, TE } from "~/utils/fp-ts"
+import { channelsInText } from "~/models/channel.server"
 import { json } from "@remix-run/server-runtime"
-import { sequenceT } from "fp-ts/lib/Apply"
-import { pipe } from "fp-ts/lib/function"
+import { difference, flatten, map, pluck, union } from "ramda"
 import type { ActionFunction } from "@remix-run/server-runtime"
 
 export const action: ActionFunction = async ({ request }) => {
@@ -14,7 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Unauthorized" }, 401)
 
   // チャンネルを取得
-  const channels = await getChannels({
+  const channels = await db.channel.findMany({
     where: {
       archived: false,
     },
@@ -22,32 +20,27 @@ export const action: ActionFunction = async ({ request }) => {
       id: true,
       title: true,
     },
-  })()
-  if (E.isLeft(channels)) return json({ error: channels.left }, 500)
+  })
 
-  // フィードから新規の動画を取得
-  const getNewIdsTask = pipe(
-    channels.right,
-    RA.map(c => c.id),
-    getVideosFeeds,
-    TE.map(RA.map(v => v.id)),
-    TE.bindTo("feedIds"),
-    TE.bind("existingIds", ({ feedIds }) =>
-      pipe(
-        getVideos({
-          where: { id: { in: RA.toArray(feedIds) } },
-          select: { id: true },
-        }),
-        TE.map(RA.map(v => v.id)),
-      ),
-    ),
-    TE.map(({ feedIds, existingIds }) =>
-      RA.difference(S.Eq)(feedIds, existingIds),
-    ),
-  )
+  // feedを取得
+  const feedIds = await Promise.all(getVideosFeeds(pluck("id", channels)))
+    .then(feeds => feeds.flat())
+    .then(pluck("id"))
+
+  // feedのうち、dbに既にあるもの
+  const existingIds = await db.video
+    .findMany({
+      where: { id: { in: feedIds } },
+      select: { id: true },
+    })
+    .then(pluck("id"))
+
+  // feedのうち、dbにないもの
+  const newIds = difference(feedIds, existingIds)
+
   // DBからstatusがnoneでない動画を取得
-  const getCurrentIdsTask = pipe(
-    getVideos({
+  const currentIds = await db.video
+    .findMany({
       where: {
         liveStatus: {
           not: "none",
@@ -56,66 +49,68 @@ export const action: ActionFunction = async ({ request }) => {
       select: {
         id: true,
       },
-    }),
-    TE.map(RA.map(v => v.id)),
-  )
+    })
+    .then(pluck("id"))
+
   // YouTubeAPIから動画情報を取得
-  const updated = await pipe(
-    sequenceT(TE.ApplyPar)(getNewIdsTask, getCurrentIdsTask),
-    TE.map(([newIds, currentIds]) => RA.union(S.Eq)(newIds)(currentIds)),
-    TE.bindTo("updatingIds"),
-    TE.bind("moreIds", ({ updatingIds }) =>
-      pipe(
-        (Math.floor(updatingIds.length / 50) + 1) * 50 - updatingIds.length,
-        count =>
-          getVideos({
-            where: {
-              liveStatus: "none",
-            },
-            select: {
-              id: true,
-            },
-            orderBy: {
-              updatedAt: "asc",
-            },
-            take: count,
-          }),
-        TE.map(RA.map(v => v.id)),
-      ),
-    ),
-    TE.map(({ moreIds, updatingIds }) => RA.union(S.Eq)(updatingIds, moreIds)),
-    TE.bindTo("updatingIds"),
-    TE.bind("updatedVideos", ({ updatingIds }) =>
-      getYouTubeVideos(updatingIds),
-    ),
-    TE.map(({ updatingIds, updatedVideos }) => ({
-      upsertingVideos: updatedVideos,
-      deletingIds: RA.difference(S.Eq)(updatedVideos.map(v => v.id))(
-        updatingIds,
-      ),
-    })),
-  )()
-  if (E.isLeft(updated)) return json({ error: updated.left }, 500)
-  // DBを更新
-  const upsertTask = pipe(
-    updated.right.upsertingVideos,
-    RA.map(v => ({
-      video: v,
-      collaborators: RA.difference(S.Eq)(
-        channelsInText(channels.right)(v.description || ""),
-        [v.channelId, "UCJFZiqLMntJufDCHc6bQixg"],
-      ),
-    })),
-    TE.traverseArray(({ video, collaborators }) =>
-      upsertVideo(video, collaborators),
-    ),
+  const _updatingIds = union(newIds, currentIds)
+  const moreCount =
+    (Math.floor(_updatingIds.length / 50) + 1) * 50 - _updatingIds.length
+  const moreIds = await db.video
+    .findMany({
+      where: { liveStatus: "none" },
+      select: { id: true },
+      take: moreCount,
+      orderBy: {
+        updatedAt: "asc",
+      },
+    })
+    .then(pluck("id"))
+  const updatingIds = union(_updatingIds, moreIds)
+  const upsertingVideos = await Promise.all(getYouTubeVideos(updatingIds)).then(
+    flatten,
   )
-  const deleteTask = deleteVideos(updated.right.deletingIds)
-  const result = await sequenceT(TE.ApplyPar)(upsertTask, deleteTask)()
-  if (E.isLeft(result)) return json({ error: result.left }, 500)
+  const deletingIds = difference(updatingIds, pluck("id", upsertingVideos))
+
+  // DBを更新
+  const upserted = await Promise.all(
+    map(video => {
+      const collaborators = channelsInText(channels)(video.description || "")
+      return db.video.upsert({
+        where: { id: video.id },
+        create: {
+          ...video,
+          Collaborations: {
+            createMany: {
+              data: collaborators.map(({ id }) => ({ channelId: id })),
+            },
+          },
+        },
+        update: {
+          ...video,
+          Collaborations: {
+            connectOrCreate: collaborators.map(({ id }) => ({
+              where: {
+                videoId_channelId: {
+                  videoId: video.id,
+                  channelId: id,
+                },
+              },
+              create: {
+                channelId: id,
+              },
+            })),
+          },
+        },
+      })
+    }, upsertingVideos),
+  )
+  const deleted = await db.video.deleteMany({
+    where: { id: { in: deletingIds } },
+  })
 
   return json({
-    updated: result.right[0].length,
-    deleted: result.right[1].count,
+    upserted: upserted.length,
+    deleted: deleted.count,
   })
 }

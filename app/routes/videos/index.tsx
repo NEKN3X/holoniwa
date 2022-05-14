@@ -1,16 +1,25 @@
 import { VideoView } from "~/components/video-view"
-import { getVideos } from "~/models/video.server"
-import { E } from "~/utils/fp-ts"
+import { db } from "~/db.server"
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
 import moment from "moment"
+import { pluck, union } from "ramda"
+import type { Video } from "@prisma/client"
 import type { LoaderFunction } from "@remix-run/server-runtime"
-import type { Video } from "~/models/video.server"
 
-type LoaderData = {
-  videos: readonly Video[]
-}
+type LoaderData = (Video & {
+  Channel: {
+    id: string
+    thumbnail: string | null
+  }
+  Collaborations: {
+    Channel: {
+      id: string
+      thumbnail: string | null
+    }
+  }[]
+})[]
 
 const option = {
   include: {
@@ -34,7 +43,7 @@ const option = {
 }
 
 export const loader: LoaderFunction = async () => {
-  const live = await getVideos({
+  const live = await db.video.findMany({
     where: {
       liveStatus: "live",
     },
@@ -42,8 +51,8 @@ export const loader: LoaderFunction = async () => {
       startAt: "desc",
     },
     ...option,
-  })()
-  const coming = await getVideos({
+  })
+  const coming = await db.video.findMany({
     where: {
       liveStatus: "upcoming",
       scheduledAt: {
@@ -54,8 +63,8 @@ export const loader: LoaderFunction = async () => {
       scheduledAt: "asc",
     },
     ...option,
-  })()
-  const archive = await getVideos({
+  })
+  const archive = await db.video.findMany({
     where: {
       liveStatus: "none",
       startAt: {
@@ -66,24 +75,24 @@ export const loader: LoaderFunction = async () => {
       startAt: "desc",
     },
     ...option,
-  })()
+  })
 
-  if (E.isLeft(live)) return json({ error: live.left })
-  if (E.isLeft(coming)) return json({ error: coming.left })
-  if (E.isLeft(archive)) return json({ error: archive.left })
+  const videos = union(union(live, coming), archive)
 
-  const videos = [...live.right, ...coming.right, ...archive.right]
-
-  return json<LoaderData>({ videos })
+  return json<LoaderData>(videos)
 }
 
 export default function JokesIndexRoute() {
   const data = useLoaderData<LoaderData>()
   return (
     <SimpleGrid minChildWidth={240} spacing={4}>
-      {data.videos.map(video => (
+      {data.map(video => (
         <Box key={video.id}>
-          <VideoView video={video} />
+          <VideoView
+            video={video}
+            channel={video.Channel}
+            collaborators={pluck("Channel", video.Collaborations)}
+          />
         </Box>
       ))}
     </SimpleGrid>

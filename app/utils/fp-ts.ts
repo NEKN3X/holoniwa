@@ -1,5 +1,0 @@
-export * as R from "fp-ts/lib/Array"
-export * as RA from "fp-ts/lib/ReadonlyArray"
-export * as E from "fp-ts/lib/Either"
-export * as TE from "fp-ts/lib/TaskEither"
-export * as S from "fp-ts/lib/string"

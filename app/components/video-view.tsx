@@ -11,18 +11,22 @@ import {
 } from "@chakra-ui/react"
 import moment from "moment"
 import { match } from "ts-pattern"
-import type { Video } from "~/models/video.server"
+import type { Video } from "@prisma/client"
 
 type Props = {
   video: Video
+  channel: {
+    id: string
+    thumbnail: string | null
+  }
+  collaborators: {
+    id: string
+    thumbnail: string | null
+  }[]
 }
 
-export const VideoView = ({ video }: Props) => {
+export const VideoView = ({ video, channel, collaborators }: Props) => {
   const property = {
-    videoId: video.id,
-    imageUrl: video.thumbnail || "",
-    imageAlt: video.title,
-    title: video.title,
     liveStatus: match(video.liveStatus)
       .with("live", () => "live")
       .with("upcoming", () => "coming")
@@ -31,23 +35,15 @@ export const VideoView = ({ video }: Props) => {
       .with("live", () => "red")
       .with("upcoming", () => "teal")
       .otherwise(() => "gray"),
-    channelId: video.channelId,
-    channelTitle: video.Channel?.title,
-    channelAvatar: video.Channel?.thumbnail,
-    scheduledAt: video.scheduledAt,
     scheduleDiff: moment().to(video.scheduledAt),
-    collaborations: video.Collaborations,
     badge: video.privacyStatus === "unlisted" ? "member" : "",
   }
   return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
       <Box position={"relative"}>
-        <Link
-          isExternal
-          href={`https://www.youtube.com/watch?v=${property.videoId}`}
-        >
+        <Link isExternal href={`https://www.youtube.com/watch?v=${video.id}`}>
           <AspectRatio ratio={16 / 9}>
-            <Image src={property.imageUrl} alt={property.imageAlt} />
+            <Image src={video.thumbnail || ""} alt={video.title} />
           </AspectRatio>
         </Link>
         <Box
@@ -66,20 +62,20 @@ export const VideoView = ({ video }: Props) => {
               <AvatarGroup size="sm" max={6}>
                 <Avatar
                   size="sm"
-                  src={property.channelAvatar || ""}
+                  src={channel.thumbnail || ""}
                   as="a"
-                  href={`http://localhost:3000/channels/${property.channelId}`}
+                  href={`http://localhost:3000/channels/${channel.id}`}
                 />
-                {property.collaborations?.map(collaboration => (
+                {collaborators?.map(c => (
                   <Avatar
                     size="sm"
-                    key={`${property.videoId}_${property.channelId}`}
-                    src={collaboration.Channel?.thumbnail || ""}
+                    key={`${video.id}_${c.id}`}
+                    src={c.thumbnail || ""}
                   />
                 ))}
               </AvatarGroup>
             </Box>
-            {property.badge && <Text fontSize="sm">{property.badge}</Text>}
+            <Text fontSize="sm">{property.badge}</Text>
           </HStack>
         </Box>
       </Box>
@@ -107,7 +103,7 @@ export const VideoView = ({ video }: Props) => {
           height={14}
           noOfLines={3}
         >
-          {property.title}
+          {video.title}
         </Text>
       </Box>
     </Box>

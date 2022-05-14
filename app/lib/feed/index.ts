@@ -1,13 +1,6 @@
-import { convertVideosFeedItem, parseVideosFeed } from "./video"
-import { RA, TE } from "~/utils/fp-ts"
-import { pipe } from "fp-ts/lib/function"
-
-export const getVideosFeed = (channelId: string) =>
-  pipe(
-    channelId,
-    parseVideosFeed,
-    TE.map(RA.map(convertVideosFeedItem(channelId))),
-  )
+import { parseVideosFeed } from "./video"
+import { map } from "ramda"
+export { parseVideosFeed } from "./video"
 
 export const getVideosFeeds = (channelIds: readonly string[]) =>
-  pipe(channelIds, RA.map(getVideosFeed), TE.sequenceArray, TE.map(RA.flatten))
+  map(channelId => parseVideosFeed(channelId), channelIds)

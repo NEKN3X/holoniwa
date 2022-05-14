@@ -8,7 +8,7 @@ module.exports = {
     "prettier",
     "plugin:import/errors",
   ],
-  plugins: ["@typescript-eslint", "import", "ramda"],
+  plugins: ["@typescript-eslint", "import"],
   parser: "@typescript-eslint/parser",
   env: {
     node: true,

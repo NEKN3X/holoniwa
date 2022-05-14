@@ -1,15 +1,16 @@
-import { getChannel } from "~/models/channel.server"
-import { E } from "~/utils/fp-ts"
+import { db } from "~/db.server"
 import { json } from "@remix-run/server-runtime"
+import type { Channel } from "@prisma/client"
 import type { LoaderFunction } from "@remix-run/server-runtime"
-import type { Channel } from "~/models/channel.server"
 
 type LoaderData = { channel: Channel }
 
 export const loader: LoaderFunction = async ({ params }) => {
-  const channel = await getChannel({ where: { id: params.channelId } })()
+  const channel = await db.channel.findUnique({
+    where: { id: params.channelId },
+  })
 
-  if (E.isLeft(channel)) return json({ error: channel.left }, 400)
+  if (!channel) return json({ error: "Not Found" }, 404)
 
-  return json<LoaderData>({ channel: channel.right })
+  return json<LoaderData>({ channel: channel })
 }
