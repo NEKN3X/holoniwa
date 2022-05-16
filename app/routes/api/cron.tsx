@@ -74,7 +74,12 @@ export const action: ActionFunction = async ({ request }) => {
   const upserted = await Promise.all(
     upsertingVideos.map(video => {
       const collaborators = without(
-        [video.channelId],
+        [
+          video.channelId,
+          "UCfrWoRGlawPQDQxxeIDRP0Q",
+          "UCotXwY6s8pWmuWd_snKYjhg",
+          "UCJFZiqLMntJufDCHc6bQixg",
+        ],
         channelsInText(video.description || "")(channels),
       )
       return db.video.upsert({
