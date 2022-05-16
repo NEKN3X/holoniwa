@@ -11,18 +11,12 @@ import {
 } from "@chakra-ui/react"
 import moment from "moment"
 import { match } from "ts-pattern"
-import type { Video } from "@prisma/client"
+import type { Channel, Video } from "@prisma/client"
 
 type Props = {
   video: Video
-  channel: {
-    id: string
-    thumbnail: string | null
-  }
-  collaborators: {
-    id: string
-    thumbnail: string | null
-  }[]
+  channel: Pick<Channel, "id" | "thumbnail">
+  collaborators: Pick<Channel, "id" | "thumbnail">[]
 }
 
 export const VideoView = ({ video, channel, collaborators }: Props) => {

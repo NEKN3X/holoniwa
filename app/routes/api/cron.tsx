@@ -1,9 +1,13 @@
 import { db } from "~/db.server"
-import { getVideosFeeds } from "~/lib/feed"
-import { getYouTubeVideos } from "~/lib/youtube"
-import { channelsInText } from "~/models/channel.server"
+import { channelsInText } from "~/utils/channel"
+import {
+  getYouTubeVideos,
+  getVideosFeed,
+  connectOrCreateCollaborators,
+  createManyCollaborators,
+} from "~/utils/video"
 import { json } from "@remix-run/server-runtime"
-import { difference, flatten, map, pluck, union } from "ramda"
+import { difference, flatten, pluck, union, without } from "ramda"
 import type { ActionFunction } from "@remix-run/server-runtime"
 
 export const action: ActionFunction = async ({ request }) => {
@@ -13,9 +17,6 @@ export const action: ActionFunction = async ({ request }) => {
 
   // チャンネルを取得
   const channels = await db.channel.findMany({
-    where: {
-      archived: false,
-    },
     select: {
       id: true,
       title: true,
@@ -23,9 +24,8 @@ export const action: ActionFunction = async ({ request }) => {
   })
 
   // feedを取得
-  const feedIds = await Promise.all(getVideosFeeds(pluck("id", channels)))
-    .then(feeds => feeds.flat())
-    .then(pluck("id"))
+  const channelIds = pluck("id", channels)
+  const feedIds = await Promise.all(channelIds.map(getVideosFeed)).then(flatten)
 
   // feedのうち、dbに既にあるもの
   const existingIds = await db.video
@@ -53,9 +53,9 @@ export const action: ActionFunction = async ({ request }) => {
     .then(pluck("id"))
 
   // YouTubeAPIから動画情報を取得
-  const _updatingIds = union(newIds, currentIds)
+  let updatingIds = union(newIds, currentIds)
   const moreCount =
-    (Math.floor(_updatingIds.length / 50) + 1) * 50 - _updatingIds.length
+    (Math.floor(updatingIds.length / 50) + 1) * 50 - updatingIds.length
   const moreIds = await db.video
     .findMany({
       where: { liveStatus: "none" },
@@ -66,51 +66,39 @@ export const action: ActionFunction = async ({ request }) => {
       },
     })
     .then(pluck("id"))
-  const updatingIds = union(_updatingIds, moreIds)
-  const upsertingVideos = await Promise.all(getYouTubeVideos(updatingIds)).then(
-    flatten,
-  )
+  updatingIds = union(updatingIds, moreIds)
+  const upsertingVideos = await getYouTubeVideos(updatingIds)
   const deletingIds = difference(updatingIds, pluck("id", upsertingVideos))
 
   // DBを更新
   const upserted = await Promise.all(
-    map(video => {
-      const collaborators = channelsInText(channels)(video.description || "")
+    upsertingVideos.map(video => {
+      const collaborators = without(
+        [video.channelId],
+        channelsInText(video.description || "")(channels),
+      )
       return db.video.upsert({
         where: { id: video.id },
         create: {
           ...video,
-          Collaborations: {
-            createMany: {
-              data: collaborators.map(({ id }) => ({ channelId: id })),
-            },
-          },
+          ...createManyCollaborators(collaborators),
         },
         update: {
           ...video,
-          Collaborations: {
-            connectOrCreate: collaborators.map(({ id }) => ({
-              where: {
-                videoId_channelId: {
-                  videoId: video.id,
-                  channelId: id,
-                },
-              },
-              create: {
-                channelId: id,
-              },
-            })),
-          },
+          ...connectOrCreateCollaborators(video.id, collaborators),
+        },
+        select: {
+          id: true,
         },
       })
-    }, upsertingVideos),
-  )
+    }),
+  ).then(pluck("id"))
   const deleted = await db.video.deleteMany({
     where: { id: { in: deletingIds } },
   })
 
   return json({
-    upserted: upserted.length,
+    upserted: upserted,
     deleted: deleted.count,
   })
 }

@@ -5,19 +5,13 @@ import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
 import moment from "moment"
 import { pluck, union } from "ramda"
-import type { Video } from "@prisma/client"
+import type { Video, Channel } from "@prisma/client"
 import type { LoaderFunction } from "@remix-run/server-runtime"
 
 type LoaderData = (Video & {
-  Channel: {
-    id: string
-    thumbnail: string | null
-  }
+  Channel: Pick<Channel, "id" | "thumbnail">
   Collaborations: {
-    Channel: {
-      id: string
-      thumbnail: string | null
-    }
+    Channel: Pick<Channel, "id" | "thumbnail">
   }[]
 })[]
 

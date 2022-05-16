@@ -1,5 +1,4 @@
-import { theme } from "~/lib/theme"
-import styles from "~/styles/main.css"
+import { theme } from "~/utils/theme"
 import { ChakraProvider, Container } from "@chakra-ui/react"
 import {
   Links,
@@ -12,7 +11,7 @@ import {
 import type { MetaFunction } from "@remix-run/node"
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }]
+  return [{ rel: "stylesheet" }]
 }
 
 export const meta: MetaFunction = () => ({
