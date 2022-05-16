@@ -17,7 +17,7 @@ const memberOnly = (status: string) => status === "unlisted"
 
 export const VideoView = ({ video }: { video: VideoWithRelation }) => {
   return (
-    <Box borderWidth="1px" rounded="lg" overflow="hidden">
+    <Box rounded="lg" overflow="hidden">
       <Box position={"relative"}>
         <Link isExternal href={`https://www.youtube.com/watch?v=${video.id}`}>
           <AspectRatio ratio={16 / 9}>
@@ -40,8 +40,7 @@ export const VideoView = ({ video }: { video: VideoWithRelation }) => {
           transform={"translate(-50%, -50%);"}
           h={8}
           w="100%"
-          pl={2}
-          pr={2}
+          paddingX={2}
         >
           <Box w="100%" h="8">
             <AvatarGroup size="sm" max={6}>
@@ -66,7 +65,7 @@ export const VideoView = ({ video }: { video: VideoWithRelation }) => {
         </HStack>
       </Box>
 
-      <LinkBox p={2} as="article">
+      <LinkBox pt={2} as="article">
         <VideoStatus video={video} />
         <LinkOverlay
           mt={2}

@@ -1,13 +1,13 @@
 import { db } from "~/db.server"
-import { VideosGrid } from "~/modules/video/elements/videos-grid"
-import { Box } from "@chakra-ui/react"
+import { VideosGrid } from "~/modules/video/components/videos-grid"
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { useLoaderData } from "@remix-run/react"
 import { json } from "@remix-run/server-runtime"
 import moment from "moment"
 import type { LoaderFunction } from "@remix-run/server-runtime"
 import type { VideoWithRelation } from "~/modules/video"
 
-type LoaderData = VideoWithRelation[]
+type LoaderData = { videos: VideoWithRelation[] }
 
 const option = {
   include: {
@@ -34,7 +34,7 @@ export const loader: LoaderFunction = async () => {
   const videos = await db.video.findMany({
     where: {
       liveStatus: {
-        in: ["upcoming", "live"],
+        in: ["live", "upcoming"],
       },
       scheduledAt: {
         lte: moment().add(2, "w").toDate(),
@@ -44,14 +44,28 @@ export const loader: LoaderFunction = async () => {
     ...option,
   })
 
-  return json<LoaderData>(videos)
+  return json<LoaderData>({ videos })
 }
 
 export default function Index() {
   const data = useLoaderData<LoaderData>()
+
   return (
-    <Box>
-      <VideosGrid videos={data} />
-    </Box>
+    <>
+      <Tabs isLazy>
+        <TabList>
+          <Tab>Schedule</Tab>
+          <Tab>Archive</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel paddingX={0}>
+            <VideosGrid videos={data.videos} />
+          </TabPanel>
+          <TabPanel paddingX={0}>
+            <VideosGrid videos={data.videos} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
   )
 }
