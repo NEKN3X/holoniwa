@@ -9,7 +9,6 @@ type Channel = {
   title: string
   thumbnail: string
   description: string
-  publishedAt: string
 }
 
 const main = () => {
@@ -29,13 +28,14 @@ const main = () => {
       if (error) {
         console.error(error)
       }
-      const channels = result.map((channel) => {
+      console.log(result)
+
+      const channels = result.slice(1).map(channel => {
         return {
           id: channel.id,
           title: channel.title,
           thumbnail: channel.thumbnail,
           description: channel.description,
-          publishedAt: new Date(channel.publishedAt),
         }
       })
 
