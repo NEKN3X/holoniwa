@@ -15,7 +15,6 @@ model Video {
   title          String
   thumbnail      String
   channelId      String
-  description    String
   liveStatus     String
   uploadStatus   String
   privacyStatus  String

@@ -1,0 +1,33 @@
+services:
+  app:
+    image: node:16-alpine
+    command: yarn dev
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/postgres
+  studio:
+    image: node:16-alpine
+    ports:
+      - 5555:5555
+    command: yarn run prisma:studio
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/postgres
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+volumes:
+  db:
+    driver: local

@@ -1,60 +1,33 @@
-# base node image
-FROM node:16-bullseye-slim as base
+FROM node:16-alpine AS deps
 
-# Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# Install all node_modules, including dev dependencies
-FROM base as deps
+FROM node:16-alpine AS BUILD_IMAGE
 
-RUN mkdir /app
 WORKDIR /app
 
-ADD package.json package-lock.json ./
-RUN npm install --production=false
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN yarn build
 
-# Setup production node_modules
-FROM base as production-deps
+RUN rm -rf node_modules
+RUN yarn install --production --frozen-lockfile --ignore-scripts --prefer-offline
 
-RUN mkdir /app
+FROM node:16-alpine
+ENV NODE_ENV production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
 WORKDIR /app
+COPY --from=BUILD_IMAGE --chown=nextjs:nodejs /app/package.json /app/yarn.lock ./
+COPY --from=BUILD_IMAGE --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=BUILD_IMAGE --chown=nextjs:nodejs /app/public ./public
+COPY --from=BUILD_IMAGE --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=BUILD_IMAGE --chown=nextjs:nodejs /app/next.config.js  ./
 
-COPY --from=deps /app/node_modules /app/node_modules
-ADD package.json package-lock.json ./
-RUN npm prune --production
-
-# Build the app
-FROM base as build
-
-ENV NODE_ENV=production
-
-RUN mkdir /app
-WORKDIR /app
-
-COPY --from=deps /app/node_modules /app/node_modules
-
-# If we're using Prisma, uncomment to cache the prisma schema
-ADD prisma .
-RUN npx prisma generate
-
-ADD . .
-RUN npm run build
-
-# Finally, build the production image with minimal footprint
-FROM base
-
-ENV NODE_ENV=production
-
-RUN mkdir /app
-WORKDIR /app
-
-COPY --from=production-deps /app/node_modules /app/node_modules
-
-# Uncomment if using Prisma
-COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
-
-COPY --from=build /app/build /app/build
-COPY --from=build /app/public /app/public
-ADD . .
-
-CMD ["npm", "run", "start"]
+USER nextjs
+EXPOSE 3000
+CMD [ "yarn", "start" ]

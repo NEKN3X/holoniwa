@@ -1,5 +1,3 @@
-/.cache
-/.env
-/build
-/node_modules
-/public/build
+.DS_Store
+.next
+node_modules
